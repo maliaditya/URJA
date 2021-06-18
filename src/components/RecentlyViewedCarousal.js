@@ -2,25 +2,26 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
+import SimpleRating from './Rating'
 
 const RecentlyViewedCarousal = () => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1600 },
-      items: 7,
+      items: 8,
     },
     desktop: {
-      breakpoint: { max: 1600, min: 1024 },
-      items: 6,
+      breakpoint: { max: 1600, min: 1300 },
+      items: 5,
     },
     tablet: {
-      breakpoint: { max: 1024, min: 720 },
-      items: 4,
+      breakpoint: { max: 1300, min: 720 },
+      items: 3,
     },
     mobile: {
       breakpoint: { max: 720, min: 0 },
-      items: 2,
+      items: 1,
     },
   }
   return (
@@ -30,9 +31,14 @@ const RecentlyViewedCarousal = () => {
       </div>
       <div className='seller'>
         <Carousel responsive={responsive}>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -40,12 +46,18 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -53,12 +65,18 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -66,12 +84,18 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -79,12 +103,18 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -92,12 +122,18 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -105,13 +141,19 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
 
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -119,19 +161,26 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '240px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
-              Category Name <br />
+              Category Name Category Name Category Name Category Name <br />
+              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
@@ -142,6 +191,11 @@ const RecentlyViewedCarousal = () => {
 }
 
 const Wrapper = styled.section`
+  img {
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+  }
   .ttag {
     margin-top: 5rem;
     font-family: sans-serif;
@@ -156,6 +210,9 @@ const Wrapper = styled.section`
     color: black;
     font-size: 1.1rem;
     font-weight: 700;
+  }
+  a {
+    margin-top: -10px;
   }
   @media (min-width: 776px) {
     .seller {

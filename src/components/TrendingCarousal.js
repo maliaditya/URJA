@@ -8,14 +8,14 @@ const TrendingCarousal = () => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1600 },
-      items: 7,
+      items: 10,
     },
     desktop: {
-      breakpoint: { max: 1600, min: 1024 },
-      items: 6,
+      breakpoint: { max: 1600, min: 1300 },
+      items: 7,
     },
     tablet: {
-      breakpoint: { max: 1024, min: 720 },
+      breakpoint: { max: 1300, min: 720 },
       items: 4,
     },
     mobile: {
@@ -30,54 +30,84 @@ const TrendingCarousal = () => {
       </div>
       <div className='trending'>
         <Carousel responsive={responsive}>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -85,18 +115,28 @@ const TrendingCarousal = () => {
             <div className='card-title'> Some Text </div>
           </div>
 
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
             />{' '}
             <div className='card-title'> Some Text </div>
           </div>
-          <div className='card' style={{ width: '11rem' }}>
+          <div className='card' style={{ width: '163px' }}>
             <img
-              style={{ borderRadius: '0.5rem' }}
+              style={{
+                width: '163px',
+                height: '163px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
               src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
               className='card-img-top'
               alt='...'
@@ -110,6 +150,13 @@ const TrendingCarousal = () => {
 }
 
 const Wrapper = styled.section`
+img{
+      -webkit-box-shadow: 0 8px 6px -6px black;
+       -moz-box-shadow: 0 8px 6px -6px black;
+            box-shadow: 0 8px 6px -6px black;
+
+             
+}
   .ttag {
     font-family: sans-serif;
     font-size: 1.5rem;
@@ -117,7 +164,9 @@ const Wrapper = styled.section`
     font-weight: 700;
   }
   .card {
+     
     border: none;
+     width: '11rem' , height:'163px';
   }
   .card-title {
     color: black;

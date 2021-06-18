@@ -166,7 +166,7 @@ p {
   border-top-color: var(--clr-primary-5);
   animation: spinner 0.6s linear infinite;
 }
-
+/* 
 .btn {
   text-transform: uppercase;
   background: var(--clr-primary-5);
@@ -185,7 +185,7 @@ p {
 .btn:hover {
   color: var(--clr-primary-1);
   background: var(--clr-primary-7);
-}
+} */
 .title {
   text-align: center;
 }
@@ -208,4 +208,58 @@ p {
 nav {
   background: #f8f8f8;
   box-shadow: var(--light-shadow);
+}
+.seller {
+  padding-left: 2rem;
+}
+.trending {
+  padding-left: 2rem;
+}
+
+.banner {
+  padding-left: 2rem;
+}
+.tab0 {
+  position: absolute;
+  left: 25px;
+}
+.tab1 {
+  position: absolute;
+  left: 50px;
+}
+.tab2 {
+  position: absolute;
+  left: 75px;
+}
+.tab3 {
+  position: absolute;
+  left: 100px;
+}
+.tab4 {
+  position: absolute;
+  left: 125px;
+}
+.tab5 {
+  position: absolute;
+  left: 150px;
+}
+.tab6 {
+  position: absolute;
+  left: 175px;
+}
+.tab7 {
+  position: absolute;
+  left: 200px;
+}
+.tab8 {
+  position: absolute;
+  left: 225px;
+}
+.tab9 {
+  position: absolute;
+  left: 250px;
+}
+.tab10 {
+  position: absolute;
+  left: 275px;
 }

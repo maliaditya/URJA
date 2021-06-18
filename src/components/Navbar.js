@@ -1,11 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FaBars } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import { ImLocation } from 'react-icons/im'
-import { RiArrowDropDownLine } from 'react-icons/ri'
-import { FaSearch } from 'react-icons/fa'
-import { BsChevronDoubleRight } from 'react-icons/bs'
+
 const Nav = () => {
   return (
     <NavContainer>

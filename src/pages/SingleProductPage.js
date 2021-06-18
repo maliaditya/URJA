@@ -1,15 +1,6 @@
-import React, { useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
-import {
-  Loading,
-  Error,
-  ProductImages,
-  AddToCart,
-  Stars,
-  PageHero,
-} from '../components'
+import React from 'react'
+
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 const SingleProductPage = () => {
   return <h4>single product page</h4>
