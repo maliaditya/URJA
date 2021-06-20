@@ -150,27 +150,26 @@ const TrendingCarousal = () => {
 }
 
 const Wrapper = styled.section`
-img{
-      -webkit-box-shadow: 0 8px 6px -6px black;
-       -moz-box-shadow: 0 8px 6px -6px black;
-            box-shadow: 0 8px 6px -6px black;
-
-             
-}
+  img {
+    -webkit-box-shadow: 0 8px 6px -6px black;
+    -moz-box-shadow: 0 8px 6px -6px black;
+    box-shadow: 0 8px 6px -6px black;
+  }
   .ttag {
-    font-family: sans-serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: black;
     font-weight: 700;
+    padding-bottom: 2rem;
   }
   .card {
-     
     border: none;
-     width: '11rem' , height:'163px';
+    width: '11rem';
+    height: '163px';
   }
   .card-title {
     color: black;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+
     font-weight: 700;
   }
   @media (min-width: 776px) {

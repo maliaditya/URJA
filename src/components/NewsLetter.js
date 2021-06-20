@@ -26,23 +26,30 @@ const NewsLetter = () => {
 }
 
 const Newscont = styled.section`
+overflow:hidden;
 
       .input-group {
-    width: 50vh;
+    width: 40vh;
   }
 
   } .container {
     padding-bottom: 3rem;
   }
   p {
-    font-size: 3vh;
+    font-size: 1.5vh;
     color:black;
     font-weight:700;
   }
   hr {
     border: 2px solid black;
   }
-   @media (min-width: 776px) {
+
+   @media (min-width: 1000px) {
+      p {
+    font-size: 3vh;
+    color:black;
+    font-weight:700;
+  }
        .container{
     padding-left: 5rem;
 
@@ -57,7 +64,7 @@ const Newscont = styled.section`
       padding-left: 1rem;
     }
     .input-group {
-    width: 100vh;
+    width: 110vh;
   }
   }
 `

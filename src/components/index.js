@@ -1,6 +1,5 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
-import Sidebar from './Sidebar'
 import Error from './Error'
 import TrendingCarousal from './TrendingCarousal'
 import Banner from './Banner'
@@ -9,8 +8,23 @@ import RecentlyViewedCarousal from './RecentlyViewedCarousal'
 import Services from './Services'
 import NewsLetter from './NewsLetter'
 import Reviews from './Reviews'
-
+import Productnav from './Productnav'
+import { AppProvider } from './context'
+import Sidebar from './Sidebar'
+import Submenu from './Submenu'
+import ScrollMenu from './ScrollMenu'
+import Productinfo from './Productinfo'
+import Productdetailinfo from './Productdetailinfo'
+import SimilarProducts from '../pages/SimilarProducts'
 export {
+  SimilarProducts,
+  Productdetailinfo,
+  Productinfo,
+  ScrollMenu,
+  Sidebar,
+  Submenu,
+  AppProvider,
+  Productnav,
   Reviews,
   NewsLetter,
   Services,
@@ -18,7 +32,6 @@ export {
   BestSellerCarousal,
   Navbar,
   Footer,
-  Sidebar,
   TrendingCarousal,
   Error,
   Banner,

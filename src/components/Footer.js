@@ -109,12 +109,10 @@ const Footer = () => {
 }
 
 const Wrapper = styled.footer`
-  a {
-    color: white;
-  }
   a:hover {
     color: #ffc232;
   }
+
   padding-left: 3rem;
   padding-right: 3rem;
   a:hover {
@@ -123,16 +121,18 @@ const Wrapper = styled.footer`
   .text-right {
     color: white;
     padding-right: 2rem;
-    padding-bottom: 2rem;
   }
   .card-title {
     padding-bottom: 1rem;
-    font-size: 18px;
+    padding-top: 1rem;
+    font-size: 4vh;
     font-weight: 700;
   }
   a {
     color: white;
-    font-size: 18px;
+    margin-bottom: 5rem;
+    line-height: 2.5rem;
+    font-size: 3vh;
   }
   .card-text {
     text-align: left;
@@ -141,9 +141,7 @@ const Wrapper = styled.footer`
   .card {
     border: none;
     background-color: #25211c;
-    width: 12rem;
-    margin-left: 2.5rem;
-    margin-top: 2.5rem;
+    width: 20rem;
   }
   .row {
     color: white;
@@ -161,8 +159,17 @@ const Wrapper = styled.footer`
     line-height: 1.25;
   }
   @media (min-width: 776px) {
-    padding-left: 10rem;
-    padding-right: 10rem;
+    .card-title {
+      padding-bottom: 2.5rem;
+      font-size: 4vh;
+      font-weight: 700;
+    }
+    a {
+      color: white;
+      margin-bottom: 5rem;
+      line-height: 2.5rem;
+      font-size: 2.5vh;
+    }
   }
 `
 

@@ -189,8 +189,7 @@ const Wrapper = styled.section`
   }
   .ttag {
     margin-top: 5rem;
-    font-family: sans-serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: black;
     font-weight: 700;
   }
@@ -199,7 +198,7 @@ const Wrapper = styled.section`
   }
   .card-title {
     color: black;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 700;
   }
   @media (min-width: 776px) {

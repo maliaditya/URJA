@@ -6,7 +6,7 @@ const Banner = () => {
     <Wrapper>
       <center>
         <div className='banner'>
-          <p className='luntag'>Let us no what you need..</p>
+          <p className='luntag'>Let us Know what you need..</p>
           <p className='slang'>
             More than 10,000 companies trust our bussiness
           </p>
@@ -59,8 +59,14 @@ const Banner = () => {
 }
 
 const Wrapper = styled.article`
+
+
+    padding-bottom:8rem;
+input{
+  height: 3rem;
+}
+
  .luntag {
-        font-family: sans-serif;
         font-size: 3vh;
         color: black;
         font-weight: 700;
@@ -68,13 +74,13 @@ const Wrapper = styled.article`
         margin-top: 2rem;
       }
       .slang {
-        font-family: sans-serif;
         font-size: 1vh;
         /* text-align: center; */
         margin-right: 6rem;
       }
       .input-group {
         width: 40vh;
+        height:2rem;
         padding-bottom: 3rem;
       }
  
@@ -82,28 +88,27 @@ const Wrapper = styled.article`
     padding-top: 2rem;
     align-items: center;
     align-content: center;
-
     margin: 0 auto;
   }
   
-    @media (min-width: 720px) {
+    @media (min-width: 1200px) {
        .luntag {
-    font-family: sans-serif;
-    font-size: 4vh;
+    font-size: 6vh;
     color: black;
     font-weight: 700;
     /* text-align: center; */
     margin-top: 2rem;
   }
   .slang {
-    font-family: sans-serif;
-    font-size: 2vh;
+    font-size: 3vh;
     /* text-align: center; */
     margin-right: 6rem;
   }
 
   .input-group {
-    width: 60vh;
+    width: 80vh;
+
+    
   }
      
       .banner {
@@ -116,6 +121,7 @@ const Wrapper = styled.article`
     }
   }
     @media (min-width: 1200px) {
+      
       .input-group {
     width: 100vh;
   }

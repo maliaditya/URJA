@@ -7,50 +7,27 @@ import customersupport from '../assets/customersupport.svg'
 const Services = () => {
   return (
     <ServicesContainer>
-      <div class='col-12'>
-        <div class='row'>
-          <div className='card col-md-4 mb-4' style={{ maxWidth: '540px' }}>
-            <div className='row g-0'>
-              <div className='col-md-3'>
-                <img src={verified} alt='...' />
-              </div>
-              <div className='col-md-8'>
-                <div className='card-body'>
-                  <h5 className='card-title'>Verified Sellers</h5>
-                  <p className='card-text'>
-                    Buy products from verified sellers from all over the world
-                  </p>
-                </div>
-              </div>
+      <div className='col-12'>
+        <div className='row'>
+          <div className='container'>
+            <img className='container__image' src={verified} />
+            <div className='container__text'>
+              <h5>Verified Sellers</h5>
+              <p>Buy products from verified sellers from all over the world</p>
             </div>
           </div>
-          <div className='card col-md-4 mb-4' style={{ maxWidth: '540px' }}>
-            <div className='row g-0'>
-              <div className='col-md-3'>
-                <img src={logo} alt='...' />
-              </div>
-              <div className='col-md-8'>
-                <div className='card-body'>
-                  <h5 className='card-title'>Advertise with us</h5>
-                  <p className='card-text'>
-                    Increase your sell by allowing us to promote your products
-                  </p>
-                </div>
-              </div>
+          <div className='container'>
+            <img className='container__image' src={logo} />
+            <div className='container__text'>
+              <h5>Advertise with us</h5>
+              <p>Increase your sell by allowing us to promote your products</p>
             </div>
           </div>
-
-          <div className='card col-md-4 mb-4' style={{ maxWidth: '540px' }}>
-            <div className='row g-0'>
-              <div className='col-md-3'>
-                <img src={customersupport} alt='...' />
-              </div>
-              <div className='col-md-8'>
-                <div className='card-body'>
-                  <h5 className='card-title'>Customer Support</h5>
-                  <p className='card-text'>Need help? Inform us!</p>
-                </div>
-              </div>
+          <div className='container'>
+            <img className='container__image' src={customersupport} />
+            <div className='container__text'>
+              <h5>Customer Support</h5>
+              <p>Need help? Inform us!</p>
             </div>
           </div>
         </div>
@@ -60,29 +37,49 @@ const Services = () => {
 }
 
 const ServicesContainer = styled.section`
+  color: black;
+  h5 {
+    font-size: 1.7rem;
+    font-weight: 700;
+  }
+  p {
+    font-size: 1.2rem;
+  }
+  .row {
+    margin-top: 5rem;
+  }
+  .container {
+    padding: 1rem;
+    max-width: 28rem;
+    display: flex;
+    &__image {
+      margin-right: 1rem;
+      object-fit: contain;
+      align-self: flex-start;
+    }
+    &__text {
+      flex: 1 1 auto;
+    }
+  }
+
   overflow: hidden;
 
-  padding-left: 2rem;
-
-  .card-title {
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-  .card {
-    border: none;
-    padding-top: 2rem;
-    padding-left: 5rem;
-  }
   @media (min-width: 776px) {
-    padding-left: 5rem;
-    .seller {
-      padding-left: 5rem;
+    h5 {
+      font-size: 2rem;
+      font-weight: 700;
     }
-    .card {
-      border: none;
-      padding-top: 5rem;
-      padding-bottom: 5rem;
-      padding-left: 1rem;
+    .container {
+      max-width: 31rem;
+      display: flex;
+      &__image {
+        margin-right: 1rem;
+        object-fit: contain;
+        align-self: flex-start;
+      }
+      &__text {
+        flex: 1 1 auto;
+      }
     }
   }
 `

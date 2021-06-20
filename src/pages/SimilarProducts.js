@@ -2,9 +2,8 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
-import SimpleRating from './Rating'
 
-const RecentlyViewedCarousal = () => {
+const SimilarProducts = () => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -27,7 +26,7 @@ const RecentlyViewedCarousal = () => {
   return (
     <Wrapper>
       <div className='seller'>
-        <p className='ttag'>Recently Viewed </p>
+        <p className='ttag'>Explore Similar Products</p>
       </div>
       <div className='seller'>
         <Carousel responsive={responsive}>
@@ -46,7 +45,24 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
-              <SimpleRating />
+              <a href='#'> View more</a>
+            </div>
+          </div>
+          <div className='card' style={{ width: '240px' }}>
+            <img
+              style={{
+                width: '240px',
+                height: '258px',
+                borderRadius: '0.9rem',
+                marginBottom: '10px',
+              }}
+              src='https://images.unsplash.com/photo-1623854968962-92f46521a280?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80'
+              className='card-img-top'
+              alt='...'
+            />{' '}
+            <div className='card-title'> Some Text </div>
+            <div className='card-text'>
+              Category Name <br />
               <a href=''> View more</a>
             </div>
           </div>
@@ -65,7 +81,6 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
-              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
@@ -84,7 +99,6 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
-              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
@@ -103,7 +117,6 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
-              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
@@ -122,26 +135,6 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
-              <SimpleRating />
-              <a href=''> View more</a>
-            </div>
-          </div>
-          <div className='card' style={{ width: '240px' }}>
-            <img
-              style={{
-                width: '240px',
-                height: '258px',
-                borderRadius: '0.9rem',
-                marginBottom: '10px',
-              }}
-              src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
-              className='card-img-top'
-              alt='...'
-            />{' '}
-            <div className='card-title'> Some Text </div>
-            <div className='card-text'>
-              Category Name <br />
-              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
@@ -161,7 +154,6 @@ const RecentlyViewedCarousal = () => {
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
               Category Name <br />
-              <SimpleRating />
               <a href=''> View more</a>
             </div>
           </div>
@@ -179,8 +171,7 @@ const RecentlyViewedCarousal = () => {
             />{' '}
             <div className='card-title'> Some Text </div>
             <div className='card-text'>
-              Category Name Category Name Category Name Category Name <br />
-              <SimpleRating />
+              Category Name <br />
               <a href=''> View more</a>
             </div>
           </div>
@@ -210,9 +201,6 @@ const Wrapper = styled.section`
     font-size: 1.5rem;
     font-weight: 700;
   }
-  a {
-    margin-top: -10px;
-  }
   @media (min-width: 776px) {
     .seller {
       padding-left: 5rem;
@@ -220,4 +208,4 @@ const Wrapper = styled.section`
   }
 `
 
-export default RecentlyViewedCarousal
+export default SimilarProducts
