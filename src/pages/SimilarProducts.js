@@ -8,7 +8,7 @@ const SimilarProducts = () => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1600 },
-      items: 8,
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
@@ -24,10 +24,8 @@ const SimilarProducts = () => {
     },
   }
   return (
-    <Wrapper>
-      <div className='seller'>
-        <p className='ttag'>Explore Similar Products</p>
-      </div>
+    <Wrapper className='content'>
+      <div className='seller'></div>
       <div className='seller'>
         <Carousel responsive={responsive}>
           <div className='card' style={{ width: '240px' }}>

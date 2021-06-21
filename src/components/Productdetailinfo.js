@@ -47,12 +47,17 @@ const Productdetailinfo = () => {
     },
   ]
   return (
-    <Wrapper>
+    <Wrapper className='content'>
       <div className='col-md-12 row'>
         <div className='col-md-6 imagebanner  '>
-          <ImageGallery items={images} showPlayButton={false} showNav={false} />
+          <ImageGallery
+            className='content'
+            items={images}
+            showPlayButton={false}
+            showNav={false}
+          />
         </div>
-        <div className='col-md-6 info container'>
+        <div className='col-md-6 info '>
           <div className='pinfodetail'>
             <p className='phead'>Btl Herbs & Spices pvt. ltd. </p>
             <p className='pname'>Pure Curry Powder</p>
@@ -92,7 +97,7 @@ const Productdetailinfo = () => {
           </div>
 
           <center>
-            <div className='container companyinfo'>
+            <div className=' companyinfo'>
               <p className='pheadinfo'>Btl Herbs & Spices pvt. ltd. </p>
               <p>
                 <svg
@@ -373,6 +378,15 @@ const Productdetailinfo = () => {
 }
 
 const Wrapper = styled.section`
+
+  @media (min-width: 1400px) {
+    .content {
+      max-width: 1300px;
+      margin: auto;
+      background: white;
+      padding: 10px;
+    }
+  }
 overflow:hidden;
 
 .card{

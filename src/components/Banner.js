@@ -13,8 +13,7 @@ const Banner = () => {
         </div>
         <div className='input-group rounded'>
           <button className='btn btn-warning'>
-            {' '}
-            All{' '}
+            All
             <svg
               xmlns='http://www.w3.org/2000/svg'
               width='16'

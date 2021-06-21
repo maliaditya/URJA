@@ -21,27 +21,31 @@ const ScrollMenu = () => {
     },
     tablet: {
       breakpoint: { max: 1300, min: 720 },
-      items: 3,
+      items: 5,
     },
     mobile: {
       breakpoint: { max: 720, min: 0 },
-      items: 1,
+      items: 2,
     },
   }
   return (
     <Wrapper>
-      <div className='container'>
-        <Carousel responsive={responsive}>
-          <a onClick={colorchange} href='#'>
-            Item Item
-          </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
+      <div className='container content'>
+        <Carousel
+          responsive={responsive}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+        >
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
+          <a href='#'> Item&nbsp;Item </a>
         </Carousel>
       </div>
       <hr />
@@ -64,9 +68,18 @@ const Wrapper = styled.section`
   padding: 3rem;
   a {
     font-size: 1rem;
-    padding-left: 5rem;
-
+    padding-left: 3rem;
+    padding-right: 3rem;
     color: black;
+  }
+
+  @media (min-width: 1400px) {
+    .content {
+      max-width: 1300px;
+      margin: auto;
+      background: white;
+      padding: 10px;
+    }
   }
 `
 

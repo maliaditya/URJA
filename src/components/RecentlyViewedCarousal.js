@@ -9,7 +9,7 @@ const RecentlyViewedCarousal = () => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1600 },
-      items: 8,
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
@@ -25,7 +25,7 @@ const RecentlyViewedCarousal = () => {
     },
   }
   return (
-    <Wrapper>
+    <Wrapper className='content'>
       <div className='seller'>
         <p className='ttag'>Recently Viewed </p>
       </div>

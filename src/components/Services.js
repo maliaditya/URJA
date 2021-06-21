@@ -6,7 +6,7 @@ import customersupport from '../assets/customersupport.svg'
 
 const Services = () => {
   return (
-    <ServicesContainer>
+    <ServicesContainer className='content'>
       <div className='col-12'>
         <div className='row'>
           <div className='container'>
@@ -39,7 +39,7 @@ const Services = () => {
 const ServicesContainer = styled.section`
   color: black;
   h5 {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: 700;
   }
   p {
@@ -66,11 +66,11 @@ const ServicesContainer = styled.section`
 
   @media (min-width: 776px) {
     h5 {
-      font-size: 2rem;
+      font-size: 1.7rem;
       font-weight: 700;
     }
     .container {
-      max-width: 31rem;
+      max-width: 28rem;
       display: flex;
       &__image {
         margin-right: 1rem;

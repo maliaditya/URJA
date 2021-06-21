@@ -5,11 +5,9 @@ import Rating from './Rating'
 
 const Productinfo = () => {
   return (
-    <Reviewwrap>
-      <div className='seller'>
-        <p className='ttag'>Product Details</p>
-      </div>
+    <Reviewwrap className='content'>
       <div className='container'>
+        <p className='ttag'>Product Details</p>
         <div className='text'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
           voluptatem deleniti temporibus illo tenetur amet nam est, ratione
@@ -19,10 +17,9 @@ const Productinfo = () => {
           fugit quam. Consequuntur soluta aut consectetur!
         </div>
       </div>
-      <div className='seller'>
-        <p className='ttag'>Company Details</p>
-      </div>
+
       <div className='container'>
+        <p className='ttag'>Company Details</p>
         <div className='text'>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas
           animi officia asperiores quam, provident iste labore totam explicabo
@@ -58,6 +55,15 @@ const Reviewwrap = styled.section`
   }
   .seller {
     padding-left: 5rem;
+  }
+
+  @media (min-width: 1400px) {
+    .content {
+      max-width: 1300px;
+      margin: auto;
+      background: white;
+      padding: 10px;
+    }
   }
 `
 

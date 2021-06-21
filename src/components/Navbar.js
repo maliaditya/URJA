@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const Nav = () => {
   return (
     <NavContainer>
-      <nav>
+      <div className='content'>
         <ul>
           <li className='imlocation container'>
             <svg
@@ -56,13 +56,14 @@ const Nav = () => {
             </svg>{' '}
           </li>
         </ul>
-      </nav>
+      </div>
     </NavContainer>
   )
 }
 
 const NavContainer = styled.nav`
 
+    
   nav {
     background: #f8f8f8;
     box-shadow: var(--light-shadow);

@@ -5,7 +5,7 @@ import Rating from './Rating'
 
 const Reviews = () => {
   return (
-    <Reviewwrap>
+    <Reviewwrap className='content'>
       <div className='seller'>
         <p className='ttag'>Top reviews from India</p>
       </div>

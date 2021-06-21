@@ -8,7 +8,7 @@ const TrendingCarousal = () => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1600 },
-      items: 10,
+      items: 7,
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
@@ -24,7 +24,7 @@ const TrendingCarousal = () => {
     },
   }
   return (
-    <Wrapper>
+    <Wrapper className='content'>
       <div className='trending'>
         <p className='ttag'>Trending Now</p>
       </div>

@@ -270,3 +270,11 @@ nav {
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 /* example 3*/
+
+@media (min-width: 1400px) {
+  .content {
+    max-width: 1500px;
+    margin: auto;
+    padding: 10px;
+  }
+}
