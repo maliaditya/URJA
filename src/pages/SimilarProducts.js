@@ -25,7 +25,9 @@ const SimilarProducts = () => {
   }
   return (
     <Wrapper className='content'>
-      <div className='seller'></div>
+      <div className='seller'>
+        <p className='ttag'>Explore Similar Products</p>
+      </div>
       <div className='seller'>
         <Carousel responsive={responsive}>
           <div className='card' style={{ width: '240px' }}>
