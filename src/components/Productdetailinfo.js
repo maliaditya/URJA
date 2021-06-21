@@ -400,7 +400,7 @@ width: 19rem;
 }
 
 .pinfodetail{
-    padding-left:5rem;
+    padding-left:2rem;
     padding-top:1rem;
 }
 .pheadinfo{
@@ -446,7 +446,6 @@ display:flex;
     height: 100rem;
   }
   .imagebanner {
-    padding-left: 2rem;
   }
 
   
