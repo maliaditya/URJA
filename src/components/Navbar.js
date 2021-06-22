@@ -71,9 +71,6 @@ const NavContainer = styled.nav`
   ul {
     list-style-type: none;
     margin: 0;
-    padding: 18px;
-    text-align: right;
-    padding-top: 0px;
   }
 
   li {
@@ -92,6 +89,7 @@ const NavContainer = styled.nav`
     color: black;
   }
   .orbar {
+    display:none;
     font-size: 30px;
     margin-right: -10px;
   }
