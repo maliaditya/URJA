@@ -92,7 +92,6 @@ const NavContainer = styled.nav`
     color: black;
   }
   .orbar {
-    display:none;
     font-size: 30px;
     margin-right: -10px;
   }

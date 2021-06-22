@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import message1 from '../assets/message.svg'
-import Rating from './Rating'
 
 const Productinfo = () => {
   return (
@@ -46,12 +44,12 @@ const Reviewwrap = styled.section`
   .ttag {
     padding-top: 5rem;
 
-    font-size: 1.7rem;
+    font-size: 1.54rem;
     color: black;
     font-weight: 700;
   }
   .text {
-    text-indent: 10rem;
+    text-indent: 5rem;
   }
   .seller {
     padding-left: 5rem;

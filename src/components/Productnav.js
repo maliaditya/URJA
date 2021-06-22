@@ -69,38 +69,38 @@ const Productnav = () => {
               />
             </svg>
           </li>
-        </ul>
 
-        <div>
-          <div className='search-container sb-example-3'>
-            <div className='search__container '>
-              <button className='btn btn-warning'>
-                {' '}
-                All{' '}
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  fill='currentColor'
-                  class='bi bi-chevron-down'
-                  viewBox='0 0 16 16'
-                >
-                  <path
-                    fill-rule='evenodd'
-                    d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
-                  />
-                </svg>
-              </button>
-              <span> &nbsp; &nbsp; </span>
+          <li>
+            <div className='search-container sb-example-3'>
+              <div className='search__container '>
+                <button className='btn btn-warning'>
+                  {' '}
+                  All{' '}
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    width='16'
+                    height='16'
+                    fill='currentColor'
+                    class='bi bi-chevron-down'
+                    viewBox='0 0 16 16'
+                  >
+                    <path
+                      fill-rule='evenodd'
+                      d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
+                    />
+                  </svg>
+                </button>
+                <span> &nbsp; &nbsp; </span>
 
-              <input
-                className='search__input'
-                type='text'
-                placeholder='Search'
-              />
+                <input
+                  className='search__input'
+                  type='text'
+                  placeholder='Search'
+                />
+              </div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </NavContainer>
   )
@@ -112,7 +112,6 @@ const NavContainer = styled.nav`
     list-style-type: none;
     margin: 0;
     padding: 18px;
-    margin-left: 5rem;
     text-align: right;
     padding-top: 0px;
   }
@@ -155,23 +154,18 @@ const NavContainer = styled.nav`
 
   .sb-example-3 .search__input {
     padding: 10px 24px;
-    width: 100vh;
-    margin-top: 10px;
-    background-color: transparent;
+    width: 207px;
     transition: transform 250ms ease-in-out;
     font-size: 14px;
     line-height: 18px;
-
     color: #000000;
-    background-color: transparent;
-    /*         background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg); */
-
+    background-color: rgba(196, 196, 196, 0.5);
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-size: 18px 18px;
     background-position: 95% center;
     border-radius: 5px;
-    border: 1px solid #000000;
+    border: none;
     transition: all 250ms ease-in-out;
     backface-visibility: hidden;
     transform-style: preserve-3d;
@@ -196,70 +190,67 @@ const NavContainer = styled.nav`
   .topnav .search-container {
     float: left;
   }
-
-  @media screen and (max-width: 10000px) {
-    .sb-example-3 .search__input {
-      padding: 10px 24px;
-      width: 40rem;
-      margin-top: 10px;
-      background-color: transparent;
-      transition: transform 250ms ease-in-out;
-      font-size: 14px;
-      line-height: 18px;
-
-      color: #000000;
-      background-color: transparent;
-      /*         background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg); */
-
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: 18px 18px;
-      background-position: 95% center;
-      border-radius: 5px;
-      border: 1px solid #000000;
-      transition: all 250ms ease-in-out;
-      backface-visibility: hidden;
-      transform-style: preserve-3d;
-    }
-
-    .topnav .search-container {
-      float: none;
+  .search-container {
+    padding-top: 2rem;
+    padding-right: 2rem;
+  }
+  .btn {
+    margin-left: 0px;
+  }
+  @media (min-width: 720px) {
+    .search-container {
+      padding-top: 0rem;
+      padding-right: 2rem;
     }
     .btn {
-      margin: 5px;
+      margin-left: 0px;
+    }
+    ul {
+      margin-right: auto;
+      list-style-type: none;
+      margin: 0;
+      padding: 18px;
+      text-align: right;
+      padding-top: 0px;
+    }
+
+    li {
+      display: inline;
+      padding-right: 2rem;
+    }
+
+    .sb-example-3 .search__input {
+      width: 20rem;
     }
   }
-
-  @media screen and (max-width: 800px) {
-    .sb-example-3 .search__input {
-      padding: 10px 24px;
-      width: 20rem;
-      margin-top: 10px;
-      background-color: transparent;
-      transition: transform 250ms ease-in-out;
-      font-size: 14px;
-      line-height: 18px;
-
-      color: #000000;
-      background-color: transparent;
-      /*         background-image: url(http://mihaeltomic.com/codepen/input-search/ic_search_black_24px.svg); */
-
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-size: 18px 18px;
-      background-position: 95% center;
-      border-radius: 5px;
-      border: 1px solid #000000;
-      transition: all 250ms ease-in-out;
-      backface-visibility: hidden;
-      transform-style: preserve-3d;
-    }
-
-    .topnav .search-container {
-      float: none;
+  @media (min-width: 1300px) {
+    .search-container {
+      padding-top: 0rem;
+      padding-right: 2rem;
     }
     .btn {
-      margin: 5px;
+      margin-left: 0px;
+    }
+    ul {
+      margin-right: auto;
+      list-style-type: none;
+      margin: 0;
+      padding: 18px;
+      margin-left: 5rem;
+      text-align: right;
+      padding-top: 0px;
+    }
+
+    li {
+      display: inline;
+      padding-right: 2rem;
+    }
+
+    .sb-example-3 .search__input {
+      width: 40rem;
+    }
+    .search-container {
+      padding-right: 5rem;
     }
   }
 `

@@ -189,7 +189,7 @@ const Wrapper = styled.section`
   }
   .ttag {
     margin-top: 5rem;
-    font-size: 1.7rem;
+    font-size: 1.54rem;
     color: black;
     font-weight: 700;
   }
