@@ -11,7 +11,8 @@ const Productdetailinfo = () => {
         'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
       thumbnail:
         'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-      thumbnailHeight: 120,
+
+      originalWidth: 900,
     },
     {
       original:
@@ -19,7 +20,9 @@ const Productdetailinfo = () => {
 
       thumbnail:
         'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
-      thumbnailHeight: 120,
+      thumbnailHeight: 100,
+      originalHeight: 800,
+      originalWidth: 900,
     },
     {
       original:
@@ -27,7 +30,9 @@ const Productdetailinfo = () => {
 
       thumbnail:
         'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
-      thumbnailHeight: 120,
+      thumbnailHeight: 100,
+      originalHeight: 800,
+      originalWidth: 900,
     },
     {
       original:
@@ -35,7 +40,9 @@ const Productdetailinfo = () => {
 
       thumbnail:
         'https://images.unsplash.com/photo-1521227889351-bf6f5b2e4e37?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-      thumbnailHeight: 120,
+      thumbnailHeight: 100,
+      originalHeight: 800,
+      originalWidth: 900,
     },
     {
       original:
@@ -43,7 +50,9 @@ const Productdetailinfo = () => {
 
       thumbnail:
         'https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-      thumbnailHeight: 120,
+      thumbnailHeight: 100,
+      originalHeight: 800,
+      originalWidth: 900,
     },
   ]
   return (
@@ -51,7 +60,7 @@ const Productdetailinfo = () => {
       <div className='col-md-12 row'>
         <div className='col-md-6 imagebanner  '>
           <ImageGallery
-            className='content'
+            className='gallery'
             items={images}
             showPlayButton={false}
             showNav={false}
@@ -170,7 +179,7 @@ const Productdetailinfo = () => {
                     fill='#2D2C2C'
                   />
                   <path
-                    d='M18.7472 9.07233C18.63 9.07238 18.5176 9.11208 18.4347 9.1827C18.3518 9.25332 18.3052 9.34908 18.3052 9.44895V21.2472C18.3052 21.347 18.3518 21.4428 18.4347 21.5134C18.5176 21.584 18.63 21.6237 18.7472 21.6238H21.0204C21.1376 21.6238 21.25 21.5841 21.3329 21.5135C21.4158 21.4428 21.4624 21.347 21.4624 21.2472V9.44895C21.4624 9.34906 21.4158 9.25327 21.3329 9.18264C21.25 9.11201 21.1376 9.07233 21.0204 9.07233H18.7472ZM20.5784 20.8705H19.1892V9.82557H20.5784V20.8705Z'
+                    d='M18.7472 9.07233C18.63 9.07238 18.5176 9.11008 18.4347 9.1827C18.3518 9.25332 18.3052 9.34908 18.3052 9.44895V21.2472C18.3052 21.347 18.3518 21.4428 18.4347 21.5134C18.5176 21.584 18.63 21.6237 18.7472 21.6238H21.0204C21.1376 21.6238 21.25 21.5841 21.3329 21.5135C21.4158 21.4428 21.4624 21.347 21.4624 21.2472V9.44895C21.4624 9.34906 21.4158 9.25327 21.3329 9.18264C21.25 9.11001 21.1376 9.07233 21.0204 9.07233H18.7472ZM20.5784 20.8705H19.1892V9.82557H20.5784V20.8705Z'
                     fill='#2D2C2C'
                   />
                 </svg>
@@ -211,7 +220,7 @@ const Productdetailinfo = () => {
                     fill='black'
                   />
                   <path
-                    d='M17.4254 9.08321L18.0818 8.79059C17.9796 8.5613 17.8655 8.33752 17.7398 8.12018L17.1177 8.48009C17.2307 8.67562 17.3334 8.87694 17.4254 9.08321Z'
+                    d='M17.4254 9.08321L18.0818 8.79059C17.9796 8.5613 17.8655 8.33752 17.7398 8.10018L17.1177 8.48009C17.2307 8.67562 17.3334 8.87694 17.4254 9.08321Z'
                     fill='black'
                   />
                   <path
@@ -379,14 +388,6 @@ const Productdetailinfo = () => {
 
 const Wrapper = styled.section`
 
-  @media (min-width: 1400px) {
-    .content {
-      max-width: 1300px;
-      margin: auto;
-      background: white;
-      padding: 10px;
-    }
-  }
 overflow:hidden;
 
 .card{

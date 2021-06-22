@@ -31,21 +31,18 @@ const ScrollMenu = () => {
   return (
     <Wrapper>
       <div className='container content'>
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-        >
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
-          <a href='#'> Item&nbsp;Item </a>
+        <Carousel responsive={responsive}>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
+          <a href='#'> Item Item </a>
         </Carousel>
       </div>
       <hr />
@@ -65,21 +62,11 @@ const Wrapper = styled.section`
   a:hover {
     color: #ffc232;
   }
-  padding: 3rem;
+  padding-top: 3rem;
   a {
     font-size: 1rem;
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 5rem;
     color: black;
-  }
-
-  @media (min-width: 1400px) {
-    .content {
-      max-width: 1300px;
-      margin: auto;
-      background: white;
-      padding: 10px;
-    }
   }
 `
 
