@@ -11,8 +11,7 @@ const Productdetailinfo = () => {
         'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
       thumbnail:
         'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-
-      originalWidth: 900,
+      thumbnailHeight: 100,
     },
     {
       original:
@@ -21,8 +20,6 @@ const Productdetailinfo = () => {
       thumbnail:
         'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
       thumbnailHeight: 100,
-      originalHeight: 800,
-      originalWidth: 900,
     },
     {
       original:
@@ -31,8 +28,6 @@ const Productdetailinfo = () => {
       thumbnail:
         'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80',
       thumbnailHeight: 100,
-      originalHeight: 800,
-      originalWidth: 900,
     },
     {
       original:
@@ -41,8 +36,6 @@ const Productdetailinfo = () => {
       thumbnail:
         'https://images.unsplash.com/photo-1521227889351-bf6f5b2e4e37?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cG9ydHJhaXR8ZW58MHwwfDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
       thumbnailHeight: 100,
-      originalHeight: 800,
-      originalWidth: 900,
     },
     {
       original:
@@ -51,8 +44,6 @@ const Productdetailinfo = () => {
       thumbnail:
         'https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
       thumbnailHeight: 100,
-      originalHeight: 800,
-      originalWidth: 900,
     },
   ]
   return (
