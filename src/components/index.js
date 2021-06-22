@@ -15,8 +15,10 @@ import Submenu from './Submenu'
 import ScrollMenu from './ScrollMenu'
 import Productinfo from './Productinfo'
 import Productdetailinfo from './Productdetailinfo'
-import SimilarProducts from '../pages/SimilarProducts'
+import SimilarProducts from './SimilarProducts'
+import Categorywise from './Categorywise'
 export {
+  Categorywise,
   SimilarProducts,
   Productdetailinfo,
   Productinfo,

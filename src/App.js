@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { HomePage, SingleProductPage } from './pages'
+import { HomePage, SingleProductPage, CategoriesPage } from './pages'
 import { Error } from './components'
 
 function App() {
@@ -12,6 +12,9 @@ function App() {
         </Route>
         <Route path='/product'>
           <SingleProductPage />
+        </Route>
+        <Route path='/categories'>
+          <CategoriesPage />
         </Route>
         <Route path='*'>
           <Error />
