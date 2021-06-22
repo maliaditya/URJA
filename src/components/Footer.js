@@ -128,14 +128,14 @@ const Wrapper = styled.footer`
   .card-title {
     padding-bottom: 1rem;
     padding-top: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
   }
   a {
     color: white;
     margin-bottom: 5rem;
     line-height: 2.5rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .card-text {
     text-align: left;
@@ -164,27 +164,27 @@ const Wrapper = styled.footer`
   @media (min-width: 776px) {
     .card-title {
       padding-bottom: 2.5rem;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       font-weight: 700;
     }
     a {
       color: white;
       margin-bottom: 5rem;
       line-height: 2.5rem;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
   }
   @media (min-width: 1400px) {
     .card-title {
       padding-bottom: 2.5rem;
-      font-size: 2rem;
+      font-size: 1.3rem;
       font-weight: 700;
     }
     a {
       color: white;
       margin-bottom: 5rem;
       line-height: 2.5rem;
-      font-size: 1.5rem;
+      font-size: 1rem;
     }
   }
 `

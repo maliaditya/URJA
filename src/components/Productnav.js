@@ -194,7 +194,7 @@ const NavContainer = styled.nav`
   }
 
   .topnav .search-container {
-    float: right;
+    float: left;
   }
 
   @media screen and (max-width: 10000px) {

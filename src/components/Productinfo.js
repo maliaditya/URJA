@@ -46,7 +46,7 @@ const Reviewwrap = styled.section`
   .ttag {
     padding-top: 5rem;
 
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: black;
     font-weight: 700;
   }

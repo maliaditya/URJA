@@ -12,7 +12,7 @@ const TrendingCarousal = () => {
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
-      items: 7,
+      items: 6,
     },
     tablet: {
       breakpoint: { max: 1300, min: 720 },
@@ -156,7 +156,7 @@ const Wrapper = styled.section`
     box-shadow: 0 8px 6px -6px black;
   }
   .ttag {
-    font-size: 2rem;
+    font-size: 1.54rem;
     color: black;
     font-weight: 700;
     padding-bottom: 2rem;
@@ -168,8 +168,7 @@ const Wrapper = styled.section`
   }
   .card-title {
     color: black;
-    font-size: 1.5rem;
-
+    font-size: 1.2rem;
     font-weight: 700;
   }
   @media (min-width: 776px) {

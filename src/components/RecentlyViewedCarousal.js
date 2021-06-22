@@ -34,8 +34,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -53,8 +53,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -72,8 +72,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -91,8 +91,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -110,8 +110,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -129,8 +129,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -149,8 +149,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -168,8 +168,8 @@ const RecentlyViewedCarousal = () => {
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{
-                width: '240px',
-                height: '258px',
+                width: '200px',
+                height: '218px',
                 borderRadius: '0.9rem',
                 marginBottom: '10px',
               }}
@@ -198,7 +198,7 @@ const Wrapper = styled.section`
   }
   .ttag {
     margin-top: 5rem;
-    font-size: 2rem;
+    font-size: 1.54rem;
     color: black;
     font-weight: 700;
   }
@@ -207,7 +207,7 @@ const Wrapper = styled.section`
   }
   .card-title {
     color: black;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
   }
   a {

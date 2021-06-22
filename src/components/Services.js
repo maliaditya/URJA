@@ -39,20 +39,22 @@ const Services = () => {
 const ServicesContainer = styled.section`
   color: black;
   h5 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 700;
   }
   p {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
   }
   .row {
     margin-top: 5rem;
   }
   .container {
     padding: 1rem;
-    max-width: 28rem;
+    max-width: 22rem;
     display: flex;
     &__image {
+      width: 70px;
+      height: 70px;
       margin-right: 1rem;
       object-fit: contain;
       align-self: flex-start;
@@ -65,14 +67,19 @@ const ServicesContainer = styled.section`
   overflow: hidden;
 
   @media (min-width: 776px) {
+    p {
+      font-size: 1rem;
+    }
     h5 {
-      font-size: 1.7rem;
+      font-size: 1.3rem;
       font-weight: 700;
     }
     .container {
-      max-width: 28rem;
+      max-width: 25rem;
       display: flex;
       &__image {
+        width: 100px;
+        height: 100px;
         margin-right: 1rem;
         object-fit: contain;
         align-self: flex-start;

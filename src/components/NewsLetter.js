@@ -6,7 +6,10 @@ const NewsLetter = () => {
     <Newscont>
       <hr />
       <center>
-        <p>Suscribe to our news letter and never miss exciting offers!</p>
+        <p className='ttag'>
+          {' '}
+          Suscribe to our news letter and never miss exciting offers!
+        </p>
       </center>
       <center>
         <div className='input-group rounded container'>
@@ -28,45 +31,59 @@ const NewsLetter = () => {
 const Newscont = styled.section`
 overflow:hidden;
 
-      .input-group {
-    width: 40vh;
+  input {
+    height: 2.7rem;
+  }
+
+  .ttag {
+    margin-top: 5rem;
+    font-size: 0.72rem;
+    color: black;
+    font-weight: 700;
+  }
+
+ 
+  @media (min-width:720px){
+
+  .ttag {
+    margin-top: 5rem;
+    font-size: 1rem;
+    color: black;
+    font-weight: 700;
+  }
+
+  .input-group  {
+    width: 29rem;;
+  }
+
+  }
+
+  @media (min-width:1300px){
+
+  .ttag {
+    margin-top: 5rem;
+    font-size: 1.54rem;
+    color: black;
+    font-weight: 700;
+  }
+
+  .input-group  {
+    width: 45rem;;
+  }
+    .seller {
+      padding-left: 5rem;
+    }
   }
 
   } .container {
     padding-bottom: 3rem;
   }
-  p {
-    font-size: 1.5vh;
-    color:black;
-    font-weight:700;
-  }
+
   hr {
     border: 2px solid black;
   }
 
-   @media (min-width: 1000px) {
-      p {
-    font-size: 3vh;
-    color:black;
-    font-weight:700;
-  }
-       .container{
-    padding-left: 5rem;
 
-       }
-    .seller {
-      padding-left: 5rem;
-    }
-    .card {
-      border: none;
-      padding-top: 5rem;
-      padding-bottom: 5rem;
-      padding-left: 1rem;
-    }
-    .input-group {
-    width: 110vh;
-  }
-  }
 `
 
 export default NewsLetter

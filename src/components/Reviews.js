@@ -56,7 +56,8 @@ const Reviewwrap = styled.section`
   }
   .ttag {
     margin-top: 5rem;
-    font-size: 2rem;
+    font-size: 1.54rem;
+
     color: black;
     font-weight: 700;
   }
@@ -88,7 +89,8 @@ const Reviewwrap = styled.section`
     }
     .ttag {
       margin-top: 5rem;
-      font-size: 2rem;
+      font-size: 1.54rem;
+
       color: black;
       font-weight: 700;
     }
@@ -125,7 +127,7 @@ const Reviewwrap = styled.section`
     }
     .ttag {
       margin-top: 5rem;
-      font-size: 2rem;
+      font-size: 1.54rem;
       color: black;
       font-weight: 700;
     }
