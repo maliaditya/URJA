@@ -17,7 +17,11 @@ import Productinfo from './Productinfo'
 import Productdetailinfo from './Productdetailinfo'
 import SimilarProducts from './SimilarProducts'
 import Categorywise from './Categorywise'
+import UsersInfo from './UsersInfo'
+import ProductCard from './ProductCard'
 export {
+  ProductCard,
+  UsersInfo,
   Categorywise,
   SimilarProducts,
   Productdetailinfo,

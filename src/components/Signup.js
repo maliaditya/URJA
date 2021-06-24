@@ -1,22 +1,54 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const LoginPage = () => {
+const Signup = () => {
   return (
     <Wrapper>
       <div className='container'>
-        <p>Log In </p>
+        <p>Sign up </p>
         <div className='formcontent'>
           <form action=''>
-            <div className='password'>
-              <label for='First Name1' class='form-label'>
-                Email
-              </label>
+            <label for='First Name1' class='form-label'>
+              First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last Name
+            </label>
+            <div className='name'>
               <input
                 type='email'
                 class='form-control'
                 id='exampleInputEmail1'
-                placeholder='Email'
+                placeholder='First Name'
+                aria-describedby='emailHelp'
+              ></input>
+
+              <input
+                type='email'
+                class='form-control'
+                id='exampleInputEmail1'
+                placeholder='Last Name'
+                aria-describedby='emailHelp'
+              ></input>
+            </div>
+            <label for='First Name1' class='form-label'>
+              Email Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp;Mobile Number
+            </label>
+            <div className='name'>
+              <input
+                type='email'
+                class='form-control'
+                id='exampleInputEmail1'
+                placeholder='Email Address'
+                aria-describedby='emailHelp'
+              ></input>
+
+              <input
+                type='email'
+                class='form-control'
+                id='exampleInputEmail1'
+                placeholder='Mobile Number'
                 aria-describedby='emailHelp'
               ></input>
             </div>
@@ -32,28 +64,37 @@ const LoginPage = () => {
                 aria-describedby='emailHelp'
               ></input>
             </div>
+            <div className='password'>
+              <label for='First Name1' class='form-label'>
+                Confirm Password
+              </label>
+              <input
+                type='email'
+                class='form-control'
+                id='exampleInputEmail1'
+                placeholder='Confirm Password'
+                aria-describedby='emailHelp'
+              ></input>
+            </div>
 
             <label className='check'>
-              <input type='checkbox' checked='checked' name='remember' />{' '}
-              Remember me
+              <input type='checkbox' checked='checked' name='remember' /> I've
+              read and accepted <a href=''>Terms and services</a>
+              <span>&nbsp;</span> and<a href=''> Privacy Policy</a>
             </label>
             <br />
-            <button className='btn btn-warning'>Login</button>
+            <button className='btn btn-warning'>Create Account</button>
           </form>
           <div className='social'>
             <button className='btn btn-primary'>Facebook</button>
             <button className='btn btn-danger'>Google</button>
           </div>
-          <p>
-            Need an account ? <a href=''> Sign up</a>
-          </p>
         </div>
       </div>
     </Wrapper>
   )
 }
 const Wrapper = styled.section`
-  background-color: #2d2c2c;
   .social {
     display: flex;
   }
@@ -96,6 +137,7 @@ const Wrapper = styled.section`
   .container {
     padding: 3rem;
   }
+  background-color: #2d2c2c;
 
   h1 {
     text-align: center;
@@ -138,28 +180,22 @@ const Wrapper = styled.section`
       display: flex;
     }
     .social .btn {
-      width: 30vh;
+      width: 15rem;
       margin-right: 1rem;
       margin-top: 1rem;
       margin-bottom: 0.8rem;
-      font-size: 2vh;
-      height: 5vh;
     }
     form .btn {
       background-color: #ffc232;
       margin-top: 1rem;
-      width: 60vh;
-      height: 5vh;
-      font-size: 2vh;
+      width: 31rem;
     }
     .check input {
       width: 1rem;
       margin-top: 1rem;
     }
     .password input {
-      width: 60vh;
-      height: 5vh;
-      font-size: 2vh;
+      width: 31rem;
     }
     .name {
       display: flex;
@@ -169,20 +205,33 @@ const Wrapper = styled.section`
       color: white;
     }
     input {
-      width: 60vh;
+      width: 15rem;
       margin-right: 1rem;
     }
     .formcontent {
-      font-size: 2.5vh;
+      font-size: 1rem;
     }
     p {
+      color: white;
       margin-bottom: 0.5rem;
-      font-size: 3vh;
+      font-size: 1.5rem;
     }
     .container {
       padding: 3rem;
     }
+    background-color: #2d2c2c;
 
+    h1 {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 20%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+    .container {
+      padding: 3rem;
+    }
     .left {
       display: flex;
       background-color: #ffc232;
@@ -192,8 +241,7 @@ const Wrapper = styled.section`
     .right {
       background-color: #2d2c2c;
       height: 100vh;
-      padding: 1rem;
     }
   }
 `
-export default LoginPage
+export default Signup

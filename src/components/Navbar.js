@@ -1,9 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import Modal from './Modal'
+import ModalSignup from './ModalSignup'
+import { useGlobalContext } from './context'
 const Nav = () => {
+  const { openModalLogin, openModalSignup } = useGlobalContext()
   return (
     <NavContainer>
+      <Modal />
+      <ModalSignup />
       <div className='content'>
         <ul>
           <li className='imlocation container'>
@@ -24,7 +29,11 @@ const Nav = () => {
             </a>
           </li>
           <li>
-            <button className='buttonlogin' href='#contact'>
+            <button
+              className='buttonlogin'
+              onClick={openModalLogin}
+              href='#contact'
+            >
               Log in
             </button>
           </li>
@@ -36,7 +45,11 @@ const Nav = () => {
           </li>
           <li></li>
           <li>
-            <button className='buttonsignup' href='#about'>
+            <button
+              className='buttonsignup'
+              onClick={openModalSignup}
+              href='#about'
+            >
               Sign up
             </button>
           </li>

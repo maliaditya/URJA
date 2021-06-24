@@ -1,9 +1,19 @@
 import React from 'react'
-
+import {
+  Productnav,
+  Footer,
+  NewsLetter,
+  Services,
+  UsersInfo,
+} from '../components'
 const FavouritesPage = () => {
   return (
     <div>
-      <h3>Favourites Page</h3>
+      <Productnav />
+      <UsersInfo />
+      <Services />
+      <NewsLetter />
+      <Footer />
     </div>
   )
 }
