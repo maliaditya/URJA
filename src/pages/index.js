@@ -7,7 +7,9 @@ import RecentlyViewedPage from './RecentlyViewedPage'
 import SignupPage from './SignupPage'
 import SingleProductPage from './SingleProductPage'
 import CategoriesPage from './CategoriesPage'
+import CreateSellerAccount from './CreateSellerAccount'
 export {
+  CreateSellerAccount,
   AccountPage,
   ErrorPage,
   FavouritesPage,

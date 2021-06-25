@@ -7,15 +7,16 @@ import {
   FavouritesPage,
   SignupPage,
   LoginPage,
+  CreateSellerAccount,
 } from './pages'
 import { Error } from './components'
-
+const name = <HomePage />
 function App() {
   return (
     <Router>
       <Switch>
         <Route exact path='/'>
-          <HomePage />
+          {name}
         </Route>
         <Route path='/product'>
           <SingleProductPage />
@@ -31,6 +32,9 @@ function App() {
         </Route>
         <Route path='/login'>
           <LoginPage />
+        </Route>
+        <Route path='/selleracc'>
+          <CreateSellerAccount />
         </Route>
         <Route path='*'>
           <Error />

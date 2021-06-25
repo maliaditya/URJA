@@ -19,7 +19,9 @@ import SimilarProducts from './SimilarProducts'
 import Categorywise from './Categorywise'
 import UsersInfo from './UsersInfo'
 import ProductCard from './ProductCard'
+import SellerAccount from './SellerAccount'
 export {
+  SellerAccount,
   ProductCard,
   UsersInfo,
   Categorywise,

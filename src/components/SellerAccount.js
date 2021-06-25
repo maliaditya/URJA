@@ -1,57 +1,46 @@
 import React from 'react'
 import styled from 'styled-components'
-import ProductCard from './ProductCard'
-
-const UsersInfo = () => {
+import BussinessDetails from './BussinessDetails'
+import CreateProduct from './CreeateProduct'
+import AddAddress from './AddAddress'
+const components = [
+  {
+    id: 1,
+    component: <BussinessDetails />,
+  },
+  {
+    id: 2,
+    component: <CreateProduct />,
+  },
+  {
+    id: 1,
+    component: <AddAddress />,
+  },
+]
+const SellerAccount = () => {
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>
+        <h4>Create your seller account</h4>
         <div className='row'>
-          <div className='col-md-4 contain-fluid'>
-            <p>Welcome, Vaibhav Shinde</p>
-            <div className='contain'>
-              <img
-                className='contain__image'
-                src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
-              />
-
-              <div className='review '>
-                <div className='card '>
-                  <div className='card-title'> Vaibhav Shinde</div>
-                  <div className='card-text'>shindevaibhav08@gmail.com</div>
-                </div>
-              </div>
-            </div>
-            <hr />
+          <div className='col-md-4 contain-fluid vl'>
             <div className='contain'>
               <div className='review '>
                 <div className='card '>
-                  <div className='card-title'> Account Settings</div>
-                  <div className='card-text'>
-                    <p>
-                      <a href=''>Personal Information</a>
-                    </p>
-                    <p>
-                      <a href=''>Company Information</a>
-                    </p>
-                    <a href=''>Manage Contact</a>
+                  <div className='card-title'>
+                    <p>Welcome, Vaibhav Shinde</p>
                   </div>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div className='contain'>
-              <div className='review '>
-                <div className='card '>
-                  <div className='card-title'> My Stuff</div>
                   <div className='card-text'>
                     <p>
-                      <a href=''>My Coupons</a>
+                      <a href=''>Bussiness Detail</a>
                     </p>
                     <p>
-                      <a href=''>My Reviews and ratings</a>
+                      <a href=''>Products</a>
                     </p>
-                    <a href=''>Manage Contact</a>
+                    <p>
+                      <a href=''>Address</a>
+                    </p>
+                    <a href=''>Help</a>
                   </div>
                 </div>
               </div>
@@ -59,11 +48,7 @@ const UsersInfo = () => {
           </div>
 
           <div className='col-md-8'>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <AddAddress />
           </div>
         </div>
       </div>
@@ -72,6 +57,23 @@ const UsersInfo = () => {
 }
 
 const Wrapper = styled.section`
+
+.vl {
+  border-right: 1px solid black;
+  height: 500px;
+}
+a{
+    color:black;
+}
+
+a:hover{
+    color:#ffc232;
+}
+
+br{
+    margin-bottom:1rem;
+
+}
   overflow: hidden;
 
   hr {
@@ -150,7 +152,7 @@ const Wrapper = styled.section`
     border: none;
   }
   .card-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
   }
 
@@ -158,4 +160,4 @@ const Wrapper = styled.section`
     border: 2px solid black;
   }
 `
-export default UsersInfo
+export default SellerAccount
