@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Rating from './Rating'
+import { MdFavoriteBorder } from 'react-icons/md'
+
 const ProductCard = () => {
   return (
     <Wrapper>
@@ -12,7 +14,10 @@ const ProductCard = () => {
 
         <div className='review '>
           <div className='card '>
-            <div className='card-title'> Agriclubs</div>
+            <div className='card-title'>
+              Agriclubs
+              <MdFavoriteBorder className='fav' />
+            </div>
             <div className='card-text'>Mexican Seasoning Masala 10gm</div>
             <p className='rating'>
               <Rating />
@@ -28,6 +33,14 @@ const ProductCard = () => {
 }
 
 const Wrapper = styled.article`
+  .fav {
+    margin-top: -5px;
+    margin-left: 6rem;
+  }
+  .card-title {
+    padding-top: 10px;
+    display: inline;
+  }
   svg {
     display: inline;
   }
@@ -64,6 +77,10 @@ const Wrapper = styled.article`
     }
   }
   @media (min-width: 720px) {
+    .fav {
+      margin-top: -5px;
+      margin-left: 5rem;
+    }
     padding: 1rem;
 
     .num {
@@ -100,11 +117,11 @@ const Wrapper = styled.article`
     }
   }
   @media (min-width: 1300px) {
-    padding: 1rem;
-    a {
-      float: right;
-      margin-left: 26rem;
+    .fav {
+      margin-top: -5px;
+      margin-left: 22rem;
     }
+    padding: 1rem;
 
     .num {
       margin-top: 2.5rem;

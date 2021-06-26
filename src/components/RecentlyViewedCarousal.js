@@ -30,7 +30,10 @@ const RecentlyViewedCarousal = () => {
         <p className='ttag'>Recently Viewed </p>
       </div>
       <div className='seller'>
-        <Carousel responsive={responsive}>
+        <Carousel
+          responsive={responsive}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+        >
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{

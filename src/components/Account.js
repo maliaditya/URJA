@@ -1,47 +1,54 @@
-import { React, useState, useContext } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import BussinessDetails from './BussinessDetails'
-import CreateProduct from './CreateProduct'
-import AddAddress from './AddAddress'
+import PersonalInfo from './PersonalInfo'
+import ManageContact from './ManageContact'
+import CompanyInfo from './CompanyInfo'
 
-const SellerAccount = () => {
-  const [value, setValue] = useState(<BussinessDetails />)
-
-  const createProduct = () => {
-    setValue(<CreateProduct />)
-  }
+const Account = () => {
+  const [value, setValue] = useState(<PersonalInfo />)
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>
-        <h4>Create your seller account</h4>
         <div className='row'>
-          <div className='col-md-4 contain-fluid vl'>
+          <div className='col-md-3 vl contain-fluid'>
+            <p>Welcome, Vaibhav Shinde</p>
+
             <div className='contain'>
               <div className='review '>
                 <div className='card '>
-                  <div className='card-title'>
-                    <p>Welcome, Vaibhav Shinde</p>
-                  </div>
+                  <div className='card-title'> Account Settings</div>
                   <div className='card-text'>
-                    <p>
-                      <button onClick={() => setValue(<BussinessDetails />)}>
-                        Bussiness Detail
-                      </button>
-                    </p>
-                    <p>
-                      <button onClick={() => setValue(<CreateProduct />)}>
-                        Add Products
-                      </button>
-                    </p>
-
-                    <a href=''>Help</a>
+                    <button onClick={() => setValue(<PersonalInfo />)}>
+                      Personal Information
+                    </button>
+                    <br />
+                    <button onClick={() => setValue(<CompanyInfo />)}>
+                      {' '}
+                      Company Information
+                    </button>
+                    <br />
+                    <button onClick={() => setValue(<ManageContact />)}>
+                      Manage Contact
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div className='contain'>
+              <div className='review '>
+                <div className='card '>
+                  <div className='card-title'> My Stuff</div>
+                  <div className='card-text'>
+                    <button>My Coupons</button>
+                    <button>My Reviews and ratings</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className='col-md-8'>{value}</div>
+          <div className='col-md-8 container'>{value}</div>
         </div>
       </div>
     </Wrapper>
@@ -49,9 +56,13 @@ const SellerAccount = () => {
 }
 
 const Wrapper = styled.section`
+.card-title{
+color:black;
+}
 .card-text button{
   background-color:white;
   border:none;
+  margin-top:5px;   
 }
 .active{
   color:#ffc232;
@@ -69,15 +80,6 @@ a{
     color:#ffc232;
 }
 
-
-a:hover{
-    color:#ffc232;
-}
-
-br{
-    margin-bottom:1rem;
-
-}
   overflow: hidden;
 
   hr {
@@ -156,7 +158,7 @@ br{
     border: none;
   }
   .card-title {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 700;
   }
 
@@ -164,5 +166,4 @@ br{
     border: 2px solid black;
   }
 `
-
-export default SellerAccount
+export default Account

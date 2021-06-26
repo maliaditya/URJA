@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+// import CreateProduct from './CreateProduct'
 
 const BussinessDetails = () => {
   return (
@@ -7,18 +8,6 @@ const BussinessDetails = () => {
       <p>Bussiness Details</p>
       <div className='formcontent'>
         <form action=''>
-          <div className='password'>
-            <label for='First Name1' class='form-label'>
-              Password
-            </label>
-            <input
-              type='email'
-              class='form-control'
-              id='exampleInputEmail1'
-              placeholder='Password'
-              aria-describedby='emailHelp'
-            ></input>
-          </div>
           <div className='password'>
             <label for='First Name1' class='form-label'>
               Company/Bussiness/Shop Name
@@ -31,18 +20,7 @@ const BussinessDetails = () => {
               aria-describedby='emailHelp'
             ></input>
           </div>
-          <div className='password'>
-            <label for='First Name1' class='form-label'>
-              Email
-            </label>
-            <input
-              type='email'
-              class='form-control'
-              id='exampleInputEmail1'
-              placeholder='Email'
-              aria-describedby='emailHelp'
-            ></input>
-          </div>
+
           <div className='password'>
             <label for='First Name1' class='form-label'>
               Company Details
@@ -55,8 +33,55 @@ const BussinessDetails = () => {
               aria-describedby='emailHelp'
             ></input>
           </div>
+          <div className='password'>
+            <label for='First Name1' class='form-label'>
+              Street Address
+            </label>
+            <input
+              type='email'
+              class='form-control'
+              id='exampleInputEmail1'
+              placeholder='Please Enter Your Street Address'
+              aria-describedby='emailHelp'
+            ></input>
+          </div>
+          <label for='First Name1' class='form-label'>
+            City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; State
+          </label>
+          <div className='name'>
+            <input
+              type='email'
+              class='form-control'
+              id='exampleInputEmail1'
+              placeholder='Eg.Satara'
+              aria-describedby='emailHelp'
+            ></input>
 
-          <button className='btn btn-warning'>Next</button>
+            <input
+              type='email'
+              class='form-control'
+              id='exampleInputEmail1'
+              placeholder='Eg. Maharashtra'
+              aria-describedby='emailHelp'
+            ></input>
+          </div>
+          <label for='First Name1' class='form-label'>
+            Zip Code
+          </label>
+          <div className='name'>
+            <input
+              type='email'
+              class='form-control'
+              id='exampleInputEmail1'
+              placeholder='6 digit Code  '
+              aria-describedby='emailHelp'
+            ></input>
+          </div>
+
+          <button className='btn btn-warning'>Submit</button>
         </form>
       </div>
     </Wrapper>

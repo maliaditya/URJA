@@ -20,7 +20,9 @@ import Categorywise from './Categorywise'
 import UsersInfo from './UsersInfo'
 import ProductCard from './ProductCard'
 import SellerAccount from './SellerAccount'
+import Account from './Account'
 export {
+  Account,
   SellerAccount,
   ProductCard,
   UsersInfo,

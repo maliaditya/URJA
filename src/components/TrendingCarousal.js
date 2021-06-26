@@ -29,7 +29,10 @@ const TrendingCarousal = () => {
         <p className='ttag'>Trending Now</p>
       </div>
       <div className='trending'>
-        <Carousel responsive={responsive}>
+        <Carousel
+          responsive={responsive}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+        >
           <div className='card' style={{ width: '163px' }}>
             <img
               style={{

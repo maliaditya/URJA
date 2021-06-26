@@ -8,6 +8,7 @@ import {
   SignupPage,
   LoginPage,
   CreateSellerAccount,
+  AccountPage,
 } from './pages'
 import { Error } from './components'
 const name = <HomePage />
@@ -35,6 +36,9 @@ function App() {
         </Route>
         <Route path='/selleracc'>
           <CreateSellerAccount />
+        </Route>
+        <Route path='/account'>
+          <AccountPage />
         </Route>
         <Route path='*'>
           <Error />

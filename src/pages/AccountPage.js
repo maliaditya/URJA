@@ -1,9 +1,20 @@
 import React from 'react'
+import {
+  Productnav,
+  Account,
+  Services,
+  Footer,
+  NewsLetter,
+} from '../components'
 
 const AccountPage = () => {
   return (
     <div>
-      <h3>Account Page</h3>
+      <Productnav />
+      <Account />
+      <Services />
+      <NewsLetter />
+      <Footer />
     </div>
   )
 }

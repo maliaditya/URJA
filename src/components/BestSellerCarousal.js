@@ -29,7 +29,10 @@ const BestSellerCarousal = () => {
         <p className='ttag'>Best Seller</p>
       </div>
       <div className='seller'>
-        <Carousel responsive={responsive}>
+        <Carousel
+          responsive={responsive}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+        >
           <div className='card' style={{ width: '240px' }}>
             <img
               style={{

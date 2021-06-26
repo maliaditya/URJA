@@ -71,7 +71,7 @@ const CreateProduct = () => {
           </div>
           <ImageUpload />
 
-          <button className='btn btn-warning'>Next</button>
+          <button className='btn btn-warning'>Submit</button>
         </form>
       </div>
     </Wrapper>
