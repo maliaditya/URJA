@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import ProductCard from './ProductCard'
-import { MdFavoriteBorder } from 'react-icons/md'
 const UsersInfo = () => {
   return (
     <Wrapper className='content'>
