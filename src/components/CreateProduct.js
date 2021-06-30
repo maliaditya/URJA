@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import ImageUpload from './ImageUpload'
+import BackImage from './BackImage'
 
 const CreateProduct = () => {
   return (
@@ -70,6 +71,7 @@ const CreateProduct = () => {
             ></input>
           </div>
           <ImageUpload />
+          <BackImage />
 
           <button className='btn btn-warning'>Submit</button>
         </form>

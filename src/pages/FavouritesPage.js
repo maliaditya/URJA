@@ -4,13 +4,13 @@ import {
   Footer,
   NewsLetter,
   Services,
-  UsersInfo,
+  ProductCard,
 } from '../components'
 const FavouritesPage = () => {
   return (
     <div>
       <Productnav />
-      <UsersInfo />
+      <ProductCard />
       <Services />
       <NewsLetter />
       <Footer />

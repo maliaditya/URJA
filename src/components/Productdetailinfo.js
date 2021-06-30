@@ -3,8 +3,11 @@ import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import styled from 'styled-components'
 import Rating from './Rating'
-
+import ModalSuccess from './ModalSuccess'
+import ModalInfo from './ModalInfo'
+import { useGlobalContext } from './context'
 const Productdetailinfo = () => {
+  const { openModalSucess, openModalInfo } = useGlobalContext()
   const images = [
     {
       original:
@@ -48,6 +51,8 @@ const Productdetailinfo = () => {
   ]
   return (
     <Wrapper className='content'>
+      <ModalSuccess />
+      <ModalInfo />
       <div className='col-md-12 row'>
         <div className='col-md-6 imagebanner  '>
           <ImageGallery
@@ -69,25 +74,11 @@ const Productdetailinfo = () => {
               <a href=''>View more</a>
             </p>
             <p className='rating'>
-              <Rating />{' '}
-              <p>
-                &nbsp; &nbsp; 2.0 &nbsp; | &nbsp; <a href=''>48 Ratings</a>
-              </p>
+              <Rating />
+              &nbsp; &nbsp; 2.0 &nbsp; | &nbsp; 48 ratings
             </p>
             <p className='price'>
-              <svg
-                width='30'
-                height='30'
-                viewBox='0 0 30 30'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M6.04 22L0.37 12.1V10.78H1.03C2.63 10.78 3.85 10.55 4.69 10.09C5.55 9.63 6.05 8.8 6.19 7.6H0.37V5.68H6.16C5.96 4.56 5.43 3.75 4.57 3.25C3.73 2.75 2.55 2.5 1.03 2.5H0.37V0.579999H12.79V2.5H7.12C8.08 3.28 8.65 4.34 8.83 5.68H12.79V7.6H8.89C8.75 9.06 8.19 10.2 7.21 11.02C6.25 11.82 4.97 12.33 3.37 12.55L9.1 22H6.04Z'
-                  fill='#2D2C2C'
-                />
-              </svg>{' '}
-              80/kg &nbsp;{' '}
+              ₹ 80/kg&nbsp;{' '}
               <a className='glp' href=''>
                 {' '}
                 Get Latest Price
@@ -323,7 +314,9 @@ const Productdetailinfo = () => {
               </p>
               <button className='btn btn-secondary'>View Number</button>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <button className='btn btn-secondary'>Contact Supplier</button>
+              <button onClick={openModalSucess} className='btn btn-secondary'>
+                Get Info
+              </button>
             </div>
             <div className='input-group rounded ' style={{ marginTop: '1rem' }}>
               <input
@@ -363,6 +356,7 @@ const Productdetailinfo = () => {
                   <br />
                 </div>
                 <button
+                  onClick={openModalSucess}
                   className='btn btn-warning'
                   style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
                 >
@@ -378,6 +372,12 @@ const Productdetailinfo = () => {
 }
 
 const Wrapper = styled.section`
+p{
+  margin:1rem;
+}
+.btn-secondary{
+ width:10rem
+}
 
 overflow:hidden;
 

@@ -1,7 +1,7 @@
 import { useState, React, useEffect } from 'react'
 import styled from 'styled-components'
 import UploadButtons from './UploadButton'
-const ImageUpload = () => {
+const BackImage = () => {
   const [selectedFile, setSelectedFile] = useState()
   const [preview, setPreview] = useState()
 
@@ -32,7 +32,7 @@ const ImageUpload = () => {
     <Wrapper>
       {selectedFile && <img src={preview} />}
       <br />
-      <label htmlFor='file'>Image of front side of Product</label>
+      <label htmlFor='file'>Image of Back side of Product</label>
       <br />
       <input type='file' onChange={onSelectFile} />
     </Wrapper>
@@ -45,4 +45,4 @@ const Wrapper = styled.section`
     margin: 0rem 0rem 1rem 0rem;
   }
 `
-export default ImageUpload
+export default BackImage
