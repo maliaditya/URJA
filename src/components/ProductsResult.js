@@ -8,10 +8,10 @@ const ProductResult = () => {
   return (
     <Link to='/product' target='_blank'>
       <Wrapper className='content'>
-        <div className='containercard'>
+        <div className='containercard border'>
           <img
             className='containercard__image'
-            src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
+            src='https://images.unsplash.com/photo-1463154545680-d59320fd685d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=323&q=80'
           />
           <div className='header'>
             <p className='head-title'>
@@ -63,6 +63,9 @@ const Wrapper = styled.a`
     color: var(--clr-grey-3);
   }
   .containercard {
+    -webkit-box-shadow: 0 6px 12px -13px black;
+    -moz-box-shadow: 0 6px 12px -13px black;
+    box-shadow: 0 6px 12px -13px black;
     margin-top: 1rem;
     margin-left: 3rem;
 
@@ -101,7 +104,6 @@ const Wrapper = styled.a`
     }
     .containercard {
       margin-left: 10rem;
-      background-color: rgba(236, 236, 236, 1);
 
       width: 40rem;
       height: 12rem;

@@ -7,6 +7,7 @@ const AppProvider = ({ children }) => {
   const [isModaSignuplOpen, setisModaSignuplOpen] = useState(false)
   const [isModaSucesslOpen, setisModaSucesslOpen] = useState(false)
   const [isModaInfolOpen, setisModaInfolOpen] = useState(false)
+  const [isModalAddProductOpen, setisModalAddProductOpen] = useState(false)
 
   const openModalLogin = () => {
     setisModaLoginlOpen(true)
@@ -35,6 +36,12 @@ const AppProvider = ({ children }) => {
   const closeModalInfo = () => {
     setisModaInfolOpen(false)
   }
+  const openModalAddProduct = () => {
+    setisModalAddProductOpen(true)
+  }
+  const closeModalAddProduct = () => {
+    setisModalAddProductOpen(false)
+  }
   return (
     <AppContext.Provider
       value={{
@@ -42,6 +49,7 @@ const AppProvider = ({ children }) => {
         isModaSignuplOpen,
         isModaSucesslOpen,
         isModaInfolOpen,
+        isModalAddProductOpen,
         openModalLogin,
         closeModalLogin,
         closeModalSignup,
@@ -50,6 +58,8 @@ const AppProvider = ({ children }) => {
         openModalSucess,
         closeModalInfo,
         openModalInfo,
+        openModalAddProduct,
+        closeModalAddProduct,
       }}
     >
       {children}

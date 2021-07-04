@@ -22,12 +22,11 @@ const Nav = () => {
             >
               <path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z' />
             </svg>
-          </li>
-          <li className='location'>
-            <a href='#news' style={{ color: 'black' }}>
+            <a className='location' href='#news' style={{ color: 'black' }}>
               Pune, India
             </a>
           </li>
+
           <li>
             <button
               className='buttonlogin'
@@ -53,21 +52,6 @@ const Nav = () => {
               Sign up
             </button>
           </li>
-          <li className='drop'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='16'
-              height='16'
-              fill='currentColor'
-              class='bi bi-chevron-down'
-              viewBox='0 0 16 16'
-            >
-              <path
-                fill-rule='evenodd'
-                d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
-              />
-            </svg>{' '}
-          </li>
         </ul>
       </div>
     </NavContainer>
@@ -83,7 +67,9 @@ const NavContainer = styled.nav`
 
   ul {
     list-style-type: none;
-    margin: 0;
+      margin: 0;
+ 
+    text-align: left;
   }
 
   li {

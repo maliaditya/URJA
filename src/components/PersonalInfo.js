@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const PersonalInfo = () => {
   return (
     <Wrapper>
-      <h5>Personal Information</h5>
+      <h4 className='title'>Personal Information</h4>
       <form action=''>
         <label for='First Name1' class='form-label'>
           First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

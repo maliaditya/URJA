@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const ManageContact = () => {
   return (
     <Wrapper>
-      <h5>Manage Conatact</h5>
+      <h4 className='title'>Manage Contact</h4>
       <form action=''>
         <div className='password'>
           <label for='First Name1' class='form-label'>

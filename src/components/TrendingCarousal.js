@@ -166,6 +166,9 @@ const Wrapper = styled.div`
     display: inline-block;
   }
   article a img {
+    -webkit-box-shadow: 0 6px 12px -13px black;
+    -moz-box-shadow: 0 6px 12px -13px black;
+    box-shadow: 0 6px 12px -13px black;
     width: 163px;
     height: 163px;
     display: block;

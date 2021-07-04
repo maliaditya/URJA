@@ -2,14 +2,9 @@ import { React, useState, useContext } from 'react'
 import styled from 'styled-components'
 import BussinessDetails from './BussinessDetails'
 import CreateProduct from './CreateProduct'
-import AddAddress from './AddAddress'
-
 const SellerAccount = () => {
   const [value, setValue] = useState(<BussinessDetails />)
 
-  const createProduct = () => {
-    setValue(<CreateProduct />)
-  }
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>

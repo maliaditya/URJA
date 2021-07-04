@@ -10,7 +10,9 @@ const FavouritesPage = () => {
   return (
     <div>
       <Productnav />
-      <ProductCard />
+      <div className='content'>
+        <ProductCard />
+      </div>
       <Services />
       <NewsLetter />
       <Footer />

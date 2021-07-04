@@ -109,7 +109,11 @@ const Footer = () => {
           <p>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
             Handcrafted by:{' '}
-            <a className='adi' href='http://adityamali.herokuapp.com/'>
+            <a
+              style={{ color: 'var(--clr-grey-3)' }}
+              className='adi'
+              href='http://adityamali.herokuapp.com/'
+            >
               {' '}
               Aditya Mali
             </a>

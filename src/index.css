@@ -191,7 +191,6 @@ p {
   background: var(--clr-primary-7);
 } */
 .title {
-  text-align: center;
 }
 .title .underline {
   width: 6rem;
@@ -210,14 +209,13 @@ p {
 }
 
 nav {
-  background: #f8f8f8;
   box-shadow: var(--light-shadow);
 }
 .seller {
-  padding-left: 2rem;
+  justify-content: space-around;
 }
 .trending {
-  padding-left: 2rem;
+  justify-content: space-around;
 }
 
 .banner {

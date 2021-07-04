@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import ProductResult from './ProductsResult'
 const Categorywise = () => {
   return (
-    <Wrapper>
+    <Wrapper className='content'>
       <div className='col-md-12 row'>
         <div class='sidenav col-md-4'>
           <p>sidebar</p>

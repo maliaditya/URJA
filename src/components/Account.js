@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PersonalInfo from './PersonalInfo'
 import ManageContact from './ManageContact'
 import CompanyInfo from './CompanyInfo'
+import MyProducts from './MyProducts'
 
 const Account = () => {
   const [value, setValue] = useState(<PersonalInfo />)
@@ -41,6 +42,10 @@ const Account = () => {
                   <div className='card-title'> My Stuff</div>
                   <div className='card-text'>
                     <button>My Coupons</button>
+                    <br />
+                    <button onClick={() => setValue(<MyProducts />)}>
+                      My Products
+                    </button>
                     <button>My Reviews and ratings</button>
                   </div>
                 </div>
@@ -85,9 +90,7 @@ a{
   hr {
     border: 0.1rem solid black;
 }
-  svg {
-    margin-top: 2.5rem;
-  }
+  
   .col-md-8{
      float:left;
   }
@@ -112,9 +115,7 @@ a{
     border-right: 1px solid grey:
   }
   @media(min-width:720px){
-    svg{
-        display:none;
-    }
+  
       .contain {
           &__image {
               margin-top: 2rem;
