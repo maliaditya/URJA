@@ -1,22 +1,23 @@
 import React from 'react'
-import { useGlobalContext } from './context'
-import { FaTimes } from 'react-icons/fa'
+import Modal from 'react-bootstrap/Modal'
 import Signup from './Signup'
-const ModalSignup = () => {
-  const { isModaSignuplOpen, closeModalSignup } = useGlobalContext()
+
+function ModalSignup(props) {
   return (
-    <div
-      className={`${
-        isModaSignuplOpen ? 'modal-overlay show-modal' : 'modal-overlay'
-      }`}
+    <Modal
+      {...props}
+      size='500'
+      aria-labelledby='contained-modal-title-vcenter'
+      centered
+      scrollable={true}
     >
-      <div className='modal-container'>
-        <Signup />
-        <button className='close-modal-btn' onClick={closeModalSignup}>
-          <FaTimes></FaTimes>
-        </button>
-      </div>
-    </div>
+      <Modal.Header closeButton>
+        <Modal.Title id='contained-modal-title-vcenter'>Sign up</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Signup props={props} />
+      </Modal.Body>
+    </Modal>
   )
 }
 

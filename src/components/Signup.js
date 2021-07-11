@@ -1,55 +1,106 @@
-import React from 'react'
+import React , {useState} from 'react'
 import styled from 'styled-components'
+import { Redirect } from 'react-router'
+import { connect } from 'react-redux'
+import { signup } from '../actions/auth'
+import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+const Signup = ({ signup,isAuthenticated , props}) => {
+  const [accountCreated, setAccountCreated] = useState(false);
+  const [showPassword, setshowPassword] = useState('password');
+   const [formData, setFormData] = useState({
+    first_name:'',
+    last_name:'',
+    email: '',
+    phone: '',
+    password: '',
+    re_password: '',
+  })
 
-const Signup = () => {
+  const {first_name, last_name,email,phone, password,re_password } = formData
+
+  const onChange = (e) =>
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    console.log(first_name, last_name,phone,email, password,re_password)
+    if(password === re_password){
+      setAccountCreated(true)
+        signup(first_name, last_name,phone,email, password,re_password)
+    }
+  }
+
+  if (accountCreated) {
+        return <Redirect to='/signup_info' />
+    }
+
+
   return (
     <Wrapper>
-      <div className='container'>
-        <p>Sign up </p>
+      <div>
         <div className='formcontent'>
-          <form action=''>
+          <form onSubmit={(e) => onSubmit(e)}>
             <label for='First Name1' class='form-label'>
               First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last Name
+              &nbsp; &nbsp; &nbsp; Last Name
             </label>
             <div className='name'>
               <input
-                type='email'
+                type='first_name'
                 class='form-control'
                 id='exampleInputEmail1'
                 placeholder='First Name'
-                aria-describedby='emailHelp'
+                name='first_name'
+                value={first_name}
+                onChange={(e) => onChange(e)}
+                required
+                
               ></input>
 
               <input
-                type='email'
+                type='last_name'
                 class='form-control'
                 id='exampleInputEmail1'
                 placeholder='Last Name'
-                aria-describedby='emailHelp'
+                name='last_name'
+                value={last_name}
+                onChange={(e) => onChange(e)}
+                required
+                
               ></input>
             </div>
             <label for='First Name1' class='form-label'>
               Email Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp;Mobile Number
+              &nbsp; Mobile Number
             </label>
             <div className='name'>
               <input
                 type='email'
                 class='form-control'
                 id='exampleInputEmail1'
-                placeholder='Email Address'
+                placeholder='Email'
+                name='email'
+                value={email}
+                onChange={(e) => onChange(e)}
+                required
                 aria-describedby='emailHelp'
+                required
               ></input>
 
               <input
-                type='email'
+                type='phone'
                 class='form-control'
                 id='exampleInputEmail1'
-                placeholder='Mobile Number'
-                aria-describedby='emailHelp'
+                placeholder='Phone No.'
+                name='phone'
+                value={phone}
+                onChange={(e) => onChange(e)}
+                required
               ></input>
             </div>
             <div className='password'>
@@ -57,11 +108,15 @@ const Signup = () => {
                 Password
               </label>
               <input
-                type='email'
+                type={showPassword}
                 class='form-control'
                 id='exampleInputEmail1'
                 placeholder='Password'
-                aria-describedby='emailHelp'
+                name='password'
+                value={password}
+                onChange={(e) => onChange(e)}
+                required
+
               ></input>
             </div>
             <div className='password'>
@@ -69,13 +124,20 @@ const Signup = () => {
                 Confirm Password
               </label>
               <input
-                type='email'
+                type={showPassword}
                 class='form-control'
                 id='exampleInputEmail1'
                 placeholder='Confirm Password'
-                aria-describedby='emailHelp'
+                name='re_password'
+                value={re_password}
+                onChange={(e) => onChange(e)}
+                required
               ></input>
             </div>
+            {showPassword==='password'?
+            <div onClick={()=>{setshowPassword('re')}}>show password&nbsp;<AiFillEye /></div>
+            :<div onClick={()=>{setshowPassword('password')}}>hide password&nbsp;<AiFillEyeInvisible/></div>
+            }
 
             <label className='check'>
               <input type='checkbox' checked='checked' name='remember' /> I've
@@ -83,7 +145,7 @@ const Signup = () => {
               <span>&nbsp;</span> and<a href=''> Privacy Policy</a>
             </label>
             <br />
-            <button className='btn btn-warning'>Create Account</button>
+            <button onClick={props.onHide}type='submit'className='btn btn-warning'>Create Account</button>
           </form>
           <div className='social'>
             <button className='btn btn-primary'>Facebook</button>
@@ -121,7 +183,7 @@ const Wrapper = styled.section`
   }
   label {
     margin-top: 5px;
-    color: white;
+    color: black;
   }
   input {
     width: 10rem;
@@ -131,13 +193,9 @@ const Wrapper = styled.section`
     font-size: 12px;
   }
   p {
-    color: white;
+    color: black;
     margin-bottom: 0.5rem;
   }
-  .container {
-    padding: 3rem;
-  }
-  background-color: #2d2c2c;
 
   h1 {
     text-align: center;
@@ -160,9 +218,6 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 720px) {
-    .container {
-      padding: 3rem;
-    }
     .left {
       display: flex;
       background-color: #ffc232;
@@ -195,31 +250,27 @@ const Wrapper = styled.section`
       margin-top: 1rem;
     }
     .password input {
-      width: 31rem;
+      width: 28rem;
     }
     .name {
       display: flex;
     }
     label {
       margin-top: 5px;
-      color: white;
+      color: black;
     }
     input {
-      width: 15rem;
+      width: 13rem;
       margin-right: 1rem;
     }
     .formcontent {
       font-size: 1rem;
     }
     p {
-      color: white;
+      color: black;
       margin-bottom: 0.5rem;
       font-size: 1.5rem;
     }
-    .container {
-      padding: 3rem;
-    }
-    background-color: #2d2c2c;
 
     h1 {
       text-align: center;
@@ -229,9 +280,7 @@ const Wrapper = styled.section`
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
     }
-    .container {
-      padding: 3rem;
-    }
+
     .left {
       display: flex;
       background-color: #ffc232;
@@ -244,4 +293,10 @@ const Wrapper = styled.section`
     }
   }
 `
-export default Signup
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { signup })(Signup)
+

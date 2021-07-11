@@ -4,11 +4,18 @@ import FavouritesPage from './FavouritesPage'
 import HomePage from './HomePage'
 import LoginPage from './LoginPage'
 import RecentlyViewedPage from './RecentlyViewedPage'
-import SignupPage from './SignupPage'
 import SingleProductPage from './SingleProductPage'
 import CategoriesPage from './CategoriesPage'
 import CreateSellerAccount from './CreateSellerAccount'
+import ResetPassword from './ResetPassword'
+import ResetPasswordConfirm from './ResetPasswordConfirm'
+import Activate from './Activate'
+import SignupInfo from './SignupInfo'
 export {
+  SignupInfo,
+  Activate,
+  ResetPasswordConfirm,
+  ResetPassword,
   CreateSellerAccount,
   AccountPage,
   ErrorPage,
@@ -17,6 +24,5 @@ export {
   LoginPage,
   CategoriesPage,
   RecentlyViewedPage,
-  SignupPage,
   SingleProductPage,
 }

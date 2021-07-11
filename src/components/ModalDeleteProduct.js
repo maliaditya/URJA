@@ -19,7 +19,9 @@ function ModalDeleteProduct(props) {
         <p>Are you sure that you want to delete this product?</p>
         <div style={{ float: 'right', justifyContent: 'space-around' }}>
           <Button onClick={props.onHide}>Cancel</Button> &nbsp;&nbsp;&nbsp;
-          <Button variant='danger'>Delete</Button>
+          <Button onClick={props.onHide} variant='danger'>
+            Delete
+          </Button>
         </div>
       </Modal.Body>
     </Modal>

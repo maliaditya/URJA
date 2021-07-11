@@ -5,46 +5,43 @@ import {
   SingleProductPage,
   CategoriesPage,
   FavouritesPage,
-  SignupPage,
   LoginPage,
   CreateSellerAccount,
   AccountPage,
+  ResetPassword,
+  ResetPasswordConfirm,
+  Activate,
+  SignupInfo,
 } from './pages'
+import { Provider } from 'react-redux'
+import store from './store'
+import Signup from './components/Signup'
 import { Error } from './components'
-const name = <HomePage />
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          {name}
-        </Route>
-        <Route path='/product'>
-          <SingleProductPage />
-        </Route>
-        <Route path='/categories'>
-          <CategoriesPage />
-        </Route>
-        <Route path='/favourites'>
-          <FavouritesPage />
-        </Route>
-        <Route path='/signup'>
-          <SignupPage />
-        </Route>
-        <Route path='/login'>
-          <LoginPage />
-        </Route>
-        <Route path='/selleracc'>
-          <CreateSellerAccount />
-        </Route>
-        <Route path='/account'>
-          <AccountPage />
-        </Route>
-        <Route path='*'>
-          <Error />
-        </Route>
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route exact path='/product' component={SingleProductPage} />
+          <Route exact path='/categories' component={CategoriesPage} />
+          <Route exact path='/favourites' component={FavouritesPage} />
+          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/login' component={LoginPage} />
+          <Route exact path='/reset_password' component={ResetPassword} />
+          <Route
+            exact
+            path='/password/reset/confirm/:uid/:token'
+            component={ResetPasswordConfirm}
+          />
+          <Route exact path='/activate/:uid/:token' component={Activate} />
+          <Route exact path='/selleracc' component={CreateSellerAccount} />
+          <Route exact path='/account' component={AccountPage} />
+          <Route exact path='/signup_info' component={SignupInfo} />
+          <Route path='/*' component={Error} />
+        </Switch>
+      </Router>
+    </Provider>
   )
 }
 

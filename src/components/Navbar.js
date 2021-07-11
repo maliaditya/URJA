@@ -1,14 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
-import Modal from './Modal'
+import ModalLogin from './Modal'
 import ModalSignup from './ModalSignup'
-import { useGlobalContext } from './context'
-const Nav = () => {
-  const { openModalLogin, openModalSignup } = useGlobalContext()
-  return (
+import { connect } from 'react-redux'
+import { logout } from '../actions/auth'
+import { Link } from 'react-router-dom'
+
+const Nav = ({ logout, isAuthenticated }) => {
+
+  const [modalLoginShow, setModalLoginShow] = React.useState(false)
+  const [modalSignupShow, setModalSignupShow] = React.useState(false)
+  if(isAuthenticated){
+     return (
     <NavContainer>
-      <Modal />
-      <ModalSignup />
+      
+      <ModalLogin
+        show={modalLoginShow}
+        onHide={() => setModalLoginShow(false)}
+      />      
+      <ModalSignup
+        show={modalSignupShow}
+        onHide={() => setModalSignupShow(false)}
+      />
       <div className='content'>
         <ul>
           <li className='imlocation container'>
@@ -28,13 +41,60 @@ const Nav = () => {
           </li>
 
           <li>
+   
             <button
-              className='buttonlogin'
-              onClick={openModalLogin}
-              href='#contact'
+            className='buttonlogin'
+            onClick={logout}
             >
-              Log in
+
+               Log out
             </button>
+           
+          </li>
+       
+        </ul>
+      </div>
+    </NavContainer>
+  )
+  }
+  return (
+    <NavContainer>
+      
+      <ModalLogin
+        show={modalLoginShow}
+        onHide={() => setModalLoginShow(false)}
+      />
+      <ModalSignup
+        show={modalSignupShow}
+        onHide={() => setModalSignupShow(false)}
+      />
+      <div className='content'>
+        <ul>
+          <li className='imlocation container'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='40'
+              height='40'
+              fill='currentColor'
+              class='bi bi-geo-alt-fill'
+              viewBox='0 0 20 20'
+            >
+              <path d='M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z' />
+            </svg>
+            <a className='location' href='#news' style={{ color: 'black' }}>
+              Pune, India
+            </a>
+          </li>
+
+          <li>
+            <Link to='/login'>
+         <button
+            className='buttonlogin'
+
+            >
+                 Log in
+            </button>
+                </Link>
           </li>
           <li className='orbar'>
             <a href='#news' style={{ color: 'black' }}>
@@ -46,8 +106,7 @@ const Nav = () => {
           <li>
             <button
               className='buttonsignup'
-              onClick={openModalSignup}
-              href='#about'
+              onClick={() => setModalSignupShow(true)}
             >
               Sign up
             </button>
@@ -256,4 +315,8 @@ const NavContainer = styled.nav`
   }
 `
 
-export default Nav
+const mapStateToProps = state => {
+  return {isAuthenticated: state.auth.isAuthenticated}
+}
+
+export default connect(mapStateToProps, { logout })(Nav)

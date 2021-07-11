@@ -1,23 +1,23 @@
-import React from 'react'
-import { useGlobalContext } from './context'
-import { FaTimes } from 'react-icons/fa'
 import { LoginPage } from '../pages'
-const Modal = () => {
-  const { isModaLoginlOpen, closeModalLogin } = useGlobalContext()
+import React from 'react'
+import Modal from 'react-bootstrap/Modal'
+function ModalLogin(props) {
   return (
-    <div
-      className={`${
-        isModaLoginlOpen ? 'modal-overlay show-modal' : 'modal-overlay'
-      }`}
+    <Modal
+      {...props}
+      size='300'
+      aria-labelledby='contained-modal-title-vcenter'
+      centered
+      scrollable={true}
     >
-      <div className='modal-container'>
-        <LoginPage />
-        <button className='close-modal-btn' onClick={closeModalLogin}>
-          <FaTimes></FaTimes>
-        </button>
-      </div>
-    </div>
+      <Modal.Header closeButton>
+        <Modal.Title id='contained-modal-title-vcenter'>Log In</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <LoginPage props={props} />
+      </Modal.Body>
+    </Modal>
   )
 }
 
-export default Modal
+export default ModalLogin

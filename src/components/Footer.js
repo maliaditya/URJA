@@ -106,7 +106,7 @@ const Footer = () => {
             <span> &nbsp; &nbsp; </span>
           </div>
           <hr />
-          <p>
+          <p style={{ color: 'var(--clr-grey-3)' }}>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
             Handcrafted by:{' '}
             <a
