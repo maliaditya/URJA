@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{useEffect}from 'react'
 import styled from 'styled-components'
 import Rating from './Rating'
 import { RiDeleteBin5Line } from 'react-icons/ri'
@@ -8,73 +8,146 @@ import ModalAddProduct from './ModalAddProduct'
 import ModalEditProduct from './ModalEditProduct'
 import ModalDeleteProduct from './ModalDeleteProduct'
 import Button from 'react-bootstrap/Button'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import {MdRefresh} from 'react-icons/md'
+const api = process.env.REACT_APP_API_URL
 
-const MyProducts = () => {
+const MyProducts = ({access}) => {
   const [modalShow, setModalShow] = React.useState(false)
   const [modalEditProductShow, setModalEditProductShow] = React.useState(false)
-  const [modalDeleteProductShow, setModalDeleteProductShow] =
-    React.useState(false)
+  const [modalDeleteProductShow, setModalDeleteProductShow] =React.useState(false)
+  const [productList, setProductList] =React.useState([])
+  const [showEffect, setShowEffect] =React.useState(false)
 
+  console.log(showEffect)
+
+  const fetchCategories = async () => {
+      const config = {headers: {
+            'content-type': 'appliation/json',
+          }}
+      await axios.get(`${api}/api/products/`,
+                      config
+                      ).then(res=>{
+                        console.log(res);
+                        setProductList(res.data)
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+  }
+
+  const deleteProduct = async (id) => {
+     console.log('res',id);
+      const config = {headers: {
+            'content-type': 'appliation/json',
+            'Authorization': `Bearer ${access}`
+          }}
+      await axios.delete(`${api}/api/products/${id}/`,
+                      config
+                      ).then(res=>{
+                        console.log(res);
+                      axios.get(`${api}/api/products/`,
+                      config
+                      ).then(res=>{
+                        console.log(res);
+                        fetchCategories()
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+                        alert('product was deleted')
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+  }
+
+useEffect(()=>{
+      fetchCategories()
+      setShowEffect(false)
+  },[])
+
+  useEffect(()=>{
+    if(showEffect){
+      fetchCategories()
+      setShowEffect(false)
+    }
+  },[showEffect])
+  
+  const setValues = () =>{
+setShowEffect(true)
+setModalShow(true)
+
+  }
   return (
-    <Wrapper className='content'>
-      <div className='title'>
-        <h4>My Products &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+  
 
-        <Button variant='primary' onClick={() => setModalShow(true)}>
+      <Wrapper className='content'>
+      <div className='title'>
+      <h4>My Products &nbsp;&nbsp;<MdRefresh  onClick={()=> setShowEffect(true)}/></h4>
+      
+      <Button variant='primary' onClick={()=> setValues()} >
           {' '}
           <AiOutlineAppstoreAdd className='addnewicon' size={20} />
           &nbsp;&nbsp; Add Product
-        </Button>
+          </Button>
       </div>
       <ModalAddProduct show={modalShow} onHide={() => setModalShow(false)} />
-      <ModalEditProduct
-        show={modalEditProductShow}
-        onHide={() => setModalEditProductShow(false)}
-      />{' '}
-      <ModalDeleteProduct
-        show={modalDeleteProductShow}
-        onHide={() => setModalDeleteProductShow(false)}
-      />
+{productList.map((item)=>{
+  return(
+    <article key={item.id}>
+    <ModalEditProduct show={modalEditProductShow}onHide={() => setModalEditProductShow(false)}
+  />
+      <ModalDeleteProduct show={modalDeleteProductShow} onHide={() => setModalDeleteProductShow(false)} />
+  
+
       <br />
       <div className='containercard border '>
         <img
           className='containercard__image'
-          src='https://images.unsplash.com/photo-1509222413196-40eb6b6b96e2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=678&q=80'
-        />
+          alt='product_image'
+          src={item.front_image}
+          />
         <div className='header'>
           <p className='head-title'>
-            <h4>Agri Hub</h4>
-            <FaRegEdit
+            <h5 style={{fontWeight:'700'}}>{item.name}</h5>
+            <section>
+            <RiDeleteBin5Line
+              onClick={()=>deleteProduct(item.id)}
+              size={25}
+              />
+               <FaRegEdit
               onClick={() => setModalEditProductShow(true)}
               className='fav'
               size={25}
-            />
-            <RiDeleteBin5Line
-              onClick={() => setModalDeleteProductShow(true)}
-              size={25}
-            />
+              /> 
+              </section>
           </p>
           <div className='desc'>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia,
-              corrupti.
+              {item.details.slice(0, 90)}...
             </p>
             <p className='rating'>
               <Rating />
-              &nbsp; &nbsp; 2.0 &nbsp; | &nbsp; 48 ratings
+              &nbsp; &nbsp; 2.0 &nbsp; | &nbsp; <a  style={{color:'#0d6efd'}} href="#!"  onClick={() => setModalDeleteProductShow(true)}> 48 ratings </a>
             </p>
-            <p> ₹ 80/kg</p>
+            <div className='pricedate'>
+
+            <p> ₹ {item.price}</p>
+            <h6 style={{fontSize:'0.8rem'}}> Created on: {item.get_created_at}</h6>
+            </div>
           </div>
           {/* <button className='btn btn-warning'>Send enquiry </button>
 
-          <button className='btn btn-secondary'>View number</button> */}
+<button className='btn btn-secondary'>View number</button> */}
         </div>
       </div>
+</article>)})}
     </Wrapper>
   )
 }
 
+
 const Wrapper = styled.article`
+
   button {
     float: right;
   }
@@ -86,15 +159,17 @@ const Wrapper = styled.article`
   }
 
   .fav {
-    margin-left: 6rem;
+    margin-left:1rem;
     float: right;
   }
   svg:hover {
     color: #ffc232;
   }
   .head-title {
+
     display: flex;
-    justify-content: space-between;
+    justify-content:space-between
+    
   }
 
   .header {
@@ -110,10 +185,10 @@ const Wrapper = styled.article`
 
   .containercard {
     margin-top: 3rem;
-    justify-content: space-around;
+  
 
     width: 20rem;
-    height: 30rem;
+    height: 35rem;
     border-radius: 1rem;
     -webkit-box-shadow: 0 6px 12px -13px black;
     -moz-box-shadow: 0 6px 12px -13px black;
@@ -126,9 +201,19 @@ const Wrapper = styled.article`
     }
   }
   @media (min-width: 720px) {
-    .fav {
-      margin-left: 10rem;
+     .pricedate{
+      display:flex;
+       justify-content:space-between
     }
+   
+    // .fav {
+    //   margin-left: 10rem;
+    // }
+  .head-title {
+    display: flex;
+    justify-content:space-between
+    
+  }
     .containercard {
       width: 35rem;
       height: 12rem;
@@ -144,9 +229,13 @@ const Wrapper = styled.article`
     }
   }
   @media (min-width: 1300px) {
-    .fav {
-      margin-left: 13rem;
+     .pricedate{
+      display:flex;
+       justify-content:space-between
     }
+    // .fav {
+    //   margin-left: 13rem;
+    // }
     .containercard {
       margin-left: 1rem;
 
@@ -160,8 +249,20 @@ const Wrapper = styled.article`
         background-size: cover;
         display: block;
       }
+      
     }
+    
   }
 `
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+          user: state.auth.user}
+}
 
-export default MyProducts
+  
+
+
+export default connect(mapStateToProps, {})(MyProducts)
+

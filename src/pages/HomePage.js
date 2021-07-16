@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react'
+import React  from 'react'
 import {
   Services,
   Navbar,
@@ -10,15 +10,10 @@ import {
   NewsLetter,
   Reviews,
 } from '../components'
-import { connect } from 'react-redux'
-import { checkAuthenticated, load_user } from '../actions/auth'
 
 
-const HomePage = (props) => {
-  useEffect(()=>{
-    props.checkAuthenticated()
-    props.load_user()
-  },[])
+const HomePage = () => {
+ 
   return (
     <>
       <Navbar></Navbar>
@@ -35,4 +30,4 @@ const HomePage = (props) => {
   )
 }
 
-export default connect(null,{checkAuthenticated, load_user})(HomePage)
+export default (HomePage)

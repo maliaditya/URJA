@@ -18,22 +18,80 @@ import {
     GOOGLE_AUTH_FAIL,
     FACEBOOK_AUTH_SUCCESS,
     FACEBOOK_AUTH_FAIL,
-    LOGOUT
+    LOGOUT,
+    PRODUCT_CREATED_SUCCESS,
+    PRODUCT_CREATED_FAIL
 } from './types';
-const api = 'http://localhost:8000'
+const api = process.env.REACT_APP_API_URL
+
+
+
+export const createProduct = (name,details,price,rating,total_ratings,front_image,back_image,extra_1,extra_2,created_by,category,company,product_type) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${localStorage.getItem('access')}`,
+ 
+        }
+    };
+    const qs = require('qs');
+
+    let form_data = new FormData();
+    form_data.append('name', name)
+    form_data.append('details', details)
+    form_data.append('price', price)
+    form_data.append('rating', rating)
+    form_data.append('total_ratings', total_ratings)
+    form_data.append('front_image',  front_image)
+    form_data.append('back_image',  back_image)
+    form_data.append('extra_1',  extra_1)
+    form_data.append('extra_2', extra_2)
+    form_data.append('created_by', created_by)
+    form_data.append('category', category)
+    form_data.append('company', company)
+    form_data.append('product_type',  product_type)
+    const body = JSON.stringify({ name,details,price,rating,total_ratings,front_image,back_image,extra_1,extra_2,created_by,category,company,product_type });
+         console.log('res,body',body)
+         const asds = qs.stringify(name)
+         console.log('asds',asds)
+    try {
+        const res = await axios.post(`${api}/api/products/`, form_data,config);
+          console.log(res)
+          console.log(res.data)
+        dispatch({
+            type: PRODUCT_CREATED_SUCCESS,
+            // payload: res.data
+        });
+
+        // dispatch(load_user());
+    } catch (err) {
+       console.log(err)
+        dispatch({
+                type: PRODUCT_CREATED_FAIL
+            });
+    }
+};
+
+
+
+
+
+
+
 export const load_user = () => async dispatch => {
     if (localStorage.getItem('access')) {
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${localStorage.getItem('access')}`,
+                'Authorization': `Bearer ${localStorage.getItem('access')}`,
                 'Accept': 'application/json'
             }
         }; 
 
         try {
-            const res = await axios.get(`${api}/auth/users/me/`, config);
-    
+            const user = await axios.get(`${api}/auth/users/me/`, config);
+            const res = await axios.get(`${api}/auth/users/${user.data.id}/`, config);
+      
             dispatch({
                 type: USER_LOADED_SUCCESS,
                 payload: res.data

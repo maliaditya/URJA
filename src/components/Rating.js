@@ -1,11 +1,11 @@
 import React from 'react'
 import Rating from '@material-ui/lab/Rating'
-import Typography from '@material-ui/core/Typography'
+// import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 
 export default function SimpleRating() {
-  const [value, setValue] = React.useState(2)
-
+  // const [value, setValue] = React.useState(2)
+  
   return (
     <div>
       {/* <Box component="fieldset" mb={3} borderColor="transparent">
@@ -19,7 +19,7 @@ export default function SimpleRating() {
         />
       </Box> */}
       <Box component='fieldset' mb={0.5} borderColor='transparent'>
-        <Rating name='read-only' value={value} readOnly />
+        <Rating name='read-only' value={2} readOnly />
       </Box>
       {/* <Box component="fieldset" mb={3} borderColor="transparent">
         <Typography component="legend">Disabled</Typography>

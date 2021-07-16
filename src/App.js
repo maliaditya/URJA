@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect }   from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import {
   HomePage,
@@ -13,18 +13,24 @@ import {
   Activate,
   SignupInfo,
 } from './pages'
-import { Provider } from 'react-redux'
-import store from './store'
+
 import Signup from './components/Signup'
 import { Error } from './components'
-function App() {
+import { connect } from 'react-redux'
+import { checkAuthenticated, load_user } from './actions/auth'
+import TestImage from './pages/TestImage'
+function App(props) {
+   useEffect(()=>{
+    props.checkAuthenticated()
+    props.load_user()
+  },[props])
   return (
-    <Provider store={store}>
       <Router>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/product' component={SingleProductPage} />
           <Route exact path='/categories' component={CategoriesPage} />
+          <Route exact path='/image' component={TestImage} />
           <Route exact path='/favourites' component={FavouritesPage} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/login' component={LoginPage} />
@@ -41,8 +47,7 @@ function App() {
           <Route path='/*' component={Error} />
         </Switch>
       </Router>
-    </Provider>
   )
 }
 
-export default App
+export default connect(null,{checkAuthenticated, load_user})(App)

@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Productnav, SellerAccount } from '../components'
 
 const CreateSellerAccount = () => {
@@ -11,6 +10,5 @@ const CreateSellerAccount = () => {
   )
 }
 
-const Wrapper = styled.main``
 
 export default CreateSellerAccount

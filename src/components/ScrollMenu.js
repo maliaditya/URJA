@@ -2,12 +2,10 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom' 
 
 const ScrollMenu = () => {
-  const colorchange = () => {
-    const linkColor = '#ffc232'
-    return linkColor
-  }
+ 
 
   const responsive = {
     superLargeDesktop: {
@@ -32,17 +30,8 @@ const ScrollMenu = () => {
     <Wrapper>
       <div className='container content'>
         <Carousel responsive={responsive}>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
-          <a href='#'> Item Item </a>
+          <Link to=''> Item Item </Link>
+       
         </Carousel>
       </div>
       <hr />

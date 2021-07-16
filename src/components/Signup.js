@@ -4,6 +4,9 @@ import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import { signup } from '../actions/auth'
 import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+import { Link } from 'react-router-dom'
+
+
 const Signup = ({ signup,isAuthenticated , props}) => {
   const [accountCreated, setAccountCreated] = useState(false);
   const [showPassword, setshowPassword] = useState('password');
@@ -89,7 +92,6 @@ const Signup = ({ signup,isAuthenticated , props}) => {
                 onChange={(e) => onChange(e)}
                 required
                 aria-describedby='emailHelp'
-                required
               ></input>
 
               <input
@@ -141,8 +143,8 @@ const Signup = ({ signup,isAuthenticated , props}) => {
 
             <label className='check'>
               <input type='checkbox' checked='checked' name='remember' /> I've
-              read and accepted <a href=''>Terms and services</a>
-              <span>&nbsp;</span> and<a href=''> Privacy Policy</a>
+              read and accepted <Link to='' >Terms and services</Link>
+              <span>&nbsp;</span> and<Link to=''> Privacy Policy</Link>
             </label>
             <br />
             <button onClick={props.onHide}type='submit'className='btn btn-warning'>Create Account</button>

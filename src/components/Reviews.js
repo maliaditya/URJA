@@ -11,6 +11,7 @@ const Reviews = () => {
       </div>
       <div className='container'>
         <img
+        alt='profile'
           className='container__image'
           src='https://images.unsplash.com/photo-1547822686-8ba163e1122a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1565&q=80'
         />

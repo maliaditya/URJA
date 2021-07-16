@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 import {
   Productnav,
   Account,
@@ -8,6 +8,7 @@ import {
 } from '../components'
 
 const AccountPage = () => {
+
   return (
     <div>
       <Productnav />
@@ -19,4 +20,5 @@ const AccountPage = () => {
   )
 }
 
-export default AccountPage
+
+export default (AccountPage)

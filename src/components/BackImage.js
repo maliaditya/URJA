@@ -1,7 +1,7 @@
 import { useState, React, useEffect } from 'react'
 import styled from 'styled-components'
 import UploadButtons from './UploadButton'
-const BackImage = () => {
+const BackImage = ({handleBackImageChange}) => {
   const [selectedFile, setSelectedFile] = useState()
   const [preview, setPreview] = useState()
 
@@ -34,7 +34,11 @@ const BackImage = () => {
       <br />
       <label htmlFor='file'>Image of Back side of Product</label>
       <br />
-      <input type='file' onChange={onSelectFile} />
+      <input type='file'  name='back_image'
+              onChange={(e) => handleBackImageChange(e)}
+              required 
+               accept="image/png, image/jpeg"
+               onChange={onSelectFile} />
     </Wrapper>
   )
 }

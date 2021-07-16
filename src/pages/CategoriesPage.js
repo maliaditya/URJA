@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Footer, Productnav, NewsLetter, Categorywise } from '../components'
 const CategoriesPage = () => {
   return (
@@ -12,6 +11,5 @@ const CategoriesPage = () => {
   )
 }
 
-const Wrapper = styled.div``
 
 export default CategoriesPage

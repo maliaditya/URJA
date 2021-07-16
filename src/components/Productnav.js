@@ -4,7 +4,9 @@ import { AiOutlineHome, AiOutlineHistory } from 'react-icons/ai'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { RiAccountCircleLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
-const Productnav = () => {
+import { connect } from 'react-redux'
+const Productnav = ({isAuthenticated}) => {
+  console.log("ata he bagh",isAuthenticated)
   return (
     <NavContainer>
       <div className='topnav content'>
@@ -244,4 +246,8 @@ const NavContainer = styled.nav`
   }
 `
 
-export default Productnav
+const mapStateToProps = state => {
+  return {isAuthenticated: state.auth.isAuthenticated}
+}
+
+export default connect(mapStateToProps, { })(Productnav)

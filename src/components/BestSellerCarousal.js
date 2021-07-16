@@ -2,6 +2,7 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const BestSellerCarousal = () => {
   const responsive = {
@@ -37,116 +38,16 @@ const BestSellerCarousal = () => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Club Card'
-              />
-            </a>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
-            <a href=''> &nbsp;&nbsp;View more</a>
-          </article>
+            <article>
+              <Link to='' >
+                <img alt='best seller'
+                  src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+                  />
+              </Link>
+              <p className='ptitle'>&nbsp;&nbsp;Some text</p>
+              <p>&nbsp;&nbsp;Category Name</p>
+            </article>
+         
         </Carousel>
       </div>
     </Wrapper>

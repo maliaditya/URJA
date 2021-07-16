@@ -2,7 +2,7 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
-
+import { Link } from 'react-router-dom'
 const TrendingCarousal = () => {
   const responsive = {
     superLargeDesktop: {
@@ -37,113 +37,15 @@ const TrendingCarousal = () => {
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
           <article>
-            <a href='#'>
+            <Link to=''>
               <img
                 src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
                 alt='Club Card'
               />
-            </a>{' '}
+            </Link>{' '}
             <h5>&nbsp;&nbsp;Some text</h5>
           </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Diamond Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Spade Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
-          <article>
-            <a href='#'>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                alt='Heart Card'
-              />
-            </a>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
-          </article>
+         
         </Carousel>
       </div>
     </Wrapper>

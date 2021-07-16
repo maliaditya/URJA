@@ -4,15 +4,14 @@ import PersonalInfo from './PersonalInfo'
 import ManageContact from './ManageContact'
 import CompanyInfo from './CompanyInfo'
 import MyProducts from './MyProducts'
-
-const Account = () => {
+import { connect } from 'react-redux'
+const Account = ({user}) => {
   const [value, setValue] = useState(<PersonalInfo />)
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>
         <div className='row'>
           <div className='col-md-3 vl contain-fluid'>
-            <p>Welcome, Vaibhav Shinde</p>
 
             <div className='contain'>
               <div className='review '>
@@ -45,8 +44,8 @@ const Account = () => {
                     <br />
                     <button onClick={() => setValue(<MyProducts />)}>
                       My Products
-                    </button>
-                    <button>My Reviews and ratings</button>
+                    </button><br />
+                    <button>My Orders</button>
                   </div>
                 </div>
               </div>
@@ -167,4 +166,16 @@ a{
     border: 2px solid black;
   }
 `
-export default Account
+  
+
+
+const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+          user: state.auth.user}
+}
+
+
+
+export default connect(mapStateToProps,{})(Account)

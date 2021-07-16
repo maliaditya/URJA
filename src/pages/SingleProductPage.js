@@ -1,6 +1,5 @@
 import React from 'react'
 
-import styled from 'styled-components'
 import {
   Productnav,
   ScrollMenu,
@@ -31,6 +30,6 @@ const SingleProductPage = () => {
   )
 }
 
-const Wrapper = styled.main``
+
 
 export default SingleProductPage

@@ -1,7 +1,9 @@
-import { React, useState, useContext } from 'react'
+import { React, useState } from 'react'
 import styled from 'styled-components'
 import BussinessDetails from './BussinessDetails'
 import CreateProduct from './CreateProduct'
+import { Link } from 'react-router-dom'
+
 const SellerAccount = () => {
   const [value, setValue] = useState(<BussinessDetails />)
 
@@ -29,7 +31,7 @@ const SellerAccount = () => {
                       </button>
                     </p>
 
-                    <a href=''>Help</a>
+                    <Link to=''>Help</Link>
                   </div>
                 </div>
               </div>

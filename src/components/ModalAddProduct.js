@@ -1,7 +1,9 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import CreateProduct from './CreateProduct'
+import { Button } from 'react-bootstrap'
 function ModalAddProduct(props) {
+
   return (
     <Modal
       {...props}
@@ -18,6 +20,12 @@ function ModalAddProduct(props) {
       <Modal.Body>
         <CreateProduct />
       </Modal.Body>
+       <Modal.Footer>
+          <Button variant="secondary" onClick={props.onHide} >
+            Close
+          </Button>
+         
+        </Modal.Footer>
     </Modal>
   )
 }

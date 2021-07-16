@@ -5,8 +5,8 @@ const SignupInfo = () => {
         <section className='container' style={{padding:'10vh'}}>
 
             <div className="jumbotron">
-                <h6 className="display-4">Account Created!</h6>
-                <p className="lead">Account activation link has been sent to your email, please activate your account before you login. </p>
+                <h3 >Thank you for signing up for a URJA account!</h3>
+                <p className="lead">Please verify your email address in order to access your URJA account. </p>
                 <hr className="my-4"/>
               
                 <Link className="btn btn-primary " to="/" role="button">Back to home</Link>

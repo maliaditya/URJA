@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
-import CreateProduct from './CreateProduct'
+import UpdateProduct from './UpdateProduct'
 function ModalEditProduct(props) {
   return (
     <Modal
@@ -16,7 +16,7 @@ function ModalEditProduct(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <CreateProduct />
+        <UpdateProduct />
       </Modal.Body>
     </Modal>
   )

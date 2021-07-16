@@ -7,7 +7,6 @@ import { logout } from '../actions/auth'
 import { Link } from 'react-router-dom'
 
 const Nav = ({ logout, isAuthenticated }) => {
-
   const [modalLoginShow, setModalLoginShow] = React.useState(false)
   const [modalSignupShow, setModalSignupShow] = React.useState(false)
   if(isAuthenticated){

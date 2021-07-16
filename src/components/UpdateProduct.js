@@ -5,11 +5,11 @@ import React , { Component} from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios';
 import { createProduct } from '../actions/auth';
-
+// import { Link, Redirect } from 'react-router-dom'
 
 const api = process.env.REACT_APP_API_URL
 
-class CreateProduct extends Component {
+class UpdateProduct extends Component {
 
 
  constructor(props, createProduct) {
@@ -87,7 +87,6 @@ class CreateProduct extends Component {
     form_data.append('back_image', this.state.back_image);
     form_data.append('product_type', this.state.product_type);
     form_data.append('company', this.state.company);
-      alert("Your file is  being uploaded")
     let url = `${api}/api/products/`
     axios.post(url, form_data, {
       headers: {
@@ -155,7 +154,7 @@ class CreateProduct extends Component {
                    id="image"
                    accept="image/png, image/jpeg"  onChange={this.handleBackImageChange} required/>
           </p>
-          <button className='btn btn-primary' type="submit">Upload Product</button>
+          <button className='btn btn-primary' type="submit">Update Product</button>
         </form>
       </div>
     );
@@ -171,4 +170,5 @@ class CreateProduct extends Component {
   
 
 
-export default connect(mapStateToProps, { createProduct})(CreateProduct)
+export default connect(mapStateToProps, { createProduct})(UpdateProduct)
+

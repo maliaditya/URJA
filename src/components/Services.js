@@ -10,21 +10,21 @@ const Services = () => {
       <div className='col-12'>
         <div className='row'>
           <div className='container'>
-            <img className='container__image' src={verified} />
+            <img alt='verified seller' className='container__image' src={verified} />
             <div className='container__text'>
               <h5>Verified Sellers</h5>
               <p>Buy products from verified sellers from all over the world</p>
             </div>
           </div>
           <div className='container'>
-            <img className='container__image' src={logo} />
+            <img alt='Advertise' className='container__image' src={logo} />
             <div className='container__text'>
               <h5>Advertise with us</h5>
               <p>Increase your sell by allowing us to promote your products</p>
             </div>
           </div>
           <div className='container'>
-            <img className='container__image' src={customersupport} />
+            <img alt='customer support' className='container__image' src={customersupport} />
             <div className='container__text'>
               <h5>Customer Support</h5>
               <p>Need help? Inform us!</p>

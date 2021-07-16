@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Productnav,
   Footer,
@@ -20,4 +21,9 @@ const FavouritesPage = () => {
   )
 }
 
-export default FavouritesPage
+
+const mapStateToProps = state => {
+  return {isAuthenticated: state.auth.isAuthenticated}
+}
+
+export default connect(mapStateToProps, {})(FavouritesPage)

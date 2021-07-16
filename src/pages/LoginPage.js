@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { FcGoogle } from 'react-icons/fc'
-import { AiFillFacebook } from 'react-icons/ai'
+// import { FcGoogle } from 'react-icons/fc'
+// import { AiFillFacebook } from 'react-icons/ai'
 import { login } from '../actions/auth'
 import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
 const LoginPage = ({ login, props,isAuthenticated }) => {
@@ -54,7 +54,6 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
                 onChange={(e) => onChange(e)}
                 required
                 aria-describedby='emailHelp'
-                required
               ></input>
             </div>
             <div className='password'>
@@ -201,6 +200,7 @@ const Wrapper = styled.section`
 `
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
+    
 });
 
 export default connect(mapStateToProps, { login })(LoginPage)

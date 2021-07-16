@@ -1,7 +1,12 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import Card from 'react-bootstrap/Card'
+
+// const api = process.env.REACT_APP_API_URL
 function ModalDeleteProduct(props) {
+
+
   return (
     <Modal
       {...props}
@@ -12,18 +17,34 @@ function ModalDeleteProduct(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>
-          Delete Product
+          Product reviews
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Are you sure that you want to delete this product?</p>
-        <div style={{ float: 'right', justifyContent: 'space-around' }}>
-          <Button onClick={props.onHide}>Cancel</Button> &nbsp;&nbsp;&nbsp;
-          <Button onClick={props.onHide} variant='danger'>
-            Delete
-          </Button>
-        </div>
+       <Card className="mb-2 ">
+          <Card.Body >
+            <Card.Title>Mike Ross</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">Reviewed on 16 July 2021</Card.Subtitle>
+            <Card.Text>
+              Some quick example text to build on the card title and make up the bulk of
+              the card's content.
+            </Card.Text>
+          </Card.Body>
+      </Card>
+          <Card className="mb-2 ">
+          <Card.Body >
+            <Card.Title>John Doe</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">Reviewed on 16 July 2021</Card.Subtitle>
+            <Card.Text>
+              Some quick example text to build on the card title and make up the bulk of
+              the card's content.
+            </Card.Text>
+          </Card.Body>
+      </Card>
       </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>close</Button> &nbsp;&nbsp;&nbsp;
+      </Modal.Footer>
     </Modal>
   )
 }

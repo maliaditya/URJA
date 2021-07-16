@@ -17,7 +17,9 @@ import {
     GOOGLE_AUTH_FAIL,
     FACEBOOK_AUTH_SUCCESS,
     FACEBOOK_AUTH_FAIL,
-    LOGOUT
+    LOGOUT,
+    PRODUCT_CREATED_SUCCESS,
+    PRODUCT_CREATED_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -27,7 +29,7 @@ const initialState = {
     user: null
 };
 
-export default function(state = initialState, action) {
+export default function foo(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type) {
@@ -86,6 +88,13 @@ export default function(state = initialState, action) {
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_CONFIRM_FAIL:
         case ACTIVATION_SUCCESS:
+        case PRODUCT_CREATED_SUCCESS:
+            return {
+                ...state,
+                isAuthenticated: true,
+               
+            }
+        case PRODUCT_CREATED_FAIL:
         case ACTIVATION_FAIL:
             return {
                 ...state
