@@ -3,7 +3,16 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-const TrendingCarousal = () => {
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { current_item_added } from '../actions/auth'
+
+const api = process.env.REACT_APP_API_URL
+const TrendingCarousal = ({access, current_item_added}) => {
+
+  const [trendingItems,setTrendingItems] = React.useState([])
+
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -23,6 +32,39 @@ const TrendingCarousal = () => {
       items: 2,
     },
   }
+
+   const fetchTrending = async () => {
+      const config = {headers: {
+            'content-type': 'appliation/json',
+            'Authorization': `Bearer ${access}`
+          }}
+      await axios.get(`${api}/api/favourites/`,
+                      config
+                      ).then(res=>{
+                        console.log(res);
+                        setTrendingItems(res.data)
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+  }
+
+  React.useEffect(()=>{
+    fetchTrending()
+  },[])
+ 
+  const uniqueObjects = []; 
+          
+  const uniqueItems = []; 
+
+  trendingItems.map((item)=>{
+
+    if(!uniqueItems.includes(item.product.id)){
+        uniqueItems.push(item.product.id)
+        uniqueObjects.push(item)
+    }
+    return 0
+  })
+
   return (
     <Wrapper className='content container-fluid'>
       <div className='trending'>
@@ -36,18 +78,22 @@ const TrendingCarousal = () => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
-          <article>
-            <Link to=''>
-              <img
-                src='https://images.unsplash.com/photo-1478323057113-8272728e9e4e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+          {uniqueObjects.map((item)=>{
+            return(
+              <article>
+            <Link to='/product'>
+              <img onClick={()=>current_item_added(item.product)}
+                src={item.product.front_image}
                 alt='Club Card'
-              />
+                />
             </Link>{' '}
-            <h5>&nbsp;&nbsp;Some text</h5>
+            <h5 style={{marginLeft:'1.5rem'}}>{item.product.name}</h5>
           </article>
+         )})}
          
         </Carousel>
-      </div>
+      <hr />
+    </div>
     </Wrapper>
   )
 }
@@ -194,4 +240,18 @@ const Wrapper = styled.div`
   }
 `
 
-export default TrendingCarousal
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem}
+}
+
+  
+
+
+export default connect(mapStateToProps, {current_item_added})(TrendingCarousal)
+
+

@@ -3,8 +3,14 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { current_item_added } from '../actions/auth'
+const api = process.env.REACT_APP_API_URL
+const BestSellerCarousal = ({access, current_item_added}) => {
 
-const BestSellerCarousal = () => {
+  const [bestSellerItems,setBestSellerItems] = React.useState([])
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -24,11 +30,47 @@ const BestSellerCarousal = () => {
       items: 2,
     },
   }
+
+  const fetchTrending = async () => {
+      const config = {headers: {
+            'content-type': 'appliation/json',
+            'Authorization': `Bearer ${access}`
+          }}
+      await axios.get(`${api}/api/product_enquires/`,
+                      config
+                      ).then(res=>{
+                        console.log(res);
+                        setBestSellerItems(res.data)
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+  }
+
+  React.useEffect(()=>{
+    fetchTrending()
+  },[])
+
+           
+  const uniqueObjects = []; 
+          
+  const uniqueItems = []; 
+
+  bestSellerItems.map((item)=>{
+
+    if(!uniqueItems.includes(item.product.id)){
+        uniqueItems.push(item.product.id)
+        uniqueObjects.push(item)
+    }
+     return 0
+  })
+
+
+
+
   return (
     <Wrapper className='content'>
       <div className='trending'>
         <span class=' underline-right'>
-          {' '}
           <h4 style={{ fontWeight: '700' }}> Best Seller</h4>
         </span>
       </div>
@@ -36,23 +78,32 @@ const BestSellerCarousal = () => {
       <div className='trending'>
         <Carousel
           responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-        >
+          removeArrowOnDeviceType={['tablet', 'mobile']}>
+          {
+          uniqueObjects.map((item)=>{
+            return(
+
             <article>
               <Link to='' >
                 <img alt='best seller'
-                  src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+                  src={item.product.front_image}
                   />
               </Link>
-              <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-              <p>&nbsp;&nbsp;Category Name</p>
+              <p style={{fontSize:'1.1rem', color:'black',fontWeight:700,marginLeft:'1.5rem'}}>{item.product.name}</p>
+              <p style={{fontSize:'1rem',marginLeft:'1.5rem'}}>{item.product.category.category_name}</p>
             </article>
          
+            )})}
         </Carousel>
+      <hr />
+
       </div>
     </Wrapper>
   )
 }
+
+
+
 
 const Wrapper = styled.div`
   .ptitle {
@@ -65,7 +116,7 @@ const Wrapper = styled.div`
   a {
     padding: 0px;
   }
-  padding-top: 5rem;
+  padding-top: 1rem;
   h5 {
     font-size: 1.1rem;
     font-weight: 700;
@@ -82,10 +133,15 @@ const Wrapper = styled.div`
     display: inline-block;
   }
   article a img {
+    -webkit-box-shadow: 0 6px 12px -13px black;
+    -moz-box-shadow: 0 6px 12px -13px black;
+    box-shadow: 0 6px 12px -13px black;
     width: 180px;
     height: 198px;
     display: block;
     border-radius: 0.5rem;
+ 
+
   }
   article a:hover img {
     transform: scale(1.1);
@@ -205,4 +261,18 @@ const Wrapper = styled.div`
   }
 `
 
-export default BestSellerCarousal
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem}
+}
+
+  
+
+
+export default connect(mapStateToProps, {current_item_added})(BestSellerCarousal)
+
+
+

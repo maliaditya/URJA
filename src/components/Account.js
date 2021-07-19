@@ -5,6 +5,7 @@ import ManageContact from './ManageContact'
 import CompanyInfo from './CompanyInfo'
 import MyProducts from './MyProducts'
 import { connect } from 'react-redux'
+import EnquiryTable from './EnquiryTable'
 const Account = ({user}) => {
   const [value, setValue] = useState(<PersonalInfo />)
   return (
@@ -45,7 +46,9 @@ const Account = ({user}) => {
                     <button onClick={() => setValue(<MyProducts />)}>
                       My Products
                     </button><br />
-                    <button>My Orders</button>
+                     <button onClick={() => setValue(<EnquiryTable />)}>
+                      My Enquires
+                    </button><br />
                   </div>
                 </div>
               </div>

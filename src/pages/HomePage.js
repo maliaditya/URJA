@@ -2,6 +2,7 @@ import React  from 'react'
 import {
   Services,
   Navbar,
+  // Productnav,
   Footer,
   TrendingCarousal,
   Banner,
@@ -15,7 +16,7 @@ import {
 const HomePage = () => {
  
   return (
-    <>
+    <React.Fragment>
       <Navbar></Navbar>
       <Banner />
 
@@ -26,7 +27,7 @@ const HomePage = () => {
       <Reviews />
       <NewsLetter />
       <Footer></Footer>
-    </>
+    </React.Fragment>
   )
 }
 

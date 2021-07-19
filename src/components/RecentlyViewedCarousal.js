@@ -66,7 +66,7 @@ const Wrapper = styled.div`
   a {
     padding: 0px;
   }
-  padding-top: 5rem;
+  padding-top: 1rem;
   h5 {
     font-size: 1.1rem;
     font-weight: 700;

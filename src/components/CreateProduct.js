@@ -4,7 +4,7 @@ import React , { Component} from 'react'
 // import BackImage from './BackImage'
 import { connect } from 'react-redux'
 import axios from 'axios';
-import { createProduct } from '../actions/auth';
+
 
 
 const api = process.env.REACT_APP_API_URL
@@ -12,7 +12,7 @@ const api = process.env.REACT_APP_API_URL
 class CreateProduct extends Component {
 
 
- constructor(props, createProduct) {
+ constructor(props) {
             super(props)
 
             this.state = {
@@ -24,10 +24,12 @@ class CreateProduct extends Component {
                 back_image: null,
                 category: null,
                 product_type: null,
+                rating: 0,
+                total_ratings: 0,
                 company: props.user.company_details[0].id,
                 productType:[],
                 productCategories:[],
-
+                in_stock:true
             };
         }
 
@@ -87,7 +89,11 @@ class CreateProduct extends Component {
     form_data.append('back_image', this.state.back_image);
     form_data.append('product_type', this.state.product_type);
     form_data.append('company', this.state.company);
-      alert("Your file is  being uploaded")
+    form_data.append('rating', this.state.rating);
+    form_data.append('total_ratings', this.state.total_ratings);
+    form_data.append('in_stock', this.state.in_stock);
+
+    alert("Your file is  being uploaded")
     let url = `${api}/api/products/`
     axios.post(url, form_data, {
       headers: {
@@ -171,4 +177,4 @@ class CreateProduct extends Component {
   
 
 
-export default connect(mapStateToProps, { createProduct})(CreateProduct)
+export default connect(mapStateToProps, {})(CreateProduct)

@@ -18,21 +18,33 @@ import {
     FACEBOOK_AUTH_SUCCESS,
     FACEBOOK_AUTH_FAIL,
     LOGOUT,
-    PRODUCT_CREATED_SUCCESS,
-    PRODUCT_CREATED_FAIL
+
+    CURRENT_ITEM_ADDED_FAIL,
+    CURRENT_ITEM_ADDED_SUCCESS 
 } from '../actions/types';
 
 const initialState = {
     access: localStorage.getItem('access'),
     refresh: localStorage.getItem('refresh'),
     isAuthenticated: null,
-    user: null
+    user: null,
+    currentItem: null
 };
 
 export default function foo(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type) {
+        case CURRENT_ITEM_ADDED_FAIL:
+            return{
+                ...state,
+                currentItem: payload
+            }
+        case CURRENT_ITEM_ADDED_SUCCESS :
+            return {
+                ...state,
+                currentItem: payload
+            }
         case AUTHENTICATED_SUCCESS:
             return {
                 ...state,
@@ -88,13 +100,6 @@ export default function foo(state = initialState, action) {
         case PASSWORD_RESET_CONFIRM_SUCCESS:
         case PASSWORD_RESET_CONFIRM_FAIL:
         case ACTIVATION_SUCCESS:
-        case PRODUCT_CREATED_SUCCESS:
-            return {
-                ...state,
-                isAuthenticated: true,
-               
-            }
-        case PRODUCT_CREATED_FAIL:
         case ACTIVATION_FAIL:
             return {
                 ...state

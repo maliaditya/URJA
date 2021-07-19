@@ -4,7 +4,6 @@ import React , { Component} from 'react'
 // import BackImage from './BackImage'
 import { connect } from 'react-redux'
 import axios from 'axios';
-import { createProduct } from '../actions/auth';
 // import { Link, Redirect } from 'react-router-dom'
 
 const api = process.env.REACT_APP_API_URL
@@ -12,7 +11,7 @@ const api = process.env.REACT_APP_API_URL
 class UpdateProduct extends Component {
 
 
- constructor(props, createProduct) {
+ constructor(props) {
             super(props)
 
             this.state = {
@@ -170,5 +169,5 @@ class UpdateProduct extends Component {
   
 
 
-export default connect(mapStateToProps, { createProduct})(UpdateProduct)
+export default connect(mapStateToProps, {})(UpdateProduct)
 

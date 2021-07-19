@@ -2,7 +2,7 @@ import React from 'react'
 
 import {
   Productnav,
-  ScrollMenu,
+  // ScrollMenu,
   Reviews,
   NewsLetter,
   Footer,
@@ -15,9 +15,10 @@ import {
 
 const SingleProductPage = () => {
   return (
-    <>
+    <React.Fragment>
       <Productnav />
-      <ScrollMenu />
+      {/* <ScrollMenu /> */}
+      <br /><br /><br />
       <Productdetailinfo></Productdetailinfo>
       <Productinfo />
       <SimilarProducts></SimilarProducts>
@@ -26,7 +27,7 @@ const SingleProductPage = () => {
       <Reviews />
       <NewsLetter />
       <Footer />
-    </>
+    </React.Fragment>
   )
 }
 

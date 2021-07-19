@@ -19,13 +19,15 @@ import { Error } from './components'
 import { connect } from 'react-redux'
 import { checkAuthenticated, load_user } from './actions/auth'
 import TestImage from './pages/TestImage'
+import { AppProvider } from './components/context';
 function App(props) {
    useEffect(()=>{
     props.checkAuthenticated()
     props.load_user()
-  },[props])
+  },[])
   return (
-      <Router>
+  <AppProvider>
+    <Router>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/product' component={SingleProductPage} />
@@ -47,6 +49,7 @@ function App(props) {
           <Route path='/*' component={Error} />
         </Switch>
       </Router>
+  </AppProvider>
   )
 }
 

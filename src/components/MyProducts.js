@@ -1,6 +1,5 @@
 import React ,{useEffect}from 'react'
 import styled from 'styled-components'
-import Rating from './Rating'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 import { FaRegEdit } from 'react-icons/fa'
 import { AiOutlineAppstoreAdd } from 'react-icons/ai'
@@ -11,16 +10,50 @@ import Button from 'react-bootstrap/Button'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import {MdRefresh} from 'react-icons/md'
+import {current_item_added} from '../actions/auth'
+import Rating from '@material-ui/lab/Rating'
+import Box from '@material-ui/core/Box'
+
 const api = process.env.REACT_APP_API_URL
 
-const MyProducts = ({access}) => {
+const MyProducts = ({access,current_item_added}) => {
   const [modalShow, setModalShow] = React.useState(false)
   const [modalEditProductShow, setModalEditProductShow] = React.useState(false)
   const [modalDeleteProductShow, setModalDeleteProductShow] =React.useState(false)
   const [productList, setProductList] =React.useState([])
   const [showEffect, setShowEffect] =React.useState(false)
 
-  console.log(showEffect)
+
+  const setStockValue = async (value, itemId) =>{
+              console.log(value,value)
+    const config = {headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${access}`,
+              }}
+          const body = {
+            "in_stock": value
+          } 
+            
+          await axios.patch(
+            `${api}/api/products/${itemId}/`,
+            body,
+            config 
+            ).then((res)=>{
+              console.log(res)
+              setShowEffect(true)
+              if(value){
+                alert('Product set to  Out of stock ')
+              }else{
+                alert('Product set to  Out of stock ')
+              }
+            }).catch((err)=>{
+              console.log(err)
+                alert(err,'Please try again later')
+
+            })
+          
+
+  }
 
   const fetchCategories = async () => {
       const config = {headers: {
@@ -60,10 +93,18 @@ const MyProducts = ({access}) => {
                       })
   }
 
-useEffect(()=>{
-      fetchCategories()
-      setShowEffect(false)
-  },[])
+  const addCurrentItem=(item)=>{
+      
+      current_item_added(item)
+      setModalDeleteProductShow(true)
+
+  }
+
+
+  useEffect(()=>{
+        fetchCategories()
+        setShowEffect(false)
+    },[])
 
   useEffect(()=>{
     if(showEffect){
@@ -73,8 +114,8 @@ useEffect(()=>{
   },[showEffect])
   
   const setValues = () =>{
-setShowEffect(true)
-setModalShow(true)
+      setShowEffect(true)
+      setModalShow(true)
 
   }
   return (
@@ -91,12 +132,12 @@ setModalShow(true)
           </Button>
       </div>
       <ModalAddProduct show={modalShow} onHide={() => setModalShow(false)} />
-{productList.map((item)=>{
+{productList.map((item,index)=>{
   return(
     <article key={item.id}>
     <ModalEditProduct show={modalEditProductShow}onHide={() => setModalEditProductShow(false)}
   />
-      <ModalDeleteProduct show={modalDeleteProductShow} onHide={() => setModalDeleteProductShow(false)} />
+     
   
 
       <br />
@@ -126,12 +167,19 @@ setModalShow(true)
               {item.details.slice(0, 90)}...
             </p>
             <p className='rating'>
-              <Rating />
-              &nbsp; &nbsp; 2.0 &nbsp; | &nbsp; <a  style={{color:'#0d6efd'}} href="#!"  onClick={() => setModalDeleteProductShow(true)}> 48 ratings </a>
+               <Box component='fieldset' mb={0.5} borderColor='transparent'>
+                      <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)} readOnly />
+              </Box>
+              &nbsp; &nbsp;{item.reviews.rating}&nbsp; | &nbsp; <a  href="#!"  onClick={() => addCurrentItem(item)}> {item.reviews.length}&nbsp;ratings </a>
+              
             </p>
             <div className='pricedate'>
-
-            <p> ₹ {item.price}</p>
+            <ModalDeleteProduct item={item} show={modalDeleteProductShow} onHide={() => setModalDeleteProductShow(false)} />
+            <h6  style={{fontSize:'0.9rem'}}>₹ {item.price}</h6>
+            {item.in_stock?
+            <a  href="#!" onClick={()=>setStockValue(false, item.id)} className='instock' style={{fontSize:'0.8rem'}}> In stock</a>:
+            <a  href="#!" onClick={()=>setStockValue(true,item.id)} className='instock' style={{fontSize:'0.8rem'}}> Out of stock</a>
+            }
             <h6 style={{fontSize:'0.8rem'}}> Created on: {item.get_created_at}</h6>
             </div>
           </div>
@@ -147,6 +195,23 @@ setModalShow(true)
 
 
 const Wrapper = styled.article`
+
+
+a{
+  color:#1098F7;
+}
+a:hover {
+    color: #ffc232;
+  }
+
+
+
+.instock{
+  color:#1098F7;
+}
+.instock:hover {
+    color: #ffc232;
+  }
 
   button {
     float: right;
@@ -258,11 +323,12 @@ const Wrapper = styled.article`
        return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
-          user: state.auth.user}
+    user: state.auth.user,
+    currentItem: state.auth.currentItem}
 }
 
   
 
 
-export default connect(mapStateToProps, {})(MyProducts)
+export default connect(mapStateToProps, {current_item_added})(MyProducts)
 
