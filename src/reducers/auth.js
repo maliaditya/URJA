@@ -18,29 +18,79 @@ import {
     FACEBOOK_AUTH_SUCCESS,
     FACEBOOK_AUTH_FAIL,
     LOGOUT,
-
+    ITEM_ADDED_TO_RECENTLY_VIEWED_SUCCESS,
+    ITEM_ADDED_TO_RECENTLY_VIEWED_FAIL, 
     CURRENT_ITEM_ADDED_FAIL,
-    CURRENT_ITEM_ADDED_SUCCESS 
+    CURRENT_ITEM_ADDED_SUCCESS,
+    ITEM_SEARCH_SUCCESS,
+    ITEM_SEARCH_FAIL, 
+    ITEM_SEARCH_CLEAR
 } from '../actions/types';
 
 const initialState = {
     access: localStorage.getItem('access'),
     refresh: localStorage.getItem('refresh'),
     isAuthenticated: null,
-    user: null,
-    currentItem: null
+    user: localStorage.getItem('user'),
+    currentItem: localStorage.getItem('currentItem'),
+    recentlyViewed: [],
+    itemSearchedResult:[]
+    
 };
 
 export default function foo(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type) {
+         case ITEM_SEARCH_CLEAR:
+            return{
+                ...state,
+                itemSearchedResult:[]
+            }
+         case ITEM_SEARCH_SUCCESS:
+            return{
+                ...state,
+                itemSearchedResult:[...state.itemSearchedResult,payload]
+            }
+        case ITEM_SEARCH_FAIL :
+            return {
+                ...state,
+            }
+
+        case ITEM_ADDED_TO_RECENTLY_VIEWED_FAIL:
+            return{
+                ...state,
+            }
+        case ITEM_ADDED_TO_RECENTLY_VIEWED_SUCCESS :
+             
+                const uniqueObjects = []; 
+                        
+                const uniqueItems = []; 
+                        if(state.recentlyViewed !== null){
+
+                            state.recentlyViewed.map((item)=>{
+                                
+                                if(!uniqueItems.includes(item.id)){
+                                    uniqueItems.push(item.id)
+                                    uniqueObjects.push(item)
+                                }
+                                return 0
+                            })
+
+                }
+
+            return {
+                ...state,
+                recentlyViewed: [...uniqueObjects, payload]
+
+            }
         case CURRENT_ITEM_ADDED_FAIL:
             return{
                 ...state,
                 currentItem: payload
             }
         case CURRENT_ITEM_ADDED_SUCCESS :
+            localStorage.setItem("currentItem", JSON.stringify(payload));
             return {
                 ...state,
                 currentItem: payload
@@ -67,6 +117,8 @@ export default function foo(state = initialState, action) {
                 isAuthenticated: false
             }
         case USER_LOADED_SUCCESS:
+            localStorage.setItem("user", JSON.stringify(payload));
+
             return {
                 ...state,
                 user: payload

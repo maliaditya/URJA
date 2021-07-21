@@ -34,7 +34,7 @@ const BestSellerCarousal = ({access, current_item_added}) => {
   const fetchTrending = async () => {
       const config = {headers: {
             'content-type': 'appliation/json',
-            'Authorization': `Bearer ${access}`
+            // 'Authorization': `Bearer ${access}`
           }}
       await axios.get(`${api}/api/product_enquires/`,
                       config
@@ -84,9 +84,10 @@ const BestSellerCarousal = ({access, current_item_added}) => {
             return(
 
             <article>
-              <Link to='' >
+              <Link to='/product'  >
                 <img alt='best seller'
                   src={item.product.front_image}
+                  onClick={()=>current_item_added(item.product)}
                   />
               </Link>
               <p style={{fontSize:'1.1rem', color:'black',fontWeight:700,marginLeft:'1.5rem'}}>{item.product.name}</p>

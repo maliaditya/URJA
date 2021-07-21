@@ -1,7 +1,71 @@
 import React from 'react'
 import styled from 'styled-components'
+// import SidebarAll from './SidebarAll'
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { current_item_added,itemSearched,itemSearchedClear } from '../actions/auth'
+import { Redirect } from 'react-router-dom'
 
-const Banner = () => {
+const api = process.env.REACT_APP_API_URL
+
+class Banner extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+            searchItem: '',
+            setSearchResultItems:[]
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  fetchSearchResults=async (keyword)=>{
+    console.log()
+
+
+      const config = {headers: {
+        'content-type': 'appliation/json',
+            'Authorization': `Bearer ${this.props.access}`
+          }}
+          await axios.get(`${api}/api/products/?name=${keyword}`,
+                      config
+                      ).then(res=>{
+                        console.log('data',res.data);
+                        this.setState({setSearchResultItems:res.data})
+                        res.data.map((item)=>{
+                           console.log('itemdata',item);
+                          return this.props.itemSearched(item)
+                        })
+                        if(this.props.itemSearchedResult.length === 0){
+                                return alert('No search results found')
+                          }
+                       console.log('setSearcasdhResultItems',this.state.setSearchResultItems);
+                        
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+                      
+ 
+  
+
+}
+
+    handleChange(event) {
+      this.setState({[event.target.name]: event.target.value});
+    }
+  
+    handleSubmit(event) {
+      event.preventDefault()
+     this.fetchSearchResults(this.state.searchItem)
+    }
+
+
+
+render(){
+if(this.props.itemSearchedResult.length !== 0){
+  return <Redirect to='/categories'></Redirect>
+}
+
   return (
     <Wrapper className='content'>
       <center>
@@ -12,7 +76,8 @@ const Banner = () => {
           </p>
         </div>
         <div className='search-container sb-example-3'>
-          <div className='search__container '>
+          <form  onSubmit={this.handleSubmit} className='search__container '>
+            {/* <SidebarAll/> */}
             <button className='btn btn-warning'>
               {' '}
               All{' '}
@@ -23,25 +88,31 @@ const Banner = () => {
                 fill='currentColor'
                 class='bi bi-chevron-down'
                 viewBox='0 0 16 16'
-              >
+                >
                 <path
                   fill-rule='evenodd'
                   d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
-                />
+                  />
               </svg>
             </button>
             <span> &nbsp; &nbsp; </span>
 
-            <input className='search__input' type='text' placeholder='Search' />
-          </div>
+            <input onChange={(e)=>this.handleChange(e)} 
+            className='search__input ' 
+            name='searchItem' value ={this.state.searchItem} 
+            type='text' placeholder='Search' />
+            
+          </form>
         </div>
       </center>
     </Wrapper>
   )
 }
+}
+
 
 const Wrapper = styled.article`
-  padding-bottom: 8rem;
+padding-bottom: 8rem;
 
   input {
     height: 2.7rem;
@@ -151,4 +222,21 @@ const Wrapper = styled.article`
   }
 `
 
-export default Banner
+
+
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    itemSearchedResult:state.auth.itemSearchedResult
+  }
+}
+  
+
+export default connect(mapStateToProps, {current_item_added,itemSearched,itemSearchedClear})(Banner)
+
+
+

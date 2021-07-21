@@ -1,9 +1,64 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
+import { connect } from 'react-redux'
 
-const NewsLetter = () => {
-  return (
-    <Newscont>
+const api = process.env.REACT_APP_API_URL
+const NewsLetter = ({user,access}) => {
+  user = JSON.parse(localStorage.getItem("user") || "[]");
+  const [formData, setFormData] = React.useState({
+    email: "",
+})
+
+const onChange=(e)=>{
+  setFormData({
+    email:e.target.value
+  })
+  
+}
+
+const onSubmit=(e)=>{
+  e.preventDefault()
+  postEmaiToNewsletter()
+  setFormData({
+    email:""
+  })
+}
+
+  const postEmaiToNewsletter=async()=>{
+    const config = {headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bearer ${access}`,
+              }}
+          const body = {
+            
+            "email":formData.email,
+            "user":user.id
+          } 
+            
+          console.log("newsletter",body)
+          await axios.post(
+            `${api}/api/news_letter/`,
+            body,
+            config 
+            ).then((res)=>{
+              console.log('Suscribed Successfully',res)
+               alert('Suscribed Successfully')
+      
+            }).catch((err)=>{
+              console.log(err)
+                alert(err,'Please try again later')
+
+            })
+          
+
+
+  }
+  if(user.newsletter_details.length===0){
+    
+    
+    return (
+      <Newscont>
       <hr />
       <center>
         <p className='ttag'>
@@ -12,31 +67,36 @@ const NewsLetter = () => {
         </p>
       </center>
       <center>
-        <div className='input-group rounded container'>
+        <form onSubmit={(e)=>onSubmit(e)} className='input-group rounded container'>
           <input
-            type='search'
+            type='email'
             className='form-control rounded'
             placeholder='Enter your email address'
             aria-label='Search'
             aria-describedby='search-addon'
+            onChange={(e)=>onChange(e)}
+            value={formData.email}
+            required
           />
           <span> &nbsp; &nbsp; </span>
           <button className='btn btn-warning'>Suscribe</button>
-        </div>
+        </form>
       </center>
     </Newscont>
   )
+}
+return<p></p>
 }
 
 const Newscont = styled.section`
 overflow:hidden;
 
-  input {
-    height: 2.7rem;
-  }
+input {
+  height: 2.7rem;
+}
 
-  .ttag {
-    margin-top: 5rem;
+.ttag {
+  margin-top: 5rem;
     font-size: 0.72rem;
     color: black;
     font-weight: 700;
@@ -86,4 +146,18 @@ overflow:hidden;
 
 `
 
-export default NewsLetter
+
+const mapStateToProps=(state)=>{
+ 
+
+  return{
+    access:state.auth.access,
+    user:state.auth.user,
+  }
+}
+
+
+export default connect(mapStateToProps,{})(NewsLetter)
+
+
+

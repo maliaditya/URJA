@@ -17,11 +17,11 @@ const TrendingCarousal = ({access, current_item_added}) => {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 1600 },
-      items: 7,
+      items: 5,
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
-      items: 6,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1300, min: 720 },
@@ -36,7 +36,7 @@ const TrendingCarousal = ({access, current_item_added}) => {
    const fetchTrending = async () => {
       const config = {headers: {
             'content-type': 'appliation/json',
-            'Authorization': `Bearer ${access}`
+            // 'Authorization': `Bearer ${access}`
           }}
       await axios.get(`${api}/api/favourites/`,
                       config
@@ -117,8 +117,8 @@ const Wrapper = styled.div`
     -webkit-box-shadow: 0 6px 12px -13px black;
     -moz-box-shadow: 0 6px 12px -13px black;
     box-shadow: 0 6px 12px -13px black;
-    width: 163px;
-    height: 163px;
+    width: 193px;
+    height: 193px;
     display: block;
     border-radius: 0.5rem;
   }

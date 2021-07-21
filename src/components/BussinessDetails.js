@@ -1,24 +1,102 @@
 import React from 'react'
+import axios from 'axios'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 // import CreateProduct from './CreateProduct'
+const api = process.env.REACT_APP_API_URL
 
-const BussinessDetails = () => {
-  return (
+class BussinessDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+            company_name: '',
+            user: props.user.id,
+            company_details: '',
+            address_line1: '',
+            address_line2: '',
+            city: '',
+            state: '',
+            pin_code: null,
+            leading_seller: false,
+            verified_seller: false
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  postBussinessDetails=async()=>{
+    const body = {
+      'company_name':this.state.company_name,
+      'user':this.props.user.id,
+      'company_details':this.state.company_details,
+      'address_line1':this.state.address_line1,
+      'address_line2':this.state.address_line2,
+      'city':this.state.city,
+      'state':this.state.state,
+      'pin_code':this.state.pin_code,
+      'leading_seller,':this.state.leading_seller,
+      'verified_seller': this.state.verified_seller
+    }
+    
+    
+    const config = {headers: {
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.props.access}`,
+    }}
+    await axios.post(`${api}/api/company/`,
+            body,
+            config).then(res=>{
+      alert('Company Details are registerd successfully! ')
+
+      console.log(res)
+    }).catch(err=>{
+      alert('Unable to save the details please try again ! ')
+      console.log(err)
+    })
+  }
+  
+    handleChange(event) {
+      this.setState({[event.target.name]: event.target.value});
+    }
+  
+    handleSubmit(event) {
+      console.log(this.state)
+      
+      event.preventDefault()
+      this.postBussinessDetails()
+        this.setState({
+            company_name: '',
+            user: '',
+            company_details: '',
+            address_line1: '',
+            address_line2: '',
+            city: '',
+            state: '',
+            pin_code: '',
+            leading_seller: '',
+            verified_seller: ''
+         })
+    }
+  
+  
+  render() {
+    return (
     <Wrapper className='container'>
       <p>Bussiness Details</p>
       <div className='formcontent'>
-        <form action=''>
+        <form onSubmit={this.handleSubmit}>
           <div className='password'>
             <label for='First Name1' class='form-label'>
               Company/Bussiness/Shop Name
             </label>
-            <input
-              type='email'
-              class='form-control'
-              id='exampleInputEmail1'
-              placeholder='Company/Bussiness/Shop Name'
-              aria-describedby='emailHelp'
-            ></input>
+            <input 
+            type="text"
+             class="form-control"
+              placeholder='Product name'
+               name='company_name' 
+               value={this.state.company_name} 
+                 required
+              onChange={this.handleChange}/>
+            
           </div>
 
           <div className='password'>
@@ -26,23 +104,41 @@ const BussinessDetails = () => {
               Company Details
             </label>
             <input
-              type='email'
+              type='text'
               class='form-control'
-              id='exampleInputEmail1'
               placeholder='Company Details'
-              aria-describedby='emailHelp'
+              name='company_details'
+                  aria-describedby='emailHelp'
+              value={this.state.company_details}
+              required
+               onChange={this.handleChange}
             ></input>
           </div>
           <div className='password'>
             <label for='First Name1' class='form-label'>
-              Street Address
+              Address Line 1
             </label>
             <input
-              type='email'
+              type='text'
               class='form-control'
-              id='exampleInputEmail1'
               placeholder='Please Enter Your Street Address'
-              aria-describedby='emailHelp'
+              name='address_line1'
+              value={this.state.address_line1}
+              required
+              onChange={this.handleChange}
+            ></input>
+          </div>
+           <div className='password'>
+            <label for='First Name1' class='form-label'>
+              Address Line 2
+            </label>
+            <input
+              type='text'
+              class='form-control'
+              placeholder='Please Enter Your Street Address'
+              name='address_line2'
+              value={this.state.address_line2}
+              onChange={this.handleChange}
             ></input>
           </div>
           <label for='First Name1' class='form-label'>
@@ -53,19 +149,23 @@ const BussinessDetails = () => {
           </label>
           <div className='name'>
             <input
-              type='email'
+              type='text'
               class='form-control'
-              id='exampleInputEmail1'
               placeholder='Eg.Satara'
-              aria-describedby='emailHelp'
+              name='city'
+              value={this.state.city}
+              required
+               onChange={this.handleChange}
             ></input>
 
             <input
-              type='email'
+              type='text'
               class='form-control'
-              id='exampleInputEmail1'
               placeholder='Eg. Maharashtra'
-              aria-describedby='emailHelp'
+              name='state'
+              value={this.state.state}
+              required
+                onChange={this.handleChange}
             ></input>
           </div>
           <label for='First Name1' class='form-label'>
@@ -73,19 +173,22 @@ const BussinessDetails = () => {
           </label>
           <div className='name'>
             <input
-              type='email'
+              type='text'
               class='form-control'
-              id='exampleInputEmail1'
               placeholder='6 digit Code  '
-              aria-describedby='emailHelp'
+               name='pin_code'
+              value={this.state.pin_code}
+              required
+               onChange={this.handleChange}
             ></input>
           </div>
 
-          <button className='btn btn-warning'>Submit</button>
+          <button type='submit' className='btn btn-warning'>Submit</button>
         </form>
       </div>
     </Wrapper>
   )
+}
 }
 
 const Wrapper = styled.section`
@@ -218,4 +321,13 @@ const Wrapper = styled.section`
   }
 `
 
-export default BussinessDetails
+
+const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem}
+}
+
+export default connect(mapStateToProps, {})(BussinessDetails)

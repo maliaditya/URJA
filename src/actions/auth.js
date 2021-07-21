@@ -19,11 +19,63 @@ import {
     FACEBOOK_AUTH_SUCCESS,
     FACEBOOK_AUTH_FAIL,
     LOGOUT,
-
     CURRENT_ITEM_ADDED_FAIL,
-    CURRENT_ITEM_ADDED_SUCCESS 
+    CURRENT_ITEM_ADDED_SUCCESS,
+    ITEM_ADDED_TO_RECENTLY_VIEWED_SUCCESS,
+    ITEM_ADDED_TO_RECENTLY_VIEWED_FAIL, 
+    ITEM_SEARCH_SUCCESS,
+    ITEM_SEARCH_FAIL,
+    ITEM_SEARCH_CLEAR
+
 } from './types';
 const api = process.env.REACT_APP_API_URL
+
+export const itemSearchedClear = () => async dispatch => {
+    
+
+            dispatch({
+                type: ITEM_SEARCH_CLEAR,
+                payload: []
+            });
+
+  
+};
+
+
+export const itemSearched = (current_item) => async dispatch => {
+    console.log('current_item',current_item)
+    
+    if (current_item !== null) {
+            dispatch({
+                type: ITEM_SEARCH_SUCCESS,
+                payload: current_item
+            });
+
+    } else {
+
+        dispatch({
+            type: ITEM_SEARCH_FAIL
+        });
+    }
+};
+
+
+
+export const itemAddedToRecentlyViewed = (current_item) => async dispatch => {
+    if (current_item !== null) {
+            dispatch({
+                type: ITEM_ADDED_TO_RECENTLY_VIEWED_SUCCESS,
+                payload: current_item
+            });
+
+    } else {
+
+        dispatch({
+            type: ITEM_ADDED_TO_RECENTLY_VIEWED_FAIL
+        });
+    }
+};
+
 
 
 
@@ -204,14 +256,22 @@ export const login = (email, password) => async dispatch => {
     }
 };
 
-export const signup = (first_name, last_name,phone, email, password, re_password) => async dispatch => {
+export const signup = (first_name, last_name,phone, email, password, re_password,address_line1,
+address_line2,
+city,
+state,
+pin_code) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     };
 
-    const body = JSON.stringify({ first_name, last_name,phone, email, password, re_password });
+    const body = JSON.stringify({ first_name, last_name,phone, email, password, re_password,address_line1,
+address_line2,
+city,
+state,
+pin_code });
 
     try {
         const res = await axios.post(`${api}/auth/users/`, body, config);

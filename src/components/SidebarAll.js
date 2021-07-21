@@ -46,7 +46,17 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
+        {/* <DataGrid
+  columns={[{ field: 'username' }, { field: 'age' }]}
+  rows={[
+    {
+      id: 1,
+      username: '@MaterialUI',
+      age: 20,
+    },
+  ]}
+/> */}
+      {/* <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
@@ -62,7 +72,7 @@ export default function TemporaryDrawer() {
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </div>
   );
 

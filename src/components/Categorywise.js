@@ -1,20 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
+// import { itemSearchedAction } from '../actions/auth'
 import ProductResult from './ProductsResult'
-const Categorywise = () => {
+import { connect } from 'react-redux'
+import {current_item_added} from '../actions/auth'
+const Categorywise = ({current_item_added}) => {
   return (
     <Wrapper className='content'>
       <div className='col-md-12 row'>
-        <div class='sidenav col-md-4'>
+        {/* <div class='sidenav col-md-4'>
           <p>sidebar</p>
-        </div>
+        </div> */}
         <div class=' col-md-8'>
-          <ProductResult />
-          <ProductResult />
-          <ProductResult />
-          <ProductResult />
-          <ProductResult />
-          <ProductResult />
           <ProductResult />
         </div>
       </div>
@@ -66,4 +63,20 @@ const Wrapper = styled.section`
     }
   }
 `
-export default Categorywise
+
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    itemSearchedResult:state.auth.itemSearchedResult
+  }
+}
+
+  
+
+
+export default connect(mapStateToProps, {current_item_added})(Categorywise)
+

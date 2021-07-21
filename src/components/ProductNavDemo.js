@@ -17,6 +17,10 @@ import {FiLogOut} from 'react-icons/fi'
 // import logo from '../assets/urja.svg'
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
+import axios from 'axios'
+import { connect } from 'react-redux'
+import { current_item_added,itemSearched,itemSearchedClear } from '../actions/auth'
+const api = process.env.REACT_APP_API_URL
  
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -62,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '20ch',
+      width: '60ch',
     },
   },
   sectionDesktop: {
@@ -79,11 +83,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar({logout}) {
+function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+  const [search, setSearch] = React.useState();
+  const [searchResultItems, setSearchResultItems] = React.useState([]);
+
+  const onChange = (e) =>setSearch(e.target.value)
+
+  const fetchSearched = async () => {
+      const config = {headers: {
+            'content-type': 'appliation/json',
+            'Authorization': `Bearer ${access}`
+          }}
+      await axios.get(`${api}/api/products/?name=${search}`,
+                      config
+                      ).then(res=>{
+                        console.log(res);
+                        setSearchResultItems(res.data)
+                        searchResultItems.map((item)=>{
+                          return itemSearched(item)
+                        })
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+  }
+
+  
+
+  const setSearctValues= ()=>{
+      itemSearchedClear()
+        fetchSearched()
+  }
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -146,7 +179,7 @@ export default function PrimarySearchAppBar({logout}) {
             </IconButton>
              <IconButton>
                   <Link to='account'>
-                <RiAccountCircleLine style={{color:'black'}}  size={30}/>
+                      <RiAccountCircleLine style={{color:'black'}}  size={30}/>
                   </Link>
             </IconButton>
                <IconButton>
@@ -160,35 +193,46 @@ export default function PrimarySearchAppBar({logout}) {
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar style={{backgroundColor:'white',color:'black'}} position="static">
+    <div  className={classes.grow}>
+      <AppBar  style={{backgroundColor:'white',color:'black'}} position="static">
       
-        <Toolbar>
+        <Toolbar >
            <Typography className={classes.title} variant="h6" noWrap>
           </Typography>
           <Wrapper>
 
            <Button variant="warning">&nbsp;&nbsp;All&nbsp;&nbsp;</Button>
           </Wrapper>
-          <div className={classes.search}>
+
+
+          <form className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
             <InputBase
               placeholder="Search…"
+              name='search'
+              value={search}
+              onChange={(e) => onChange(e)}
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+              
+              />
+              <Link to='/categories'>
+                 <Button    onClick={()=>setSearctValues()} type='submit' variant="secondary">Search</Button>
+              </Link>
+          </form>
+              
+ 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
 
             <IconButton aria-label="show 4 new mails" color="inherit">
              <Link to='/'>
-                <AiOutlineHome style={{color:'black'}} size={30} />
+                <AiOutlineHome onClick={()=>itemSearchedClear()}style={{color:'black'}} size={30} />
              </Link>
             </IconButton>
             <IconButton aria-label="show 17 new notifications" color="inherit">
@@ -231,6 +275,23 @@ export default function PrimarySearchAppBar({logout}) {
     </div>
   );
 }
+
+
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem}
+}
+  
+
+export default connect(mapStateToProps, {current_item_added,itemSearched,itemSearchedClear})(PrimarySearchAppBar)
+
+
+
+
 
 const Wrapper = styled.section`
 @media(min-width:1200px){

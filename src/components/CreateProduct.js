@@ -110,6 +110,16 @@ class CreateProduct extends Component {
           console.log(err)
           alert(err)
         })
+
+    this.setState({
+              name:'',
+              details:'',
+              price:'',
+              front_image:'',
+              back_image:'',
+              category:'',
+              product_type:''
+    })
   };
 
   render() {

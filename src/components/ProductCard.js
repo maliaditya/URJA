@@ -12,7 +12,7 @@ const ProductCard = ({user,current_item_added}) => {
 console.log('useruser',user)
 
   return (
-    <Link to='/product'>
+    <Link to='/product'  >
       <br />
       <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
         My Favourites
@@ -154,9 +154,13 @@ const Wrapper = styled.a`
   }
 `
 const mapStateToProps=(state)=>{
+ 
+ const  user = JSON.parse(localStorage.getItem("user") || "[]")
+
   return{
     access:state.auth.access,
-    user:state.auth.user.user_favourites
+
+    user:user.user_favourites
   }
 }
 

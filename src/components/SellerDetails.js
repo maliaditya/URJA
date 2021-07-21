@@ -1,165 +1,70 @@
-
 import React from 'react'
-import ImageGallery from 'react-image-gallery'
-import 'react-image-gallery/styles/css/image-gallery.css'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-// import {checkAuthenticated, load_user} from '../actions/auth'
 import Rating from '@material-ui/lab/Rating'
 import Box from '@material-ui/core/Box'
 import axios from 'axios'
-import ModalSuccess from './ModalSuccess'
-import ModalSellerInfo from './ModalSellerInfo'
-import { itemAddedToRecentlyViewed } from '../actions/auth'
 
 const api = process.env.REACT_APP_API_URL
-const Productdetailinfo = ({isAuthenticated,currentItem,user,access,itemAddedToRecentlyViewed}) => {
-  
+const SellerDetails = ({currentItem,user,access}) => {
+
   currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]");
   user = JSON.parse(localStorage.getItem("user") || "[]");
-console.log('isAuthenticated',currentItem)
 
-  const [modalModalSuccess, setModalSuccess] = React.useState(false)
-  const [modalModalSellerInfo, setModalSellerInfo] = React.useState(false)
-
-  const [companyDetails, setCompanyDetails] = React.useState([])
-   const images = [
-    {
-      original:currentItem.front_image,
-      thumbnail:currentItem.front_image,
-
-      thumbnailWidth: 60,
-    },  
-    {
-       original:currentItem.back_image,
-      thumbnail:currentItem.back_image,
-
-      thumbnailWidth: 60,
-    },
-   
-  ]
-
-  
-
-
-  const [formData, setFormData] = React.useState({
-    amount: '',
-    unit: '',
-  })
- const onChange = (e) =>
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-
-  const {amount, unit} = formData
-   
-  const sendEnquiry = async(amount, unit) =>{
-    console.log(amount,unit)
-    const config = {headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${access}`,
-                'Accept':'application/json'
-              }}
+  const [companyDetails, setCompanyDetails] = React.useState({})
+  const [userDetails, setUserDetails] = React.useState({})
+  console.log(userDetails)
     
-    const body = {
-          "user": companyDetails.user,
-          "product": currentItem.id,
-          "customer_name":  `${user.first_name} ${user.last_name}`,
-          "phone_number":  user.phone,
-          "email": user.email,
-          "product_name":currentItem.name,
-          "enquiry_for": `${amount}/${unit}`,
-          "paid": false
-    } 
-
-    await axios.post(`${api}/api/product_enquires/`,
-                      body,
-                      config
-                      ).then(res=>{
-
-                        console.log("success!!!!!",res);
-                            setModalSuccess(true)
-                      }).catch(err=>{
-                        console.log(err);
-                        alert('Request Fail, Please Try again later!')
-                      })
-                      
-  }
-const onSubmit = (e) => {
-    e.preventDefault()
-    sendEnquiry(amount, unit)
-
-  }
-  const fetchCompanyDetails = async() =>{
 
     const config = {headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${access}`,
                 'Accept':'application/json'
               }}
+
+
+   const fetchCompanyDetails = async() =>{
+
+   
     await axios.get(`${api}/api/company/${currentItem.company}/`,
                       config
                       ).then(res=>{
-                        console.log(res);
+                        console.log(res.data);
                         setCompanyDetails(res.data)
                       }).catch(err=>{
                         console.log(err);
                       })
+     
   }
+
+    const fetchUserDetails=async()=>{
+        await axios.get(`${api}/api/account/${companyDetails.user}/`, config
+        ).then(res=>{
+            console.log(res.data);
+            setUserDetails(res.data)
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
+    
   React.useEffect(()=>{
     fetchCompanyDetails()
-    itemAddedToRecentlyViewed(currentItem)
+
+ 
   },[])
 
+   
+  React.useEffect(()=>{
+    if(companyDetails.user!==undefined){
+      fetchUserDetails()
+  }
+ 
+  },[])
+  
+      console.log('userDetails',companyDetails.user)
 
-
-return (
-    <Wrapper className='content'>
-       <ModalSuccess 
-                             show={modalModalSuccess}
-                             onHide={() => setModalSuccess(false)}
-                           />
-      <ModalSellerInfo show={modalModalSellerInfo}
-                             onHide={() => setModalSellerInfo(false)} />
-      <div className='col-md-12 row'>
-        <div className='col-md-6 imagebanner  '>
-          <ImageGallery
-            className='gallery'
-            items={images}
-            showPlayButton={false}
-            showNav={false}
-            thumbnailPosition='left'
-            lazyLoad={true}
-          />
-        </div>
-        <div className='col-md-6 info '>
-          <div className='pinfodetail'>
-            <p className='phead'>{companyDetails.company_name} </p>
-            <p className='pname'>{currentItem.name}</p>
-            <p className='pinfo '>
-             {currentItem.details.slice(0,200)}...
-              <br />
-              <Link to=''>View more</Link>
-            </p>
-            <p className='rating'>
-              <Box component='fieldset' mb={0.5} borderColor='transparent'>
-                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)} readOnly />
-              </Box>
-              &nbsp; &nbsp; 0.0 &nbsp; | &nbsp; 0 ratings
-            </p>
-            <p className='price'>
-              ₹  {currentItem.price}&nbsp;{' '}
-              <Link to='' className='glp' href=''>
-                {' '}
-                Get Latest Price
-              </Link>
-            </p>
-            <hr />
-          </div>
-{isAuthenticated?
-          <center>
+    return (
+        <div>
+             <center>
             <div className=' companyinfo'>
               <p className='pheadinfo'>{companyDetails.company_name} </p>
               <p>
@@ -175,14 +80,14 @@ return (
                     clip-rule='evenodd'
                     d='M18.4815 13.2243C19.0635 12.0496 19.3887 10.7388 19.3887 9.3564C19.3887 4.30715 15.0514 0.213928 9.70117 0.213928C4.35091 0.213928 0.0136719 4.30715 0.0136719 9.3564C0.0136719 10.7388 0.338799 12.0496 0.920828 13.2243H0.881399L1.08949 13.5479C1.29321 13.9199 1.52321 14.2771 1.77716 14.6171L9.70126 26.938L17.6264 14.6155C17.8795 14.2765 18.1087 13.9205 18.3119 13.5497L18.5211 13.2243H18.4815Z'
                     fill='#C4C4C4'
-                    />
+                  />
                   <ellipse
                     cx='10.0352'
                     cy='9.27952'
                     rx='5.01078'
                     ry='4.71409'
                     fill='white'
-                    />
+                  />
                 </svg>
                 &nbsp; {companyDetails.get_full_address}
               </p>
@@ -198,17 +103,17 @@ return (
                   viewBox='0 0 24 22'
                   fill='none'
                   xmlns='http://www.w3.org/2000/svg'
-                  >
+                >
                   <path
                     d='M11.5137 11.8583C5.17274 11.8583 0.0136719 15.9162 0.0136719 20.9036C0.0136719 21.2876 0.410006 21.5994 0.898313 21.5994C1.38662 21.5994 1.78295 21.2876 1.78295 20.9035C1.78295 16.6829 6.14761 13.2499 11.5137 13.2499C16.8797 13.2499 21.2444 16.6829 21.2444 20.9035C21.2444 21.2876 21.6407 21.5993 22.129 21.5993C22.6173 21.5993 23.0137 21.2876 23.0137 20.9035C23.0137 15.9162 17.8546 11.8583 11.5137 11.8583Z'
                     fill='#2D2C2C'
-                    />
+                  />
                   <path
                     d='M10.9243 0.72583C7.50967 0.72583 4.73193 2.91056 4.73193 5.59631C4.73193 8.28207 7.50959 10.4668 10.9243 10.4668C14.3389 10.4668 17.1166 8.282 17.1166 5.59631C17.1166 2.91062 14.3389 0.72583 10.9243 0.72583ZM10.9243 9.07519C8.48629 9.07519 6.50122 7.51386 6.50122 5.59631C6.50122 3.67877 8.48629 2.11743 10.9243 2.11743C13.3622 2.11743 15.3473 3.67877 15.3473 5.59631C15.3473 7.51386 13.3623 9.07519 10.9243 9.07519Z'
                     fill='#2D2C2C'
-                    />
+                  />
                 </svg>{' '}
-                &nbsp; {user.first_name} {user.last_name}
+                {/* &nbsp; {companyDetails.user.get_full_name} */}
               </p>
               <p>
                 {companyDetails.leading_seller?<React.Fragment>
@@ -322,7 +227,7 @@ return (
                   <path
                     d='M14.7378 17.3231L15.0967 17.9459C15.314 17.8205 15.5247 17.684 15.7279 17.5367L15.3061 16.9548C15.1232 17.0874 14.9335 17.2103 14.7378 17.3231Z'
                     fill='black'
-                    />
+                  />
                   <path
                     d='M7.91016 17.9342C8.12714 18.0601 8.35056 18.1746 8.57949 18.2772L8.87324 17.6213C8.66723 17.529 8.4662 17.426 8.27097 17.3127L7.91016 17.9342Z'
                     fill='black'
@@ -378,7 +283,7 @@ return (
                   <path
                     d='M17.2637 11.7139C17.2637 10.5766 16.9264 9.46492 16.2946 8.51934C15.6628 7.57376 14.7648 6.83677 13.7141 6.40156C12.6634 5.96636 11.5073 5.85249 10.3919 6.07435C9.27651 6.29622 8.25196 6.84385 7.44781 7.64801C6.64366 8.45216 6.09602 9.47671 5.87416 10.5921C5.65229 11.7075 5.76616 12.8636 6.20137 13.9143C6.63657 14.965 7.37356 15.863 8.31915 16.4948C9.26473 17.1266 10.3764 17.4639 11.5137 17.4639C13.0381 17.4621 14.4997 16.8558 15.5776 15.7778C16.6556 14.6999 17.2619 13.2383 17.2637 11.7139ZM11.5137 16.7451C10.5186 16.7451 9.54585 16.45 8.71846 15.8972C7.89108 15.3444 7.24621 14.5586 6.86541 13.6392C6.4846 12.7199 6.38497 11.7083 6.5791 10.7323C6.77323 9.75635 7.25241 8.85987 7.95604 8.15624C8.65968 7.45261 9.55616 6.97343 10.5321 6.77929C11.5081 6.58516 12.5197 6.6848 13.439 7.0656C14.3584 7.4464 15.1442 8.09127 15.697 8.91866C16.2498 9.74604 16.5449 10.7188 16.5449 11.7139C16.5434 13.0478 16.0129 14.3266 15.0696 15.2698C14.1264 16.213 12.8476 16.7436 11.5137 16.7451Z'
                     fill='black'
-                    />
+                  />
                   <path
                     d='M14.7912 9.51401C14.5888 9.31215 14.3147 9.19879 14.0288 9.19879C13.743 9.19879 13.4688 9.31215 13.2665 9.51401L10.0757 12.7048L9.40058 12.0296C9.19838 11.8274 8.92415 11.7139 8.63821 11.7139C8.35227 11.7139 8.07803 11.8274 7.87584 12.0296C7.67365 12.2318 7.56006 12.5061 7.56006 12.792C7.56006 13.0779 7.67365 13.3522 7.87584 13.5544L9.31334 14.9919C9.41345 15.092 9.53231 15.1714 9.66311 15.2256C9.79392 15.2798 9.93412 15.3077 10.0757 15.3077C10.2173 15.3077 10.3575 15.2798 10.4883 15.2256C10.6191 15.1714 10.738 15.092 10.8381 14.9919L14.7912 11.0387C14.8913 10.9386 14.9707 10.8198 15.0249 10.689C15.0791 10.5582 15.107 10.418 15.107 10.2764C15.107 10.1348 15.0791 9.99459 15.0249 9.86379C14.9707 9.73298 14.8913 9.61413 14.7912 9.51401ZM14.2829 10.5305L10.3298 14.4836C10.2624 14.551 10.171 14.5888 10.0757 14.5888C9.98041 14.5888 9.88902 14.551 9.82163 14.4836L8.38413 13.0461C8.31799 12.9784 8.28119 12.8874 8.28173 12.7928C8.28227 12.6982 8.3201 12.6076 8.387 12.5407C8.45391 12.4738 8.54451 12.436 8.63912 12.4355C8.73373 12.435 8.82474 12.4718 8.89238 12.5379L9.82167 13.4671C9.88907 13.5345 9.98047 13.5724 10.0758 13.5724C10.1711 13.5724 10.2625 13.5345 10.3299 13.4671L13.7748 10.0223C13.8079 9.98798 13.8476 9.9606 13.8914 9.94177C13.9353 9.92293 13.9824 9.91302 14.0302 9.9126C14.0779 9.91219 14.1252 9.92128 14.1694 9.93935C14.2135 9.95742 14.2537 9.98411 14.2874 10.0178C14.3211 10.0516 14.3478 10.0917 14.3659 10.1359C14.384 10.18 14.3931 10.2274 14.3926 10.2751C14.3922 10.3228 14.3823 10.37 14.3635 10.4138C14.3446 10.4577 14.3173 10.4973 14.2829 10.5305H14.2829Z'
                     fill='black'
@@ -393,151 +298,13 @@ return (
                 <p></p>
                 }
               </p>
-             
-              <button onClick={()=>setModalSellerInfo(true)} className='btn btn-secondary'>
-                Get Seller Info
-              </button>
+      
             </div>
-            {/* <div className='input-group rounded ' style={{ marginTop: '1rem' }}>
-              <input
-              type='search'
-              className='form-control rounded'
-              placeholder='Enter Zip Code Check'
-                aria-label='Search'
-                aria-describedby='search-addon'
-                />
-                <span> &nbsp; &nbsp; </span>
-                <button className='btn btn-warning'>Check</button>
-              </div> */}
-            <form onSubmit={(e) => onSubmit(e)}>
-              
-            <div className='card'>
-              <div className='card-title'>Tell us how much you need</div>
-              <div className='card-text'>
-                {' '}
-                <div
-                  className='input-group rounded '
-                  style={{ marginBottom: '1rem' }}
-                  >
-                  <input
-                    type='search'
-                    className='form-control rounded'
-                    placeholder='Amount'
-                    aria-label='Search'
-                    aria-describedby='search-addon'
-                    name='amount'
-                    value={amount}
-                    onChange={(e) => onChange(e)}
-                required
-                  />
-                  <span> &nbsp; &nbsp; </span>
-                  <input
-                    type='search'
-                    className='form-control rounded'
-                    placeholder='Enter the unit eg: Kg, g.'
-                    aria-label='Search'
-                    aria-describedby='search-addon'
-                    name='unit'
-                    value={unit}
-                    onChange={(e) => onChange(e)}
-                    required
-                    />{' '}
-                  <br />
-                </div>
-                <button
-                  type='submit'
-                  className='btn btn-warning'
-                  style={{ paddingLeft: '4rem', paddingRight: '4rem' }}>
-                  Send Enquiry
-                </button>
-              </div>
-            </div>
-          </form>
+            
           </center>
-        :<center>
-        <div class="card" >
-        <div class="card-body">
-          <p className='card-title' style={{fontWeight:700}} >Login to view more information.</p>
-        <Link to='/login'>  <button className='btn btn-primary'>Login</button></Link>
-
         </div>
-      </div></center>
-        }
-        </div>
-      </div>
-    </Wrapper>
-  )
+    )
 }
-
-const Wrapper = styled.section`
-.gallery{
-  position:sticky;
-}
-p{
-  margin:1rem;
-}
-.btn-secondary{
- width:10rem
-}
-overflow:hidden;
-.card{
-    width:22rem;
-    padding:1rem;
-    margin-top:2rem;
-}
-.input-group{ 
- 
-width: 19rem;
-}
-.pinfodetail{
-    padding-left:2rem;
-    padding-top:1rem;
-}
-.pheadinfo{
-    font-size:1.5rem;
-    font-weight:700;
-    }
-.companyinfo{
-}
- hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid black;
-    margin-top: 1rem;
-    margin-left: 5rem;
-    margin-right: 7rem;
-    padding: 0;
-  }
-.glp{
-    font-size:1.3rem;
-}
-.price{
-    font-size:2rem;
-}
-    .rating{
-display:flex;
-    }
-    .pinfo{
-        
-    }
-.pname{
-    font-size: 1.7rem;
-    padding:bottom:1.7rem;
-}
-  .phead {
-    font-weight: 700;
-    font-size: 2rem;
-    color: black;
-    padding:bottom:2rem;
-  }
-  mainimg {
-    height: 100rem;
-  }
-  .imagebanner {
-  }
-  
-`
 
  const mapStateToProps = state => {
        return {
@@ -550,5 +317,5 @@ display:flex;
   
 
 
-export default connect(mapStateToProps, {itemAddedToRecentlyViewed})(Productdetailinfo)
+export default connect(mapStateToProps, {})(SellerDetails)
 

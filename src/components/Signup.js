@@ -17,9 +17,19 @@ const Signup = ({ signup,isAuthenticated , props}) => {
     phone: '',
     password: '',
     re_password: '',
+    address_line1:'',
+    address_line2:'',
+    city:'',
+    state:'',
+    pin_code:''
   })
 
-  const {first_name, last_name,email,phone, password,re_password } = formData
+  const {first_name, last_name,email,phone, password,re_password,address_line1,
+address_line2,
+city,
+state,
+pin_code,
+ } = formData
 
   const onChange = (e) =>
     setFormData({
@@ -29,10 +39,18 @@ const Signup = ({ signup,isAuthenticated , props}) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log(first_name, last_name,phone,email, password,re_password)
+    console.log(first_name, last_name,phone,email, password,re_password,address_line1,
+address_line2,
+city,
+state,
+pin_code)
     if(password === re_password){
       setAccountCreated(true)
-        signup(first_name, last_name,phone,email, password,re_password)
+        signup(first_name, last_name,phone,email, password,re_password,address_line1,
+address_line2,
+city,
+state,
+pin_code)
     }
   }
 
@@ -149,10 +167,8 @@ const Signup = ({ signup,isAuthenticated , props}) => {
             <br />
             <button onClick={props.onHide}type='submit'className='btn btn-warning'>Create Account</button>
           </form>
-          <div className='social'>
-            <button className='btn btn-primary'>Facebook</button>
-            <button className='btn btn-danger'>Google</button>
-          </div>
+          <br />
+        <Link to='/login'> Already have an account? Login</Link>
         </div>
       </div>
     </Wrapper>

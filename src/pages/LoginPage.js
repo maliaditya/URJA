@@ -6,8 +6,10 @@ import styled from 'styled-components'
 // import { AiFillFacebook } from 'react-icons/ai'
 import { login } from '../actions/auth'
 import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+
 const LoginPage = ({ login, props,isAuthenticated }) => {
-    const [showPassword, setshowPassword] = useState('password');
+  
+  const [showPassword, setshowPassword] = useState('password');
             
   const [formData, setFormData] = useState({
     email: '',
@@ -75,8 +77,6 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
             :<a className='showpass' href="#!" onClick={()=>{setshowPassword('password')}}>hide password&nbsp;<AiFillEyeInvisible/></a>
             }
 <br />
-           
-        
             <br />
               <button   className='btn btn-primary' type='submit'>
               Login
@@ -84,7 +84,7 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
           </form>
         </div>
         <br />
-
+            <Link to='/'  style={{ fontSize: '1rem' }} >Need Account? </Link>
         <p>
             <Link   style={{ fontSize: '1rem' }} to='reset_password'>Forgot password ? </Link>
         </p>

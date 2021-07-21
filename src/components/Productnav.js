@@ -8,7 +8,7 @@ import Demo from './ProductNavDemo'
 const Productnav = ({ logout}) => {
 
   return (
-  <div>
+  <div >
       {/* <Sidebar />
       <Submenu /> */}
       <Demo logout={logout} ></Demo>

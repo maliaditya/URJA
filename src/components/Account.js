@@ -41,8 +41,6 @@ const Account = ({user}) => {
                 <div className='card '>
                   <div className='card-title'> My Stuff</div>
                   <div className='card-text'>
-                    <button>My Coupons</button>
-                    <br />
                     <button onClick={() => setValue(<MyProducts />)}>
                       My Products
                     </button><br />

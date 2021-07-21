@@ -1,0 +1,9 @@
++ react-scripts@1.1.5
++ 0@0.0.0
+added 4 packages from 8 contributors, removed 2 packages, updated 3 packages and audited 1720 packages in 61.665s
+
+12 packages are looking for funding
+  run `npm fund` for details
+
+found 78 vulnerabilities (33 low, 35 moderate, 10 high)
+  run `npm audit fix` to fix them, or `npm audit` for details

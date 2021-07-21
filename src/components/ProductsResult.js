@@ -3,40 +3,53 @@ import styled from 'styled-components'
 import Rating from './Rating'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {current_item_added,itemSearchedClear} from '../actions/auth'
+const ProductResult=({itemSearchedResult,current_item_added,itemSearchedClear}) => {
+        console.log('itemSearchedResult',itemSearchedResult)
 
-const ProductResult = () => {
+    if(itemSearchedResult.length===0){
+      return <center><h1>No Results Found</h1></center>
+    }
+else{
+
   return (
     <Link to='/product' target='_blank'>
       <Wrapper className='content'>
-        <div className='containercard border'>
+      {itemSearchedResult.map((item)=>{
+        return(
+
+          <div className='containercard border'>
           <img
             alt='result'
             className='containercard__image'
-            src='https://images.unsplash.com/photo-1463154545680-d59320fd685d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=323&q=80'
-          />
+            src={item.front_image}
+            />
           <div className='header'>
             <p className='head-title'>
-              <h5>Agri Hub</h5>
+              <h5>{item.name}</h5>
               <MdFavoriteBorder className='fav' size={25} />
             </p>
             <div className='desc'>
-              <p>Lorem ipsum dolor sit amet,</p>
+              <p>{item.details.slice(0,100)}</p>
               <p className='rating'>
                 <Rating />
                 &nbsp; &nbsp; 2.0 &nbsp; | &nbsp; 48 ratings
               </p>
-              <p> ₹ 80/kg</p>
+              <p> ₹ {item.price}</p>
             </div>
             {/* <button className='btn btn-warning'>Send enquiry </button>
 
 <button className='btn btn-secondary'>View number</button> */}
           </div>
         </div>
+          )})}
       </Wrapper>
     </Link>
   )
 }
 
+}
 const Wrapper = styled.a`
   h5 {
     font-weight: 700;
@@ -120,4 +133,20 @@ const Wrapper = styled.a`
   }
 `
 
-export default ProductResult
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    itemSearchedResult:state.auth.itemSearchedResult
+  }
+}
+
+  
+
+
+export default connect(mapStateToProps, {current_item_added,itemSearchedClear})(ProductResult)
+
+

@@ -10,7 +10,8 @@ import {
   Productdetailinfo,
   Services,
   RecentlyViewedCarousal,
-  SimilarProducts,
+  // SimilarProducts,
+  BestSellerCarousal
 } from '../components'
 
 const SingleProductPage = () => {
@@ -21,7 +22,8 @@ const SingleProductPage = () => {
       <br /><br /><br />
       <Productdetailinfo></Productdetailinfo>
       <Productinfo />
-      <SimilarProducts></SimilarProducts>
+      <BestSellerCarousal />
+      {/* <SimilarProducts></SimilarProducts> */}
       <RecentlyViewedCarousal />
       <Services />
       <Reviews />

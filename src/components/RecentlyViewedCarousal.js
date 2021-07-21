@@ -3,8 +3,9 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-
-const RecentlyViewedCarousal = () => {
+import { connect } from 'react-redux'
+import { current_item_added } from '../actions/auth'
+const RecentlyViewedCarousal = ({recentlyViewed,current_item_added}) => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -24,8 +25,10 @@ const RecentlyViewedCarousal = () => {
       items: 2,
     },
   }
-  return (
-    <Wrapper className='content'>
+ if(recentlyViewed.length!==0){
+
+   return (
+     <Wrapper className='content'>
       <div className='trending'>
         <span class=' underline-right'>
           {' '}
@@ -37,23 +40,31 @@ const RecentlyViewedCarousal = () => {
         <Carousel
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
-        >
-          <article>
-            <Link to=''>
+          >
+          {recentlyViewed.map((item)=>{
+            return(
+
+              <article>
+            <Link to='/product'  >
               <img
-                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+                onclick={()=>current_item_added(item)}
+                src={item.front_image}
                 alt='Club Card'
-              />
+                />
             </Link>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-            <p>&nbsp;&nbsp;Category Name</p>
+            <p className='ptitle'>&nbsp;&nbsp;{item.name}</p>
+            <p>&nbsp;&nbsp;{item.category.category_name}</p>
           </article>
          
+         )})}
         </Carousel>
       </div>
     </Wrapper>
-  )
+  )}else{
+    return <React.Fragment></React.Fragment>
+  }
 }
+
 
 const Wrapper = styled.div`
   .ptitle {
@@ -83,8 +94,8 @@ const Wrapper = styled.div`
     display: inline-block;
   }
   article a img {
-    width: 180px;
-    height: 198px;
+    width: 190px;
+    height: 208px;
     display: block;
     border-radius: 0.5rem;
   }
@@ -206,4 +217,20 @@ const Wrapper = styled.div`
   }
 `
 
-export default RecentlyViewedCarousal
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    recentlyViewed: state.auth.recentlyViewed
+  }
+}
+
+  
+
+
+export default connect(mapStateToProps, {current_item_added})(RecentlyViewedCarousal)
+
+

@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-const Footer = () => {
+import {connect} from 'react-redux'
+const Footer = ({user}) => {
+    user = JSON.parse(localStorage.getItem("user") || "[]");
   return (
     <Wrapper>
       <div class='col-12 content'>
@@ -47,9 +49,12 @@ const Footer = () => {
                   <br />
                   <Link to=''> Programs</Link>
                   <br />
+                  {user.company_details.length===0?
                   <Link to='/selleracc'>
                      Become a member
                   </Link>
+                  : <p></p>
+                }
                 </div>
               </div>
             </div>
@@ -205,4 +210,18 @@ const Wrapper = styled.footer`
   }
 `
 
-export default Footer
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem}
+}
+
+  
+
+
+export default connect(mapStateToProps, {})(Footer)
+
+

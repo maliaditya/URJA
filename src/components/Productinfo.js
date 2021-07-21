@@ -1,18 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-const Productinfo = () => {
+const Productinfo = ({currentItem}) => {
+  currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]");
   return (
     <Reviewwrap className='content'>
       <div className='container'>
         <p className='ttag'>Product Details</p>
         <div className='text'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-          voluptatem deleniti temporibus illo tenetur amet nam est, ratione
-          obcaecati iure cupiditate, numquam quis delectus unde pariatur
-          corrupti. Eligendi eius distinctio molestiae, placeat dignissimos ab,
-          cum aliquam amet eos sequi aperiam accusamus adipisci, mollitia ut
-          fugit quam. Consequuntur soluta aut consectetur!
+          {currentItem.details}
         </div>
       </div>
 
@@ -65,4 +62,19 @@ const Reviewwrap = styled.section`
   }
 `
 
-export default Productinfo
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    itemSearchedResult:state.auth.itemSearchedResult
+  }
+}
+  
+
+export default connect(mapStateToProps, {})(Productinfo)
+
+
+

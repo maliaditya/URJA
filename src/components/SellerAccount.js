@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import BussinessDetails from './BussinessDetails'
 import CreateProduct from './CreateProduct'
 import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
 
-const SellerAccount = () => {
+const SellerAccount = ({user}) => {
   const [value, setValue] = useState(<BussinessDetails />)
 
   return (
@@ -17,7 +18,7 @@ const SellerAccount = () => {
               <div className='review '>
                 <div className='card '>
                   <div className='card-title'>
-                    <p>Welcome, Vaibhav Shinde</p>
+                    <p>Welcome, {user.first_name} {user.last_name}</p>
                   </div>
                   <div className='card-text'>
                     <p>
@@ -162,4 +163,20 @@ br{
   }
 `
 
-export default SellerAccount
+
+ const mapStateToProps = state => {
+       return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    itemSearched:state.auth.itemSearched
+  }
+}
+
+  
+
+
+export default connect(mapStateToProps, {})(SellerAccount)
+
+
