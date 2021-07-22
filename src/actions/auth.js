@@ -438,6 +438,7 @@ console.log("my signup data", body)
             payload: res.data
         });
     } catch (err) {
+        alert(err)
         dispatch({
             type: SIGNUP_FAIL
         })
