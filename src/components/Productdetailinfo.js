@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React,{useEffect} from 'react'
 import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import styled from 'styled-components'
@@ -12,18 +12,27 @@ import axios from 'axios'
 import ModalSuccess from './ModalSuccess'
 import ModalSellerInfo from './ModalSellerInfo'
 import { itemAddedToRecentlyViewed } from '../actions/auth'
+import { HashLink } from "react-router-hash-link";
+
 
 const api = process.env.REACT_APP_API_URL
-const Productdetailinfo = ({isAuthenticated,currentItem,user,access,itemAddedToRecentlyViewed}) => {
+const Productdetailinfo = ({isAuthenticated,
+                            currentItem,
+                            user,
+                            access,
+                            itemAddedToRecentlyViewed,
+                            currentCompany,
+                            currentCompanyUser 
+                          }) => {
   
   currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]");
   user = JSON.parse(localStorage.getItem("user") || "[]");
-console.log('isAuthenticated',currentItem)
+  currentCompany = JSON.parse(localStorage.getItem("currentCompany") || "[]");
+  currentCompanyUser = JSON.parse(localStorage.getItem("currentCompanyUser") || "[]");
 
   const [modalModalSuccess, setModalSuccess] = React.useState(false)
   const [modalModalSellerInfo, setModalSellerInfo] = React.useState(false)
 
-  const [companyDetails, setCompanyDetails] = React.useState([])
    const images = [
     {
       original:currentItem.front_image,
@@ -40,14 +49,9 @@ console.log('isAuthenticated',currentItem)
    
   ]
 
+  const [formData, setFormData] = React.useState({amount: '',unit: '',})
   
-
-
-  const [formData, setFormData] = React.useState({
-    amount: '',
-    unit: '',
-  })
- const onChange = (e) =>
+  const onChange = (e) =>
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -64,7 +68,7 @@ console.log('isAuthenticated',currentItem)
               }}
     
     const body = {
-          "user": companyDetails.user,
+          "user": currentCompany.user,
           "product": currentItem.id,
           "customer_name":  `${user.first_name} ${user.last_name}`,
           "phone_number":  user.phone,
@@ -87,33 +91,16 @@ console.log('isAuthenticated',currentItem)
                       })
                       
   }
-const onSubmit = (e) => {
+
+  const onSubmit = (e) => {
     e.preventDefault()
     sendEnquiry(amount, unit)
 
   }
-  const fetchCompanyDetails = async() =>{
 
-    const config = {headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${access}`,
-                'Accept':'application/json'
-              }}
-    await axios.get(`${api}/api/company/${currentItem.company}/`,
-                      config
-                      ).then(res=>{
-                        console.log(res);
-                        setCompanyDetails(res.data)
-                      }).catch(err=>{
-                        console.log(err);
-                      })
-  }
-  React.useEffect(()=>{
-    fetchCompanyDetails()
+  useEffect(()=>{
     itemAddedToRecentlyViewed(currentItem)
-  },[])
-
-
+  })
 
 return (
     <Wrapper className='content'>
@@ -136,19 +123,19 @@ return (
         </div>
         <div className='col-md-6 info '>
           <div className='pinfodetail'>
-            <p className='phead'>{companyDetails.company_name} </p>
+            <p className='phead'>{currentCompany.company_name} </p>
             <p className='pname'>{currentItem.name}</p>
             <p className='pinfo '>
              {currentItem.details.slice(0,200)}...
               <br />
-              <Link to=''>View more</Link>
+              <HashLink to='/product#product'>View more</HashLink>
             </p>
-            <p className='rating'>
+            <div className='rating'>
               <Box component='fieldset' mb={0.5} borderColor='transparent'>
-                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)} readOnly />
+                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)[0]} readOnly />
               </Box>
               &nbsp; &nbsp; 0.0 &nbsp; | &nbsp; 0 ratings
-            </p>
+            </div>
             <p className='price'>
               ₹  {currentItem.price}&nbsp;{' '}
               <Link to='' className='glp' href=''>
@@ -161,7 +148,7 @@ return (
 {isAuthenticated?
           <center>
             <div className=' companyinfo'>
-              <p className='pheadinfo'>{companyDetails.company_name} </p>
+              <p className='pheadinfo'>{currentCompany.company_name} </p>
               <p>
                 <svg
                   width='20'
@@ -171,8 +158,8 @@ return (
                   xmlns='http://www.w3.org/2000/svg'
                 >
                   <path
-                    fill-rule='evenodd'
-                    clip-rule='evenodd'
+                    fillRule='evenodd'
+                    clipRule='evenodd'
                     d='M18.4815 13.2243C19.0635 12.0496 19.3887 10.7388 19.3887 9.3564C19.3887 4.30715 15.0514 0.213928 9.70117 0.213928C4.35091 0.213928 0.0136719 4.30715 0.0136719 9.3564C0.0136719 10.7388 0.338799 12.0496 0.920828 13.2243H0.881399L1.08949 13.5479C1.29321 13.9199 1.52321 14.2771 1.77716 14.6171L9.70126 26.938L17.6264 14.6155C17.8795 14.2765 18.1087 13.9205 18.3119 13.5497L18.5211 13.2243H18.4815Z'
                     fill='#C4C4C4'
                     />
@@ -184,13 +171,13 @@ return (
                     fill='white'
                     />
                 </svg>
-                &nbsp; {companyDetails.get_full_address}
+                &nbsp; {currentCompany.get_full_address}
               </p>
-              <p className='crating'>
+              <div className='crating'>
                  <Box component='fieldset' mb={0.5} borderColor='transparent'>
-                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)} readOnly />
+                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)[0]} readOnly />
               </Box>
-              </p>
+              </div>
               <p>
                 <svg
                   width='24'
@@ -208,10 +195,10 @@ return (
                     fill='#2D2C2C'
                     />
                 </svg>{' '}
-                &nbsp; {user.first_name} {user.last_name}
+                &nbsp; {currentCompanyUser.first_name} {currentCompanyUser.last_name}
               </p>
-              <p>
-                {companyDetails.leading_seller?<React.Fragment>
+              <div>
+                {currentCompany.leading_seller?<React.Fragment>
                 <svg
                 width='24'
                 height='22'
@@ -242,7 +229,7 @@ return (
                 </svg>
                   &nbsp; Leading Seller &nbsp; &nbsp;</React.Fragment>
               :<p></p>}
-              {companyDetails.verified_seller?<React.Fragment>
+              {currentCompany.verified_seller?<React.Fragment>
 
                 <svg
                 width='23'
@@ -389,11 +376,10 @@ return (
                     />
                 </svg>
                 &nbsp; Verified Seller{' '}
-                </React.Fragment>:
-                <p></p>
+                </React.Fragment>:<div></div>
                 }
-              </p>
-             
+              </div>
+             <br />
               <button onClick={()=>setModalSellerInfo(true)} className='btn btn-secondary'>
                 Get Seller Info
               </button>
@@ -455,8 +441,8 @@ return (
           </form>
           </center>
         :<center>
-        <div class="card" >
-        <div class="card-body">
+        <div className="card" >
+        <div className="card-body">
           <p className='card-title' style={{fontWeight:700}} >Login to view more information.</p>
         <Link to='/login'>  <button className='btn btn-primary'>Login</button></Link>
 
@@ -544,7 +530,12 @@ display:flex;
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+    currentCompany: state.auth.currentCompany,
+    currentCompanyUser: state.auth.currentCompanyUser
+ 
+
+  }
 }
 
   

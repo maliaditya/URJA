@@ -30,7 +30,7 @@ const RecentlyViewedCarousal = ({recentlyViewed,current_item_added}) => {
    return (
      <Wrapper className='content'>
       <div className='trending'>
-        <span class=' underline-right'>
+        <span className=' underline-right'>
           {' '}
           <h4 style={{ fontWeight: '700' }}>Recently Viewed</h4>
         </span>
@@ -41,13 +41,13 @@ const RecentlyViewedCarousal = ({recentlyViewed,current_item_added}) => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
           >
-          {recentlyViewed.map((item)=>{
+          {recentlyViewed.map((item,index)=>{
             return(
 
-              <article>
+              <article key={index}>
             <Link to='/product'  >
-              <img
-                onclick={()=>current_item_added(item)}
+              <img 
+                onClick={()=>current_item_added(item)}
                 src={item.front_image}
                 alt='Club Card'
                 />

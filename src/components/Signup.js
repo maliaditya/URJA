@@ -64,7 +64,7 @@ pin_code)
       <div>
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
-            <label for='First Name1' class='form-label'>
+            <label  className='form-label'>
               First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               &nbsp; &nbsp; &nbsp; Last Name
@@ -72,8 +72,8 @@ pin_code)
             <div className='name'>
               <input
                 type='first_name'
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='First Name'
                 name='first_name'
                 value={first_name}
@@ -84,8 +84,8 @@ pin_code)
 
               <input
                 type='last_name'
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Last Name'
                 name='last_name'
                 value={last_name}
@@ -94,7 +94,7 @@ pin_code)
                 
               ></input>
             </div>
-            <label for='First Name1' class='form-label'>
+            <label  className='form-label'>
               Email Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               &nbsp; Mobile Number
@@ -102,8 +102,8 @@ pin_code)
             <div className='name'>
               <input
                 type='email'
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Email'
                 name='email'
                 value={email}
@@ -114,8 +114,8 @@ pin_code)
 
               <input
                 type='phone'
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Phone No.'
                 name='phone'
                 value={phone}
@@ -124,13 +124,13 @@ pin_code)
               ></input>
             </div>
             <div className='password'>
-              <label for='First Name1' class='form-label'>
+              <label  className='form-label'>
                 Password
               </label>
               <input
                 type={showPassword}
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Password'
                 name='password'
                 value={password}
@@ -140,13 +140,13 @@ pin_code)
               ></input>
             </div>
             <div className='password'>
-              <label for='First Name1' class='form-label'>
+              <label  className='form-label'>
                 Confirm Password
               </label>
               <input
                 type={showPassword}
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Confirm Password'
                 name='re_password'
                 value={re_password}

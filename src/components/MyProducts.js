@@ -8,6 +8,7 @@ import ModalEditProduct from './ModalEditProduct'
 import ModalDeleteProduct from './ModalDeleteProduct'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios'
+import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {MdRefresh} from 'react-icons/md'
 import {current_item_added} from '../actions/auth'
@@ -35,7 +36,7 @@ const MyProducts = ({access,current_item_added}) => {
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
-      items: 1,
+      items: 2,
     },
     tablet: {
       breakpoint: { max: 1300, min: 720 },
@@ -115,11 +116,19 @@ const MyProducts = ({access,current_item_added}) => {
                         console.log(err);
                       })
   }
+  const location = useLocation();
 
   const addCurrentItem=(item)=>{
       
-      current_item_added(item)
+      current_item_added(item,location.pathname)
       setModalDeleteProductShow(true)
+
+  }
+
+  const addCurrentItemForEdit=(item)=>{
+
+      current_item_added(item,location.pathname)
+      setModalEditProductShow(true)
 
   }
 
@@ -176,7 +185,7 @@ const MyProducts = ({access,current_item_added}) => {
           src={item.front_image}
           />
         <div className='header'>
-          <p className='head-title'>
+          <div className='head-title'>
             <h5 style={{fontWeight:'700'}}>{item.name}</h5>
             <section>
             <RiDeleteBin5Line
@@ -184,23 +193,23 @@ const MyProducts = ({access,current_item_added}) => {
               size={25}
               />
                <FaRegEdit
-              onClick={() => setModalEditProductShow(true)}
+              onClick={() => addCurrentItemForEdit(item)}
               className='fav'
               size={25}
               /> 
               </section>
-          </p>
+          </div>
           <div className='desc'>
             <p>
               {item.details.slice(0, 90)}...
             </p>
-            <p className='rating'>
+            <div className='rating'>
                <Box component='fieldset' mb={0.5} borderColor='transparent'>
-                      <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)} readOnly />
+                      <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)[0]} readOnly />
               </Box>
               &nbsp; &nbsp;{item.reviews.rating}&nbsp; | &nbsp; <a  href="#!"  onClick={() => addCurrentItem(item)}> {item.reviews.length}&nbsp;ratings </a>
               
-            </p>
+            </div>
             <div className='pricedate'>
             <ModalDeleteProduct item={item} show={modalDeleteProductShow} onHide={() => setModalDeleteProductShow(false)} />
             <h6  style={{fontSize:'0.9rem'}}>₹ {item.price}</h6>
@@ -212,9 +221,6 @@ const MyProducts = ({access,current_item_added}) => {
             <h6 style={{fontSize:'0.8rem'}}> Created on: {item.get_created_at}</h6>
             </div>
           </div>
-          {/* <button className='btn btn-warning'>Send enquiry </button>
-
-<button className='btn btn-secondary'>View number</button> */}
         </div>
       </div>
 </article>)})}
@@ -261,7 +267,7 @@ const MyProducts = ({access,current_item_added}) => {
           src={item.front_image}
           />
         <div className='header'>
-          <p className='head-title'>
+          <div className='head-title'>
             <h5 style={{fontWeight:'700'}}>{item.name}</h5>
             <section>
             <RiDeleteBin5Line
@@ -274,16 +280,16 @@ const MyProducts = ({access,current_item_added}) => {
               size={25}
               /> 
               </section>
-          </p>
+          </div>
           <div className='desc'>
           
-            <p className='rating'>
+            <div className='rating'>
                <Box component='fieldset' mb={0.5} borderColor='transparent'>
-                      <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)} readOnly />
+                      <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)[0]} readOnly />
               </Box>
               &nbsp; &nbsp;{item.reviews.rating}&nbsp; | &nbsp; <a  href="#!"  onClick={() => addCurrentItem(item)}> {item.reviews.length}&nbsp;ratings </a>
               
-            </p>
+            </div>
             <div className='pricedate'>
             <ModalDeleteProduct item={item} show={modalDeleteProductShow} onHide={() => setModalDeleteProductShow(false)} />
             <h6  style={{fontSize:'0.9rem'}}>₹ {item.price}</h6>

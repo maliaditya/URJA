@@ -1,72 +1,38 @@
+
+
+
+
+
+
+
+
+
+
+
+
 import React from 'react'
 import { connect } from 'react-redux'
 import Rating from '@material-ui/lab/Rating'
 import Box from '@material-ui/core/Box'
-import axios from 'axios'
 
-const api = process.env.REACT_APP_API_URL
-const SellerDetails = ({currentItem,user,access}) => {
+const SellerDetails = ({currentItem,
+                        currentCompany,
+                        currentCompanyUser,
+                       }) => {
 
   currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]");
-  user = JSON.parse(localStorage.getItem("user") || "[]");
+  currentCompany = JSON.parse(localStorage.getItem("currentCompany") || "[]");
+  currentCompanyUser = JSON.parse(localStorage.getItem("currentCompanyUser") || "[]");
 
-  const [companyDetails, setCompanyDetails] = React.useState({})
-  const [userDetails, setUserDetails] = React.useState({})
-  console.log(userDetails)
-    
-
-    const config = {headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${access}`,
-                'Accept':'application/json'
-              }}
-
-
-   const fetchCompanyDetails = async() =>{
-
-   
-    await axios.get(`${api}/api/company/${currentItem.company}/`,
-                      config
-                      ).then(res=>{
-                        console.log(res.data);
-                        setCompanyDetails(res.data)
-                      }).catch(err=>{
-                        console.log(err);
-                      })
-     
-  }
-
-    const fetchUserDetails=async()=>{
-        await axios.get(`${api}/api/account/${companyDetails.user}/`, config
-        ).then(res=>{
-            console.log(res.data);
-            setUserDetails(res.data)
-        }).catch(err=>{
-            console.log(err);
-        })
-    }
-    
-  React.useEffect(()=>{
-    fetchCompanyDetails()
-
- 
-  },[])
-
-   
-  React.useEffect(()=>{
-    if(companyDetails.user!==undefined){
-      fetchUserDetails()
-  }
- 
-  },[])
   
-      console.log('userDetails',companyDetails.user)
+
 
     return (
         <div>
              <center>
             <div className=' companyinfo'>
-              <p className='pheadinfo'>{companyDetails.company_name} </p>
+              <h4 style={{fontWeight:'700'}} className='pheadinfo'>{currentCompany.company_name} </h4>
+              <p>{currentCompany.details}</p>
               <p>
                 <svg
                   width='20'
@@ -89,7 +55,7 @@ const SellerDetails = ({currentItem,user,access}) => {
                     fill='white'
                   />
                 </svg>
-                &nbsp; {companyDetails.get_full_address}
+                &nbsp; {currentCompany.get_full_address}
               </p>
               <p className='crating'>
                  <Box component='fieldset' mb={0.5} borderColor='transparent'>
@@ -113,10 +79,11 @@ const SellerDetails = ({currentItem,user,access}) => {
                     fill='#2D2C2C'
                   />
                 </svg>{' '}
-                {/* &nbsp; {companyDetails.user.get_full_name} */}
+                &nbsp; {currentCompanyUser.first_name} {currentCompanyUser.last_name}
               </p>
+              <p>{currentCompanyUser.phone}  /  {currentCompanyUser.email}</p>
               <p>
-                {companyDetails.leading_seller?<React.Fragment>
+                {currentCompany.leading_seller?<React.Fragment>
                 <svg
                 width='24'
                 height='22'
@@ -147,7 +114,7 @@ const SellerDetails = ({currentItem,user,access}) => {
                 </svg>
                   &nbsp; Leading Seller &nbsp; &nbsp;</React.Fragment>
               :<p></p>}
-              {companyDetails.verified_seller?<React.Fragment>
+              {currentCompany.verified_seller?<React.Fragment>
 
                 <svg
                 width='23'
@@ -311,7 +278,11 @@ const SellerDetails = ({currentItem,user,access}) => {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+    currentCompany: state.auth.currentCompany,
+    currentCompanyUser: state.auth.currentCompanyUser
+ 
+  }
 }
 
   

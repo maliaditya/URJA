@@ -27,7 +27,7 @@ const SimilarProducts = () => {
   return (
     <Wrapper className='content'>
       <div className='trending'>
-        <span class=' underline-right'>
+        <span className=' underline-right'>
           {' '}
           <h4 style={{ fontWeight: '700' }}> Best Seller</h4>
         </span>

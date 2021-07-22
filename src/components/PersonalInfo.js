@@ -17,7 +17,7 @@ class PersonalInfo extends React.Component {
             address_line2: '',
             city: '',
             state: '',
-            pin_code: null,
+            pin_code: '',
         
     };
 
@@ -88,7 +88,7 @@ class PersonalInfo extends React.Component {
       <p>Personal Information</p>
       <div className='formcontent'>
         <form onSubmit={this.handleSubmit}>
-           <label for='First Name1' class='form-label'>
+           <label className='form-label'>
           First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
           &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last Name
@@ -96,56 +96,56 @@ class PersonalInfo extends React.Component {
         <div className='name'>
           <input
             type='text'
-            class='form-control'
+            className='form-control'
             id='exampleInputEmail1'
             placeholder='First Name'
             aria-describedby='emailHelp'
             name='first_name'
-              value={this.state.first_name}
+              value={this.state.first_name || ''}
               required
                  onChange={this.handleChange}
           ></input>
 
           <input
             type='text'
-            class='form-control'
+            className='form-control'
             id='exampleInputEmail1'
             placeholder='Last Name'
             aria-describedby='emailHelp'
             name='last_name'
-              value={this.state.last_name}
+              value={this.state.last_name || ''}
               required
                  onChange={this.handleChange}
           ></input>
         </div>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label className='form-label'>
               Address Line 1
             </label>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Please Enter Your Street Address'
               name='address_line1'
-              value={this.state.address_line1}
+              value={this.state.address_line1 || ''}
               required
               onChange={this.handleChange}
             ></input>
           </div>
            <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label className='form-label'>
               Address Line 2
             </label>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Please Enter Your Street Address'
               name='address_line2'
-              value={this.state.address_line2}
+              value={this.state.address_line2 || ''}
               onChange={this.handleChange}
             ></input>
           </div>
-          <label for='First Name1' class='form-label'>
+          <label className='form-label'>
             City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -154,34 +154,34 @@ class PersonalInfo extends React.Component {
           <div className='name'>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Eg.Satara'
               name='city'
-              value={this.state.city}
+              value={this.state.city || ''}
               required
                onChange={this.handleChange}
             ></input>
 
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Eg. Maharashtra'
               name='state'
-              value={this.state.state}
+              value={this.state.state || ''}
               required
                 onChange={this.handleChange}
             ></input>
           </div>
-          <label for='First Name1' class='form-label'>
+          <label className='form-label'>
             Zip Code
           </label>
           <div className='name'>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='6 digit Code  '
                name='pin_code'
-              value={this.state.pin_code}
+              value={this.state.pin_code || ''}
               required
                onChange={this.handleChange}
             ></input>

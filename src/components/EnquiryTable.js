@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
 
+var uniqid = require('uniqid');
 
 const columns = [
   { id: 'customer_name', label: 'Name', minWidth: 170 },
@@ -31,22 +32,22 @@ const columns = [
   },
   {
     id: 'enquiry_for',
-    label: 'Enquiry\u00a0Name',
+    label: 'Enquiry\u00a0For',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toFixed(2),
   },
-  {
-    id: 'paid',
-    label: 'Paid',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
+  // {
+  //   id: 'paid',
+  //   label: 'Paid',
+  //   minWidth: 170,
+  //   align: 'right',
+  //   format: (value) => value.toFixed(2),
+  // },
 ];
 
-function createData(customer_name, phone_number, email, product_name,enquiry_for,paid) {
-  return {customer_name, phone_number, email, product_name,enquiry_for,paid};
+function createData(customer_name, phone_number, email, product_name,enquiry_for) {
+  return {customer_name, phone_number, email, product_name,enquiry_for};
 }
 
  
@@ -112,7 +113,7 @@ console.log("roessss",rows)
             <TableRow>
               {columns.map((column) => (
                 <TableCell
-                  key={column.id}
+                  key={uniqid()}
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
@@ -124,11 +125,11 @@ console.log("roessss",rows)
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover aria-checked='true'  role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover aria-checked='true'  role="checkbox" tabIndex={-1} key={uniqid()}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={uniqid()} align={column.align}>
                         {column.format && typeof value === 'number' ? column.format(value) : value}
                       </TableCell>
                     );
@@ -145,8 +146,8 @@ console.log("roessss",rows)
         count={rows.length}
         rowsPerPage={rowsPerPage}
         page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );

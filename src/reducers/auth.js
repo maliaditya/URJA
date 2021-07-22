@@ -24,7 +24,16 @@ import {
     CURRENT_ITEM_ADDED_SUCCESS,
     ITEM_SEARCH_SUCCESS,
     ITEM_SEARCH_FAIL, 
-    ITEM_SEARCH_CLEAR
+    ITEM_SEARCH_CLEAR,
+    ADD_CURRENT_ITEM_COMPANY_FAIL,
+    ADD_CURRENT_ITEM_COMPANY_SUCCESS,
+    ADD_CURRENT_ITEM_USER_FAIL,
+    ADD_CURRENT_ITEM_USER_SUCCESS,
+    ADD_TO_FAVOURITES_FAIL,
+    ADD_TO_FAVOURITES_SUCCESS,
+    REMOVE_FORM_FAVOURITES_FAIL,
+    REMOVE_FORM_FAVOURITES_SUCCESS
+    
 } from '../actions/types';
 
 const initialState = {
@@ -34,14 +43,56 @@ const initialState = {
     user: localStorage.getItem('user'),
     currentItem: localStorage.getItem('currentItem'),
     recentlyViewed: [],
-    itemSearchedResult:[]
+    itemSearchedResult:[],
+    currentCompany:localStorage.getItem('currentCompany'),
+    currentCompanyUser:localStorage.getItem('currentCompanyUser'),
     
 };
+
 
 export default function foo(state = initialState, action) {
     const { type, payload } = action;
 
     switch(type) {
+         case REMOVE_FORM_FAVOURITES_SUCCESS:
+            return{
+                ...state,
+            }
+        case REMOVE_FORM_FAVOURITES_FAIL :
+            return {
+                ...state,
+            }
+        case ADD_TO_FAVOURITES_SUCCESS:
+            return{
+                ...state,
+            }
+        case ADD_TO_FAVOURITES_FAIL :
+            return {
+                ...state,
+            }
+
+        case ADD_CURRENT_ITEM_USER_FAIL:
+            return{
+                ...state,
+            }
+        case ADD_CURRENT_ITEM_USER_SUCCESS :
+            localStorage.setItem("currentCompanyUser", JSON.stringify(payload));
+            return {
+                ...state,
+                currentCompanyUser: payload
+            }
+
+        case ADD_CURRENT_ITEM_COMPANY_FAIL:
+            return{
+                ...state,
+            }
+        case ADD_CURRENT_ITEM_COMPANY_SUCCESS :
+            localStorage.setItem("currentCompany", JSON.stringify(payload));
+            return {
+                ...state,
+                currentCompany: payload
+            }
+
          case ITEM_SEARCH_CLEAR:
             return{
                 ...state,

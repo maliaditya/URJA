@@ -43,13 +43,13 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
             <div className='password'>
-              <label for='First Name1' class='form-label'>
+              <label  className='form-label'>
                 Email
               </label>
               <input
                 type='email'
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Email'
                 name='email'
                 value={email}
@@ -59,13 +59,13 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
               ></input>
             </div>
             <div className='password'>
-              <label for='First Name1' class='form-label'>
+              <label  className='form-label'>
                 Password
               </label>
               <input
                 type={showPassword}
-                class='form-control'
-                id='exampleInputEmail1'
+                className='form-control'
+                
                 placeholder='Password'
                 name='password'
                 value={password}

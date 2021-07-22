@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-const Productinfo = ({currentItem}) => {
-  currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]");
+const Productinfo = ({currentItem,currentCompany}) => {
+  currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]")
+  currentCompany = JSON.parse(localStorage.getItem("currentCompany") || "[]");
+
   return (
     <Reviewwrap className='content'>
-      <div className='container'>
+      <div id='product' className='container'>
         <p className='ttag'>Product Details</p>
         <div className='text'>
           {currentItem.details}
@@ -16,17 +18,7 @@ const Productinfo = ({currentItem}) => {
       <div className='container'>
         <p className='ttag'>Company Details</p>
         <div className='text'>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas
-          animi officia asperiores quam, provident iste labore totam explicabo
-          dolores sequi esse accusamus in porro, deleniti perferendis veniam
-          dicta! Numquam quaerat ipsum sequi obcaecati quasi animi, optio quae
-          porro corrupti laborum modi cum unde consectetur aliquam doloremque
-          nostrum illo enim quia asperiores pariatur, nesciunt ex. Dicta cumque
-          dolor nostrum necessitatibus, quidem eum vel maxime aspernatur dolorem
-          obcaecati, id sed doloremque dolores eveniet enim alias! Eveniet nisi
-          placeat nulla dignissimos quas magnam quidem eligendi laboriosam in
-          saepe necessitatibus rem debitis labore molestias, iste, officiis
-          nostrum, ratione aut corrupti facilis quaerat? Iste, officiis!
+         {currentCompany.company_details}
         </div>
       </div>
     </Reviewwrap>
@@ -69,7 +61,8 @@ const Reviewwrap = styled.section`
     access: state.auth.access,
     user: state.auth.user,
     currentItem: state.auth.currentItem,
-    itemSearchedResult:state.auth.itemSearchedResult
+    itemSearchedResult:state.auth.itemSearchedResult,
+    currentCompany: state.auth.currentCompany
   }
 }
   

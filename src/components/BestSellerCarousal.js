@@ -70,7 +70,7 @@ const BestSellerCarousal = ({access, current_item_added}) => {
   return (
     <Wrapper className='content'>
       <div className='trending'>
-        <span class=' underline-right'>
+        <span className=' underline-right'>
           <h4 style={{ fontWeight: '700' }}> Best Seller</h4>
         </span>
       </div>
@@ -80,12 +80,12 @@ const BestSellerCarousal = ({access, current_item_added}) => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}>
           {
-          uniqueObjects.map((item)=>{
+          uniqueObjects.map((item, index)=>{
             return(
 
-            <article>
-              <Link to='/product'  >
-                <img alt='best seller'
+            <article key ={index}>
+              <Link   to='/product'  >
+                <img  alt='best seller'
                   src={item.product.front_image}
                   onClick={()=>current_item_added(item.product)}
                   />

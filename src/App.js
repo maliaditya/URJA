@@ -20,14 +20,14 @@ import { connect } from 'react-redux'
 import { checkAuthenticated, load_user } from './actions/auth'
 import TestImage from './pages/TestImage'
 import { AppProvider } from './components/context';
-function App(props) {
+function App({checkAuthenticated,load_user}) {
    useEffect(()=>{
-    props.checkAuthenticated()
-    props.load_user()
-  },[])
+    checkAuthenticated()
+    load_user()
+  },[checkAuthenticated,load_user])
   return (
   <AppProvider>
-    <Router>
+    <Router >
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/product' component={SingleProductPage} />

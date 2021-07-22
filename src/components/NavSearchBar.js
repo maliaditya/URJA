@@ -8,7 +8,7 @@ import { Redirect } from 'react-router-dom'
 
 const api = process.env.REACT_APP_API_URL
 
-class Banner extends React.Component {
+class NavSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,33 +20,29 @@ class Banner extends React.Component {
   }
 
   fetchSearchResults=async (keyword)=>{
-    try{
 
       const config = {headers: {
         'content-type': 'appliation/json',
-        // 'Authorization': `Bearer ${this.props.access}`
-      }}
-      await axios.get(`${api}/api/products/?name=${keyword}`,
-      config
-      ).then(res=>{
-        console.log('data',res.data);
-        this.setState({setSearchResultItems:res.data})
-        res.data.map((item)=>{
-          console.log('itemdata',item);
-          return this.props.itemSearched(item)
-        })
-        if(this.props.itemSearchedResult.length === 0){
-          return alert('No search results found')
-        }
-        console.log('setSearcasdhResultItems',this.state.setSearchResultItems);
-        
-      }).catch(err=>{
-        console.log(err);
-      })
-      
-    }catch(err){
-      console.log(err)
-    }
+            'Authorization': `Bearer ${this.props.access}`
+          }}
+          await axios.get(`${api}/api/products/?name=${keyword}`,
+                      config
+                      ).then(res=>{
+                        console.log('data',res.data);
+                        this.setState({setSearchResultItems:res.data})
+                        res.data.map((item)=>{
+                           console.log('itemdata',item);
+                          return this.props.itemSearched(item)
+                        })
+                        if(this.props.itemSearchedResult.length === 0){
+                                return alert('No search results found')
+                          }
+                       console.log('setSearcasdhResultItems',this.state.setSearchResultItems);
+                        
+                      }).catch(err=>{
+                        console.log(err);
+                      })
+                      
  
   
 
@@ -71,34 +67,9 @@ if(this.props.itemSearchedResult.length !== 0){
   return (
     <Wrapper className='content'>
       <center>
-        <div className='banner'>
-          <p className='ttag'>Let us Know what you need..</p>
-          <p className='slang'>
-            More than 10,000 companies trust our bussiness
-          </p>
-        </div>
+        
         <div className='search-container sb-example-3'>
           <form  onSubmit={this.handleSubmit} className='search__container '>
-            {/* <SidebarAll/> */}
-            <button className='btn btn-warning'>
-              {' '}
-              All{' '}
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='16'
-                height='16'
-                fill='currentColor'
-                className='bi bi-chevron-down'
-                viewBox='0 0 16 16'
-                >
-                <path
-                  fillRule='evenodd'
-                  d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
-                  />
-              </svg>
-            </button>
-            <span> &nbsp; &nbsp; </span>
-
             <input onChange={(e)=>this.handleChange(e)} 
             className='search__input ' 
             name='searchItem' value ={this.state.searchItem} 
@@ -238,7 +209,7 @@ padding-bottom: 8rem;
 }
   
 
-export default connect(mapStateToProps, {current_item_added,itemSearched,itemSearchedClear})(Banner)
+export default connect(mapStateToProps, {current_item_added,itemSearched,itemSearchedClear})(NavSearch)
 
 
 

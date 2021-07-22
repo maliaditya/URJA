@@ -7,6 +7,7 @@ import MyProducts from './MyProducts'
 import { connect } from 'react-redux'
 import EnquiryTable from './EnquiryTable'
 const Account = ({user}) => {
+  user = JSON.parse(localStorage.getItem("user") || "[]");
   const [value, setValue] = useState(<PersonalInfo />)
   return (
     <Wrapper className='content'>
@@ -19,18 +20,32 @@ const Account = ({user}) => {
                 <div className='card '>
                   <div className='card-title'> Account Settings</div>
                   <div className='card-text'>
-                    <button onClick={() => setValue(<PersonalInfo />)}>
+                    
+                    {user.company_details.length!==0?<div>
+                      <button onClick={() => setValue(<PersonalInfo />)}>
                       Personal Information
                     </button>
                     <br />
                     <button onClick={() => setValue(<CompanyInfo />)}>
                       {' '}
                       Company Information
-                    </button>
                     <br />
+                    </button>
                     <button onClick={() => setValue(<ManageContact />)}>
                       Manage Contact
                     </button>
+                      </div>
+                    :<div>
+
+                    <button onClick={() => setValue(<PersonalInfo />)}>
+                      Personal Information
+                    </button>
+                    <button onClick={() => setValue(<ManageContact />)}>
+                      Manage Contact
+                    </button> 
+                    </div>
+                    }
+                    
                   </div>
                 </div>
               </div>
@@ -39,6 +54,8 @@ const Account = ({user}) => {
             <div className='contain'>
               <div className='review '>
                 <div className='card '>
+                  {user.company_details.length!==0?
+                  <div>
                   <div className='card-title'> My Stuff</div>
                   <div className='card-text'>
                     <button onClick={() => setValue(<MyProducts />)}>
@@ -48,12 +65,15 @@ const Account = ({user}) => {
                       My Enquires
                     </button><br />
                   </div>
+                  </div>
+                  :<p></p>
+                }
                 </div>
-              </div>
+                </div>
             </div>
           </div>
 
-          <div className='col-md-8 container'>{value}</div>
+          <div className='col-md-8 '>{value}</div>
         </div>
       </div>
     </Wrapper>

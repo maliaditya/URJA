@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const CategoriesSidebar = () => {
   return (
-    <div class='sidenav'>
+    <div className='sidenav'>
       <a href='#about'>About</a>
       <a href='#services'>Services</a>
       <a href='#clients'>Clients</a>

@@ -7,9 +7,8 @@ import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { Button } from 'react-bootstrap';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { AiOutlineHome, AiOutlineHistory } from 'react-icons/ai'
+import { AiOutlineHome} from 'react-icons/ai'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { RiAccountCircleLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom';
@@ -66,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '60ch',
+      width: '80ch',
     },
   },
   sectionDesktop: {
@@ -83,40 +82,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
+function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemSearchedResult}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const [search, setSearch] = React.useState();
+  const [searchItem, setSearchItem] = React.useState();
   const [searchResultItems, setSearchResultItems] = React.useState([]);
+  console.log(searchResultItems)
 
-  const onChange = (e) =>setSearch(e.target.value)
-
-  const fetchSearched = async () => {
+  const fetchSearchResults = async (keyword) => {
       const config = {headers: {
             'content-type': 'appliation/json',
             'Authorization': `Bearer ${access}`
           }}
-      await axios.get(`${api}/api/products/?name=${search}`,
+      await axios.get(`${api}/api/products/?name=${keyword}`,
                       config
                       ).then(res=>{
                         console.log(res);
                         setSearchResultItems(res.data)
-                        searchResultItems.map((item)=>{
+                        res.data.map((item)=>{
+                          console.log('itemdata',item)
                           return itemSearched(item)
                         })
+                        // if(itemSearchedResult.length === 0){
+                        //   return alert('No search results found') 
+                        // }
+                     
                       }).catch(err=>{
                         console.log(err);
                       })
   }
 
+  const onChange=(event)=>{
+    setSearchItem(event.target.value)
+
+  }
+  const onSubmit=(event)=>{
+    event.preventDefault()
+    fetchSearchResults(searchItem)
+     itemSearchedClear()
+  }
+
   
 
-  const setSearctValues= ()=>{
-      itemSearchedClear()
-        fetchSearched()
-  }
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -167,11 +177,11 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
                 <AiOutlineHome style={{color:'black'}} size={30} />
              </Link>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
                < Link to='/' style={{color:'black'}}>
                 <AiOutlineHistory size={30} />
              </Link>
-            </IconButton>
+            </IconButton> */}
             <IconButton>
             <Link to='favourites'>
               <MdFavoriteBorder style={{color:'black'}} size={30} />
@@ -200,19 +210,19 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
            <Typography className={classes.title} variant="h6" noWrap>
           </Typography>
           <Wrapper>
-
-           <Button variant="warning">&nbsp;&nbsp;All&nbsp;&nbsp;</Button>
           </Wrapper>
 
 
-          <form className={classes.search}>
+          <form onSubmit={(e)=>onSubmit(e)} className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
+              <Link to='/categories'>
+            <InputBase style={{borderBottom:'1px solid'}}
+              type='text'
               placeholder="Search…"
-              name='search'
-              value={search}
+              name='searchItem'
+              value={searchItem}
               onChange={(e) => onChange(e)}
               classes={{
                 root: classes.inputRoot,
@@ -221,9 +231,8 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
               inputProps={{ 'aria-label': 'search' }}
               
               />
-              <Link to='/categories'>
-                 <Button    onClick={()=>setSearctValues()} type='submit' variant="secondary">Search</Button>
               </Link>
+             
           </form>
               
  
@@ -235,11 +244,11 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
                 <AiOutlineHome onClick={()=>itemSearchedClear()}style={{color:'black'}} size={30} />
              </Link>
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
                < Link to='/' style={{color:'black'}}>
                 <AiOutlineHistory size={30} />
              </Link>
-            </IconButton>
+            </IconButton> */}
             <IconButton>
             <Link to='favourites'>
               <MdFavoriteBorder style={{color:'black'}} size={30} />
@@ -283,7 +292,9 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear}) {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+    itemSearchedResult:state.auth.itemSearchedResult
+  }
 }
   
 

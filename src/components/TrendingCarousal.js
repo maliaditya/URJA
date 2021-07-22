@@ -8,10 +8,9 @@ import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
 
 const api = process.env.REACT_APP_API_URL
-const TrendingCarousal = ({access, current_item_added}) => {
+const TrendingCarousal = ({current_item_added}) => {
 
   const [trendingItems,setTrendingItems] = React.useState([])
-
 
   const responsive = {
     superLargeDesktop: {
@@ -49,6 +48,7 @@ const TrendingCarousal = ({access, current_item_added}) => {
   }
 
   React.useEffect(()=>{
+    console.log("i am running")
     fetchTrending()
   },[])
  
@@ -68,7 +68,7 @@ const TrendingCarousal = ({access, current_item_added}) => {
   return (
     <Wrapper className='content container-fluid'>
       <div className='trending'>
-        <span class=' underline-right'>
+        <span className=' underline-right'>
           {' '}
           <h4 style={{ fontWeight: '700' }}> Trending Now</h4>
         </span>
@@ -78,9 +78,9 @@ const TrendingCarousal = ({access, current_item_added}) => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
-          {uniqueObjects.map((item)=>{
+          {uniqueObjects.map((item, index)=>{
             return(
-              <article>
+              <article key = {index}>
             <Link to='/product'>
               <img onClick={()=>current_item_added(item.product)}
                 src={item.product.front_image}

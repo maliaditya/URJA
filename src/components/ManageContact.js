@@ -63,12 +63,12 @@ const ManageContact = ({user,access,checkAuthenticated,load_user}) => {
       <h4 className='title'>Manage Contact</h4>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className='password'>
-          <label for='First Name1' class='form-label'>
+          <label  className='form-label'>
             Email Address
           </label>
           <input
             type='email'
-            class='form-control'
+            className='form-control'
             id='exampleInputEmail1'
             placeholder='Please Enter Your Email Address'
             aria-describedby='emailHelp'
@@ -76,12 +76,12 @@ const ManageContact = ({user,access,checkAuthenticated,load_user}) => {
           ></input>
         </div>
         <div className='password'>
-          <label for='First Name1' class='form-label'>
+          <label  className='form-label'>
             Mobile Number
           </label>
           <input
             type='phone'
-            class='form-control'
+            className='form-control'
             id='exampleInputEmail1'
             placeholder=' Please Enter Your Mobile Number'
             aria-describedby='emailHelp'

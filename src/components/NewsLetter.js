@@ -54,7 +54,7 @@ const onSubmit=(e)=>{
 
 
   }
-  if(user.newsletter_details.length===0){
+
     
     
     return (
@@ -84,8 +84,6 @@ const onSubmit=(e)=>{
       </center>
     </Newscont>
   )
-}
-return<p></p>
 }
 
 const Newscont = styled.section`

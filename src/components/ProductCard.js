@@ -1,58 +1,73 @@
-import React from 'react'
+import React, {Component} from 'react'
 import styled from 'styled-components'
-import { MdFavoriteBorder } from 'react-icons/md'
+import { MdFavorite } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Rating from '@material-ui/lab/Rating'
 import Box from '@material-ui/core/Box'
-import {current_item_added} from '../actions/auth'
+import {current_item_added,
+        removeFromFavourites,
+        checkAuthenticated,
+        load_user
+      } from '../actions/auth'
 
 
-const ProductCard = ({user,current_item_added}) => {
-console.log('useruser',user)
+class ProductCard extends Component {
+  constructor(props) {
+            super(props)
 
+            this.state = {
+               
+            };
+        }
+
+   componentDidMount() {
+     this.props.checkAuthenticated()
+      this.props.load_user()
+  }
+
+  render() {
   return (
-    <Link to='/product'  >
+    <React.Fragment>
       <br />
       <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
         My Favourites
       </h4>
       <br />
-   {user.map((item)=>{
+   {this.props.user.map((item,index)=>{
      return(
     
-      <Wrapper   className='content'>
-        <div onClick={()=>current_item_added(item.product)} className='containercard border'>
+      <Wrapper key={index}  className='content'>
+        <div onClick={()=>this.props.current_item_added(item.product)} className='containercard border'>
           <img
           alt='product_image'
             className='containercard__image'
             src={item.product.front_image}
             />
           <div className='header'>
-            <p className='head-title'>
+            <div className='head-title'>
               <h5>{item.product.name}</h5>
-              <MdFavoriteBorder className="fav"  size={25} />
-            </p>
+                <MdFavorite onClick={()=>this.props.removeFromFavourites(item.id)} className="fav"  size={25} />
+            </div>
             <div className='desc'>
               <p>{item.product.details.slice(0, 90)}...</p>
-              <p className='rating'>
+              <div className='rating'>
                 <Box component='fieldset' mb={0.3}  borderColor='transparent'>
-                      <Rating name='read-only' value={item.product.reviews.map((sub)=>sub.rating)} readOnly />
+                      <Rating name='read-only' value={item.product.reviews.map((sub)=>sub.rating)[0]} readOnly />
               </Box>
                 &nbsp; &nbsp; {item.product.reviews.map((sub)=>sub.rating)}.0 &nbsp; | &nbsp; {item.product.reviews.length} ratings
-              </p >
+              </div>
               <div  className='price'>
 
               <p> ₹ {item.product.price}</p>    
                {item.product.in_stock?
-                    <p  href="#!"  className='instock' style={{fontSize:'0.8rem', color:'green'}}> In stock</p>:
-                    <p  href="#!" className='instock' style={{fontSize:'0.8rem', color:'red'}}> Out of stock</p>
+                    <p  className='instock' style={{fontSize:'0.8rem', color:'green'}}> In stock</p>:
+                    <p  className='instock' style={{fontSize:'0.8rem', color:'red'}}> Out of stock</p>
                  }
+                 <Link to='/product'>View more</Link>
           </div>
             </div>
-            {/* <button className='btn btn-warning'>Send enquiry </button>
 
-<button className='btn btn-secondary'>View number</button> */}
           </div>
         </div>
         <br />
@@ -60,11 +75,12 @@ console.log('useruser',user)
         <br />
       </Wrapper>
         )})}
-    </Link>
+    </React.Fragment>
   )
 }
+}
 
-const Wrapper = styled.a`
+const Wrapper = styled.div`
 
 .price{
   display:flex;
@@ -165,4 +181,5 @@ const mapStateToProps=(state)=>{
 }
 
 
-export default connect(mapStateToProps,{current_item_added})(ProductCard)
+export default connect(mapStateToProps,{checkAuthenticated, load_user ,current_item_added,removeFromFavourites
+})(ProductCard)

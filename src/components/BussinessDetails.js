@@ -16,7 +16,7 @@ class BussinessDetails extends React.Component {
             address_line2: '',
             city: '',
             state: '',
-            pin_code: null,
+            pin_code: '',
             leading_seller: false,
             verified_seller: false
     };
@@ -85,12 +85,12 @@ class BussinessDetails extends React.Component {
       <div className='formcontent'>
         <form onSubmit={this.handleSubmit}>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label  className='form-label'>
               Company/Bussiness/Shop Name
             </label>
             <input 
             type="text"
-             class="form-control"
+             className="form-control"
               placeholder='Product name'
                name='company_name' 
                value={this.state.company_name} 
@@ -100,12 +100,12 @@ class BussinessDetails extends React.Component {
           </div>
 
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label  className='form-label'>
               Company Details
             </label>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Company Details'
               name='company_details'
                   aria-describedby='emailHelp'
@@ -115,12 +115,12 @@ class BussinessDetails extends React.Component {
             ></input>
           </div>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label  className='form-label'>
               Address Line 1
             </label>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Please Enter Your Street Address'
               name='address_line1'
               value={this.state.address_line1}
@@ -129,19 +129,19 @@ class BussinessDetails extends React.Component {
             ></input>
           </div>
            <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label  className='form-label'>
               Address Line 2
             </label>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Please Enter Your Street Address'
               name='address_line2'
               value={this.state.address_line2}
               onChange={this.handleChange}
             ></input>
           </div>
-          <label for='First Name1' class='form-label'>
+          <label  className='form-label'>
             City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -150,7 +150,7 @@ class BussinessDetails extends React.Component {
           <div className='name'>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Eg.Satara'
               name='city'
               value={this.state.city}
@@ -160,7 +160,7 @@ class BussinessDetails extends React.Component {
 
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='Eg. Maharashtra'
               name='state'
               value={this.state.state}
@@ -168,13 +168,13 @@ class BussinessDetails extends React.Component {
                 onChange={this.handleChange}
             ></input>
           </div>
-          <label for='First Name1' class='form-label'>
+          <label  className='form-label'>
             Zip Code
           </label>
           <div className='name'>
             <input
               type='text'
-              class='form-control'
+              className='form-control'
               placeholder='6 digit Code  '
                name='pin_code'
               value={this.state.pin_code}
@@ -216,7 +216,6 @@ const Wrapper = styled.section`
     color: black;
   }
   input {
-    background-color: #dedede;
     width: 10rem;
     margin-right: 1rem;
     margin-bottom: 1rem;

@@ -8,48 +8,48 @@ const AddAddress = () => {
       <div className='formcontent'>
         <form action=''>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label for='First Name1' className='form-label'>
               Street Address
             </label>
             <input
               type='email'
-              class='form-control'
+              className='form-control'
               id='exampleInputEmail1'
               placeholder='Please enter your Street Address'
               aria-describedby='emailHelp'
             ></input>
           </div>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label for='First Name1' className='form-label'>
               City
             </label>
             <input
               type='email'
-              class='form-control'
+              className='form-control'
               id='exampleInputEmail1'
               placeholder='Eg. Satara'
               aria-describedby='emailHelp'
             ></input>
           </div>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label for='First Name1' className='form-label'>
               State
             </label>
             <input
               type='email'
-              class='form-control'
+              className='form-control'
               id='exampleInputEmail1'
               placeholder='Eg. Maharashtra'
               aria-describedby='emailHelp'
             ></input>
           </div>
           <div className='password'>
-            <label for='First Name1' class='form-label'>
+            <label for='First Name1' className='form-label'>
               Zip Code
             </label>
             <input
               type='email'
-              class='form-control'
+              className='form-control'
               id='exampleInputEmail1'
               placeholder='6 digit code '
               aria-describedby='emailHelp'

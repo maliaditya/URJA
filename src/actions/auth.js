@@ -25,20 +25,108 @@ import {
     ITEM_ADDED_TO_RECENTLY_VIEWED_FAIL, 
     ITEM_SEARCH_SUCCESS,
     ITEM_SEARCH_FAIL,
-    ITEM_SEARCH_CLEAR
+    ITEM_SEARCH_CLEAR,
+    ADD_CURRENT_ITEM_USER_FAIL,
+    ADD_CURRENT_ITEM_USER_SUCCESS,
+    ADD_CURRENT_ITEM_COMPANY_FAIL,
+    ADD_CURRENT_ITEM_COMPANY_SUCCESS,
+    ADD_TO_FAVOURITES_FAIL,
+    ADD_TO_FAVOURITES_SUCCESS,
+    REMOVE_FORM_FAVOURITES_FAIL,
+    REMOVE_FORM_FAVOURITES_SUCCESS
 
 } from './types';
+
 const api = process.env.REACT_APP_API_URL
 
+
+   
+export const removeFromFavourites = (favItem) => async dispatch =>{
+    if (localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        }; 
+
+        
+        try {
+            await axios.delete(`${api}/api/favourites/${favItem}/`, config);
+
+            console.log('REMOVE_FORM_FAVOURITES_SUCCESS')
+            alert('Product removed from your favourites')
+            dispatch({
+                type: REMOVE_FORM_FAVOURITES_SUCCESS,
+            });
+            dispatch(load_user())
+        } catch (err) {
+            dispatch({
+                type: REMOVE_FORM_FAVOURITES_FAIL
+            });
+        }
+    } else {
+        alert("Please login to add to favourites!")
+        dispatch({
+            type: REMOVE_FORM_FAVOURITES_FAIL
+        });
+    }
+
+};
+
+
+
+   
+export const addToFavourites = (product,user) => async dispatch =>{
+    console.log('ADD_TO_FAVOURITES_SUCCESS',product, user)
+    if (localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        }; 
+
+        const body ={
+            "product":product,
+            "user":user
+        }
+        
+        try {
+            await axios.post(`${api}/api/favourites/`,body, config);
+
+            console.log('ADD_TO_FAVOURITES_SUCCESS')
+            alert('Product added to your favourites')
+            dispatch({
+                type: ADD_TO_FAVOURITES_SUCCESS,
+            });
+            dispatch(load_user())
+        } catch (err) {
+            dispatch({
+                type: ADD_TO_FAVOURITES_FAIL
+            });
+        }
+    } else {
+        alert("Please login to add to favourites!")
+        dispatch({
+            type: ADD_TO_FAVOURITES_FAIL
+        });
+    }
+
+};
+
+
+
+
+
 export const itemSearchedClear = () => async dispatch => {
-    
 
             dispatch({
                 type: ITEM_SEARCH_CLEAR,
                 payload: []
             });
-
-  
 };
 
 
@@ -77,16 +165,84 @@ export const itemAddedToRecentlyViewed = (current_item) => async dispatch => {
 };
 
 
+   
+export const currentItemCompanyUser = (userId) => async dispatch =>{
+    if (localStorage.getItem('access')) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        }; 
+        try {
+            const res = await axios.get(`${api}/api/account/${userId}/`, config);
+
+            console.log('ADD_CURRENT_ITEM_USadasdER_SUCCESS',res.data)
+            dispatch({
+                type: ADD_CURRENT_ITEM_USER_SUCCESS,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: ADD_CURRENT_ITEM_USER_FAIL
+            });
+        }
+    } else {
+        dispatch({
+            type: ADD_CURRENT_ITEM_USER_FAIL
+        });
+    }
+
+};
 
 
-export const current_item_added = (current_item) => async dispatch => {
+export const currentItemCompany = (companyId) => async dispatch =>{
+    console.log('ADD_CURRENT_ITEM_USadasdER_SUCCESS',companyId)
+
+    if (localStorage.getItem('access') ) {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access')}`,
+                'Accept': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.get(`${api}/api/company/${companyId}/`, config);
+            dispatch({
+                type: ADD_CURRENT_ITEM_COMPANY_SUCCESS,
+                payload: res.data
+            });
+            dispatch(currentItemCompanyUser(res.data.user))
+        } catch (err) {
+            dispatch({
+                type: ADD_CURRENT_ITEM_COMPANY_FAIL
+            });
+        }
+    } else {
+        dispatch({
+            type: ADD_CURRENT_ITEM_COMPANY_FAIL
+        });
+    }
+
+};
+
+
+
+
+
+export const current_item_added = (current_item,path) => async dispatch => {
+    
     if (current_item !== null) {
-        console.log('payload-0',current_item)
             dispatch({
                 type: CURRENT_ITEM_ADDED_SUCCESS,
                 payload: current_item
             });
+            if(path!== '/account'){
 
+                dispatch(currentItemCompany(current_item.company))
+            }
     } else {
 
         dispatch({

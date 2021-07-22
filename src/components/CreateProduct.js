@@ -127,17 +127,18 @@ class CreateProduct extends Component {
       <div className="App">
         <form onSubmit={this.handleSubmit}>
           <p>
-          <label class="form-label">Seller </label>
-           <select class='form-select' onChange={(e) => this.setState({product_type:e.target.value})} >  
+          <label className="form-label">Seller </label>
+           <select className='form-select' onChange={(e) => this.setState({product_type:e.target.value})} >  
+                       <option>Select Seller Type</option>
                {this.state.productType.map((item) => {
                  return  <option key={item.id} id='product_type' onChange={(e) => this.setState({product_type:item.id})} value={item.id}> {item.product_type }</option>
                 })}        
             </select>
                 </p>
                       <p>
-          <label class="form-label">Product Category</label>
-           <select class='form-select'onChange={(e) => this.setState({category:e.target.value})}>
-               
+          <label className="form-label">Product Category</label>
+           <select className='form-select'onChange={(e) => this.setState({category:e.target.value})}>
+                  <option>Select Categories</option>
                {this.state.productCategories.map((item) => {
                  return  <option key={item.id} required id='category' value={item.id} onChange={(e) => this.setState({category:item.id})}> {item.category_name }</option>
                 })}   
@@ -146,18 +147,18 @@ class CreateProduct extends Component {
                 </p>
 
           <p>
-            <label class="form-label">Product name</label>
-            <input type="text" class="form-control" placeholder='Product name' id='name' value={this.state.name} onChange={this.handleChange} required/>
+            <label className="form-label">Product name</label>
+            <input type="text" className="form-control" placeholder='Product name' id='name' value={this.state.name} onChange={this.handleChange} required/>
           </p>
            <p>
-            <label class="form-label">Product price</label>
+            <label className="form-label">Product price</label>
 
-            <input type="text" class="form-control" placeholder='Product price' id='price' value={this.state.price} onChange={this.handleChange} required/>
+            <input type="text" className="form-control" placeholder='Product price' id='price' value={this.state.price} onChange={this.handleChange} required/>
           </p>
           <p>
-            <label class="form-label">Product details</label>
+            <label className="form-label">Product details</label>
 
-            <textarea type="text" class="form-control" placeholder='Product details' id='details' value={this.state.details} onChange={this.handleChange} required/>
+            <textarea type="text" className="form-control" placeholder='Product details' id='details' value={this.state.details} onChange={this.handleChange} required/>
           </p>
          
           <p>
