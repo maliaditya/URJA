@@ -1,7 +1,6 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
 import SellerDetails from './SellerDetails'
 function ModalSellerInfo(props) {
   return (
@@ -36,16 +35,7 @@ const Wrapper = styled.section`
 
 
 
- const mapStateToProps = state => {
-       return {
-    isAuthenticated: state.auth.isAuthenticated,
-    access: state.auth.access,
-    user: state.auth.user,
-    currentItem: state.auth.currentItem}
-}
-
-  
 
 
-export default connect(mapStateToProps, {})(ModalSellerInfo)
+export default (ModalSellerInfo)
 

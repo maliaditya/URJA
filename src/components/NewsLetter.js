@@ -4,7 +4,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 
 const api = process.env.REACT_APP_API_URL
-const NewsLetter = ({user,access}) => {
+const NewsLetter = ({user,access,isAuthenticated}) => {
   user = JSON.parse(localStorage.getItem("user") || "[]");
   const [formData, setFormData] = React.useState({
     email: "",
@@ -54,10 +54,12 @@ const onSubmit=(e)=>{
 
 
   }
+  if(isAuthenticated ){
 
-    
-    
-    return (
+    if( user.newsletter_details.length===0){
+      
+      
+      return (
       <Newscont>
       <hr />
       <center>
@@ -84,6 +86,9 @@ const onSubmit=(e)=>{
       </center>
     </Newscont>
   )
+}
+}
+return<React.Fragment></React.Fragment>
 }
 
 const Newscont = styled.section`
@@ -149,6 +154,7 @@ const mapStateToProps=(state)=>{
  
 
   return{
+       isAuthenticated: state.auth.isAuthenticated,
     access:state.auth.access,
     user:state.auth.user,
   }

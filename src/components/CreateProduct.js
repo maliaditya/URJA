@@ -11,9 +11,9 @@ const api = process.env.REACT_APP_API_URL
 
 class CreateProduct extends Component {
 
-
  constructor(props) {
             super(props)
+            this.props.user = JSON.parse(localStorage.getItem("user") || "[]");
 
             this.state = {
                 name: "",

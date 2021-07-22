@@ -21,7 +21,7 @@ class Categorywise extends Component {
   fetchCategories = async () => {
       const config = {headers: {
             'content-type': 'multipart/form-data',
-            'Authorization': `Bearer ${this.props.access}`,
+            // 'Authorization': `Bearer ${this.props.access}`,
           }}
       const product_type = await axios.get(`${api}/api/product_type/`, config )
       const product_categories = await axios.get(`${api}/api/categories/`, config )

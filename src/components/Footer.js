@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
-const Footer = ({user}) => {
+const Footer = ({user,isAuthenticated}) => {
     user = JSON.parse(localStorage.getItem("user") || "[]");
   return (
     <Wrapper>
@@ -44,16 +44,8 @@ const Footer = ({user}) => {
             <div className='card'>
               <div className='card-body'>
                 <h5 className='card-title'>About Us</h5>
-                  {user.company_details.length!==0?
-                <div className='card-text'>
-                  <Link to=''> Who are we </Link>
-                  <br />
-                  <Link to=''> Programs</Link>
-                  <br />
-                  {/* <Link to='/selleracc'>
-                     Become a member
-                  </Link> */}
-                </div>:<div className='card-text'>
+         
+                  {isAuthenticated && user.company_details.length===0 && isAuthenticated?<div className='card-text'>
                   <Link to=''> Who are we </Link>
                   <br />
                   <Link to=''> Programs</Link>
@@ -61,6 +53,15 @@ const Footer = ({user}) => {
                   <Link to='/selleracc'>
                      Become a member
                   </Link>
+                </div>
+               : <div className='card-text'>
+                  <Link to=''> Who are we </Link>
+                  <br />
+                  <Link to=''> Programs</Link>
+                  <br />
+                  {/* <Link to='/selleracc'>
+                     Become a member
+                  </Link> */}
                 </div>
                   }
               </div>

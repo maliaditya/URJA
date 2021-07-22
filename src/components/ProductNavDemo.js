@@ -82,19 +82,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemSearchedResult}) {
+function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemSearchedResult,isAuthenticated,user}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const [searchItem, setSearchItem] = React.useState();
+  const [search, setSearchItem] = React.useState({
+    searchItem:''
+  });
   const [searchResultItems, setSearchResultItems] = React.useState([]);
   console.log(searchResultItems)
 
   const fetchSearchResults = async (keyword) => {
       const config = {headers: {
             'content-type': 'appliation/json',
-            'Authorization': `Bearer ${access}`
+            // 'Authorization': `Bearer ${access}`
           }}
       await axios.get(`${api}/api/products/?name=${keyword}`,
                       config
@@ -114,13 +116,16 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
                       })
   }
 
-  const onChange=(event)=>{
-    setSearchItem(event.target.value)
+  const onChange=(e)=>{
+    setSearchItem({
+      ...search,
+      [e.target.name]: e.target.value,
+    })
 
   }
-  const onSubmit=(event)=>{
-    event.preventDefault()
-    fetchSearchResults(searchItem)
+  const onSubmit=(e)=>{
+    e.preventDefault()
+    fetchSearchResults(search.searchItem)
      itemSearchedClear()
   }
 
@@ -170,8 +175,9 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-
+{isAuthenticated?
       <MenuItem>
+        
         <IconButton aria-label="show 4 new mails" color="inherit">
              <Link to='/'>
                 <AiOutlineHome style={{color:'black'}} size={30} />
@@ -179,9 +185,9 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
             </IconButton>
             {/* <IconButton aria-label="show 17 new notifications" color="inherit">
                < Link to='/' style={{color:'black'}}>
-                <AiOutlineHistory size={30} />
-             </Link>
-            </IconButton> */}
+               <AiOutlineHistory size={30} />
+               </Link>
+              </IconButton> */}
             <IconButton>
             <Link to='favourites'>
               <MdFavoriteBorder style={{color:'black'}} size={30} />
@@ -199,6 +205,22 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
             </IconButton>
             
       </MenuItem>
+  :
+  <MenuItem>
+        
+        <IconButton aria-label="show 4 new mails" color="inherit">
+             <Link to='/'>
+                <AiOutlineHome style={{color:'black'}} size={30} />
+             </Link>
+            </IconButton>
+            {/* <IconButton aria-label="show 17 new notifications" color="inherit">
+               < Link to='/' style={{color:'black'}}>
+               <AiOutlineHistory size={30} />
+               </Link>
+              </IconButton> */}
+            
+      </MenuItem>
+  }
     </Menu>
   );
 
@@ -222,7 +244,7 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
               type='text'
               placeholder="Search…"
               name='searchItem'
-              value={searchItem}
+              value={search.searchItem}
               onChange={(e) => onChange(e)}
               classes={{
                 root: classes.inputRoot,
@@ -237,19 +259,19 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
               
  
           <div className={classes.grow} />
+{isAuthenticated?
           <div className={classes.sectionDesktop}>
-
             <IconButton aria-label="show 4 new mails" color="inherit">
              <Link to='/'>
                 <AiOutlineHome onClick={()=>itemSearchedClear()}style={{color:'black'}} size={30} />
              </Link>
             </IconButton>
             {/* <IconButton aria-label="show 17 new notifications" color="inherit">
-               < Link to='/' style={{color:'black'}}>
+            < Link to='/' style={{color:'black'}}>
                 <AiOutlineHistory size={30} />
-             </Link>
-            </IconButton> */}
-            <IconButton>
+                </Link>
+              </IconButton> */}
+              <IconButton>
             <Link to='favourites'>
               <MdFavoriteBorder style={{color:'black'}} size={30} />
             </Link>
@@ -265,7 +287,16 @@ function PrimarySearchAppBar({logout,access,itemSearched,itemSearchedClear,itemS
                   </Link>
             </IconButton>
 
-          </div>
+</div>: <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+             <Link to='/'>
+                <AiOutlineHome onClick={()=>itemSearchedClear()}style={{color:'black'}} size={30} />
+             </Link>
+            </IconButton>
+          
+
+</div>
+}
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"

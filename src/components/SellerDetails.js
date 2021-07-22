@@ -42,8 +42,8 @@ const SellerDetails = ({currentItem,
                   xmlns='http://www.w3.org/2000/svg'
                 >
                   <path
-                    fill-rule='evenodd'
-                    clip-rule='evenodd'
+                    fillRule='evenodd'
+                    clipRule='evenodd'
                     d='M18.4815 13.2243C19.0635 12.0496 19.3887 10.7388 19.3887 9.3564C19.3887 4.30715 15.0514 0.213928 9.70117 0.213928C4.35091 0.213928 0.0136719 4.30715 0.0136719 9.3564C0.0136719 10.7388 0.338799 12.0496 0.920828 13.2243H0.881399L1.08949 13.5479C1.29321 13.9199 1.52321 14.2771 1.77716 14.6171L9.70126 26.938L17.6264 14.6155C17.8795 14.2765 18.1087 13.9205 18.3119 13.5497L18.5211 13.2243H18.4815Z'
                     fill='#C4C4C4'
                   />
@@ -57,11 +57,11 @@ const SellerDetails = ({currentItem,
                 </svg>
                 &nbsp; {currentCompany.get_full_address}
               </p>
-              <p className='crating'>
+              <div className='crating'>
                  <Box component='fieldset' mb={0.5} borderColor='transparent'>
-                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)} readOnly />
+                      <Rating name='read-only' value={currentItem.reviews.map((sub)=>sub.rating)[0]} readOnly />
               </Box>
-              </p>
+              </div>
               <p>
                 <svg
                   width='24'
@@ -82,7 +82,7 @@ const SellerDetails = ({currentItem,
                 &nbsp; {currentCompanyUser.first_name} {currentCompanyUser.last_name}
               </p>
               <p>{currentCompanyUser.phone}  /  {currentCompanyUser.email}</p>
-              <p>
+              <div>
                 {currentCompany.leading_seller?<React.Fragment>
                 <svg
                 width='24'
@@ -262,9 +262,9 @@ const SellerDetails = ({currentItem,
                 </svg>
                 &nbsp; Verified Seller{' '}
                 </React.Fragment>:
-                <p></p>
+                <React.Fragment></React.Fragment>
                 }
-              </p>
+              </div>
       
             </div>
             

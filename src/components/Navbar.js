@@ -253,7 +253,7 @@ return (
                 open={open}
                 onClose={handleClose}
               >
-                {user.company_details.length!==0?<div>
+                {isAuthenticated && user.company_details.length!==0?<div>
                 <MenuItem onClick={handleClose}>Sell on Urja</MenuItem>
                 <MenuItem onClick={handleClose}>Help</MenuItem>
                 <MenuItem onClick={handleClose}>FAQ</MenuItem>

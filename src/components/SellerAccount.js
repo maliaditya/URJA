@@ -8,6 +8,8 @@ import {connect} from 'react-redux'
 const SellerAccount = ({user}) => {
   const [value, setValue] = useState(<BussinessDetails />)
 
+  user = JSON.parse(localStorage.getItem("user") || "[]");
+
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>
@@ -20,20 +22,32 @@ const SellerAccount = ({user}) => {
                   <div className='card-title'>
                     <p>Welcome, {user.first_name} {user.last_name}</p>
                   </div>
+                    {user.company_details.length===0?
                   <div className='card-text'>
-                    <p>
+                    <div>
                       <button onClick={() => setValue(<BussinessDetails />)}>
-                        Bussiness Detail
+                        Add Bussiness Details
                       </button>
-                    </p>
-                    <p>
+                    </div>
+                    <br />
+                    <Link to=''>Help</Link>
+                  </div>:<div className='card-text'>
+                    <div>
+                      
+                      <button onClick={() => setValue(<BussinessDetails />)}>
+                        Add Bussiness Details
+                      </button>
+                    </div>
+                    <div>
+                      <br />
                       <button onClick={() => setValue(<CreateProduct />)}>
                         Add Products
                       </button>
-                    </p>
-
+                    </div>
+                    <br />
                     <Link to=''>Help</Link>
                   </div>
+              }
                 </div>
               </div>
             </div>
