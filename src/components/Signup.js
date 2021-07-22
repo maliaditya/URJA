@@ -160,7 +160,7 @@ pin_code)
             }
 
             <label className='check'>
-              <input type='checkbox' checked='checked' name='remember' /> I've
+              <input type='checkbox'  name='remember' /> I've
               read and accepted <Link to='' >Terms and services</Link>
               <span>&nbsp;</span> and<Link to=''> Privacy Policy</Link>
             </label>
