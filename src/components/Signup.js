@@ -71,7 +71,7 @@ pin_code)
             </label>
             <div className='name'>
               <input
-                type='first_name'
+                type='text'
                 className='form-control'
                 
                 placeholder='First Name'
@@ -83,7 +83,7 @@ pin_code)
               ></input>
 
               <input
-                type='last_name'
+                type='text'
                 className='form-control'
                 
                 placeholder='Last Name'
@@ -113,7 +113,7 @@ pin_code)
               ></input>
 
               <input
-                type='phone'
+                type='text'
                 className='form-control'
                 
                 placeholder='Phone No.'

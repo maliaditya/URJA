@@ -428,6 +428,7 @@ address_line2,
 city,
 state,
 pin_code });
+console.log("my signup data", body)
 
     try {
         const res = await axios.post(`${api}/auth/users/`, body, config);
