@@ -6,46 +6,50 @@ import CompanyInfo from './CompanyInfo'
 import MyProducts from './MyProducts'
 import { connect } from 'react-redux'
 import EnquiryTable from './EnquiryTable'
-const Account = ({user}) => {
-  user = JSON.parse(localStorage.getItem("user") || "[]");
+const Account = ({ user }) => {
+  user = JSON.parse(localStorage.getItem('user') || '[]')
   const [value, setValue] = useState(<PersonalInfo />)
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>
         <div className='row'>
           <div className='col-md-3 vl contain-fluid'>
-
             <div className='contain'>
               <div className='review '>
                 <div className='card '>
+                  {' '}
+                  <div className='card-title'>
+                    <p>
+                      Welcome, {user.first_name} {user.last_name}
+                    </p>
+                  </div>
                   <div className='card-title'> Account Settings</div>
                   <div className='card-text'>
-                    
-                    {user.company_details.length!==0?<div>
-                      <button onClick={() => setValue(<PersonalInfo />)}>
-                      Personal Information
-                    </button>
-                    <br />
-                    <button onClick={() => setValue(<CompanyInfo />)}>
-                      {' '}
-                      Company Information
-                    <br />
-                    </button>
-                    <button onClick={() => setValue(<ManageContact />)}>
-                      Manage Contact
-                    </button>
+                    {user.company_details.length !== 0 ? (
+                      <div>
+                        <button onClick={() => setValue(<PersonalInfo />)}>
+                          Personal Information
+                        </button>
+                        <br />
+                        <button onClick={() => setValue(<CompanyInfo />)}>
+                          {' '}
+                          Company Information
+                          <br />
+                        </button>
+                        <button onClick={() => setValue(<ManageContact />)}>
+                          Manage Contact
+                        </button>
                       </div>
-                    :<div>
-
-                    <button onClick={() => setValue(<PersonalInfo />)}>
-                      Personal Information
-                    </button>
-                    <button onClick={() => setValue(<ManageContact />)}>
-                      Manage Contact
-                    </button> 
-                    </div>
-                    }
-                    
+                    ) : (
+                      <div>
+                        <button onClick={() => setValue(<PersonalInfo />)}>
+                          Personal Information
+                        </button>
+                        <button onClick={() => setValue(<ManageContact />)}>
+                          Manage Contact
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -54,22 +58,25 @@ const Account = ({user}) => {
             <div className='contain'>
               <div className='review '>
                 <div className='card '>
-                  {user.company_details.length!==0?
-                  <div>
-                  <div className='card-title'> My Stuff</div>
-                  <div className='card-text'>
-                    <button onClick={() => setValue(<MyProducts />)}>
-                      My Products
-                    </button><br />
-                     <button onClick={() => setValue(<EnquiryTable />)}>
-                      My Enquires
-                    </button><br />
-                  </div>
-                  </div>
-                  :<p></p>
-                }
+                  {user.company_details.length !== 0 ? (
+                    <div>
+                      <div className='card-title'> My Stuff</div>
+                      <div className='card-text'>
+                        <button onClick={() => setValue(<MyProducts />)}>
+                          My Products
+                        </button>
+                        <br />
+                        <button onClick={() => setValue(<EnquiryTable />)}>
+                          My Enquires
+                        </button>
+                        <br />
+                      </div>
+                    </div>
+                  ) : (
+                    <p></p>
+                  )}
                 </div>
-                </div>
+              </div>
             </div>
           </div>
 
@@ -187,16 +194,13 @@ a{
     border: 2px solid black;
   }
 `
-  
 
-
-const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
-          user: state.auth.user}
+    user: state.auth.user,
+  }
 }
 
-
-
-export default connect(mapStateToProps,{})(Account)
+export default connect(mapStateToProps, {})(Account)

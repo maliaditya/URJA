@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import BussinessDetails from './BussinessDetails'
 import CreateProduct from './CreateProduct'
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
-const SellerAccount = ({user}) => {
-  const [value, setValue] = useState(<BussinessDetails />)
+const SellerAccount = ({ user }) => {
+  const [value, setValue] = useState()
 
-  user = JSON.parse(localStorage.getItem("user") || "[]");
+  user = JSON.parse(localStorage.getItem('user') || '[]')
 
   return (
     <Wrapper className='content'>
@@ -20,34 +20,37 @@ const SellerAccount = ({user}) => {
               <div className='review '>
                 <div className='card '>
                   <div className='card-title'>
-                    <p>Welcome, {user.first_name} {user.last_name}</p>
+                    <p>
+                      Welcome, {user.first_name} {user.last_name}
+                    </p>
                   </div>
-                    {user.company_details.length===0?
-                  <div className='card-text'>
-                    <div>
-                      <button onClick={() => setValue(<BussinessDetails />)}>
-                        Add Bussiness Details
-                      </button>
+                  {user.company_details.length === 0 ? (
+                    <div className='card-text'>
+                      <div>
+                        <button onClick={() => setValue(<BussinessDetails />)}>
+                          Add Bussiness Details
+                        </button>
+                      </div>
+                      <br />
+                      <Link to=''>Help</Link>
                     </div>
-                    <br />
-                    <Link to=''>Help</Link>
-                  </div>:<div className='card-text'>
-                    <div>
+                  ) : (
+                    <div className='card-text'>
+                      {/* <div>
                       
                       <button onClick={() => setValue(<BussinessDetails />)}>
                         Add Bussiness Details
                       </button>
-                    </div>
-                    <div>
+                    </div> */}
+                      <div>
+                        <button onClick={() => setValue(<CreateProduct />)}>
+                          Add Products
+                        </button>
+                      </div>
                       <br />
-                      <button onClick={() => setValue(<CreateProduct />)}>
-                        Add Products
-                      </button>
+                      <Link to=''>Help</Link>
                     </div>
-                    <br />
-                    <Link to=''>Help</Link>
-                  </div>
-              }
+                  )}
                 </div>
               </div>
             </div>
@@ -177,20 +180,14 @@ br{
   }
 `
 
-
- const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
     currentItem: state.auth.currentItem,
-    itemSearched:state.auth.itemSearched
+    itemSearched: state.auth.itemSearched,
   }
 }
 
-  
-
-
 export default connect(mapStateToProps, {})(SellerAccount)
-
-

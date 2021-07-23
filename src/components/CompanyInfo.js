@@ -2,205 +2,214 @@ import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { checkAuthenticated,load_user } from '../actions/auth'
+import { checkAuthenticated, load_user } from '../actions/auth'
 // import CreateProduct from './CreateProduct'
 const api = process.env.REACT_APP_API_URL
 
 class CompanyInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-            company_name: '',
-            user: props.user.id,
-            company_details: '',
-            address_line1: '',
-            address_line2: '',
-            city: '',
-            state: '',
-            pin_code: '',
-            leading_seller: false,
-            verified_seller: false
-    };
+      company_name: '',
+      user: props.user.id,
+      company_details: '',
+      address_line1: '',
+      address_line2: '',
+      city: '',
+      state: '',
+      pin_code: '',
+      leading_seller: false,
+      verified_seller: false,
+    }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  
 
-  
-  postBussinessDetails=async()=>{
+  postBussinessDetails = async () => {
     const body = {
-      'company_name':this.state.company_name,
-      'user':this.props.user.id,
-      'company_details':this.state.company_details,
-      'address_line1':this.state.address_line1,
-      'address_line2':this.state.address_line2,
-      'city':this.state.city,
-      'state':this.state.state,
-      'pin_code':this.state.pin_code,
-      'leading_seller,':this.state.leading_seller,
-      'verified_seller': this.state.verified_seller
+      company_name: this.state.company_name,
+      user: this.props.user.id,
+      company_details: this.state.company_details,
+      address_line1: this.state.address_line1,
+      address_line2: this.state.address_line2,
+      city: this.state.city,
+      state: this.state.state,
+      pin_code: this.state.pin_code,
+      'leading_seller,': this.state.leading_seller,
+      verified_seller: this.state.verified_seller,
     }
-    console.log("body",body)
-    
-    const config = {headers: {
-      'content-type': 'application/json',
-      'Authorization': `Bearer ${this.props.access}`,
-    }}
-    await axios.put(`${api}/api/company/${this.props.user.company_details.map((sub)=>sub.id)}/`,
-            body,
-            config).then(res=>{
-      alert('Company Details are Updated successfully! ')
-      this.props.checkAuthenticated()
-      this.props.load_user()
+    console.log('body', body)
 
-      console.log(res)
-    }).catch(err=>{
-      alert('Unable to save the details please try again ! ')
-      console.log(err)
-    })
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.props.access}`,
+      },
+    }
+    await axios
+      .put(
+        `${api}/api/company/${this.props.user.company_details.map(
+          (sub) => sub.id
+        )}/`,
+        body,
+        config
+      )
+      .then((res) => {
+        alert('Company Details are Updated successfully! ')
+        this.props.checkAuthenticated()
+        this.props.load_user()
+
+        console.log(res)
+      })
+      .catch((err) => {
+        alert('Unable to save the details please try again ! ')
+        console.log(err)
+      })
   }
-  
-    handleChange(event) {
-      this.setState({[event.target.name]: event.target.value});
-    }
-  
-    handleSubmit(event) {
-      console.log(this.state)
-      
-      event.preventDefault()
-      this.postBussinessDetails()
-        
-    }
-  
-  componentDidMount(){
 
-      this.setState({
-            company_name: this.props.user.company_details.map((sub)=>sub.company_name)[0],
-            user: this.props.user.company_details.map((sub)=>sub.user)[0],
-            company_details:this.props.user.company_details.map((sub)=>sub.company_details)[0],
-            address_line1:this.props.user.company_details.map((sub)=>sub.address_line1)[0],
-            address_line2: this.props.user.company_details.map((sub)=>sub.address_line2)[0],
-            city: this.props.user.company_details.map((sub)=>sub.city)[0],
-            state: this.props.user.company_details.map((sub)=>sub.state)[0],
-            pin_code: this.props.user.company_details.map((sub)=>sub.pin_code)[0],
-            leading_seller: this.props.user.company_details.map((sub)=>sub.leading_seller)[0],
-            verified_seller: this.props.user.company_details.map((sub)=>sub.verified_seller)[0],
-         })
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
-   console.log("state",this.state)
+  handleSubmit(event) {
+    console.log(this.state)
+
+    event.preventDefault()
+    this.postBussinessDetails()
+  }
+
+  componentDidMount() {
+    this.setState({
+      company_name: this.props.user.company_details.map(
+        (sub) => sub.company_name
+      )[0],
+      user: this.props.user.company_details.map((sub) => sub.user)[0],
+      company_details: this.props.user.company_details.map(
+        (sub) => sub.company_details
+      )[0],
+      address_line1: this.props.user.company_details.map(
+        (sub) => sub.address_line1
+      )[0],
+      address_line2: this.props.user.company_details.map(
+        (sub) => sub.address_line2
+      )[0],
+      city: this.props.user.company_details.map((sub) => sub.city)[0],
+      state: this.props.user.company_details.map((sub) => sub.state)[0],
+      pin_code: this.props.user.company_details.map((sub) => sub.pin_code)[0],
+      leading_seller: this.props.user.company_details.map(
+        (sub) => sub.leading_seller
+      )[0],
+      verified_seller: this.props.user.company_details.map(
+        (sub) => sub.verified_seller
+      )[0],
+    })
+
+    console.log('state', this.state)
   }
   render() {
     return (
-    <Wrapper className='container'>
-      <p>Bussiness Details</p>
-      <div className='formcontent'>
-        <form onSubmit={this.handleSubmit}>
-          <div className='password'>
-            <label className='form-label'>
-              Company/Bussiness/Shop Name
-            </label>
-            <input 
-            type="text"
-             className="form-control"
-              placeholder='Product name'
-               name='company_name' 
-               value={this.state.company_name  || ''} 
-                 required
-              onChange={this.handleChange}/>
-            
-          </div>
-
-          <div className='password'>
-            <label className='form-label'>
-              Company Details
-            </label>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Company Details'
-              name='company_details'
-                  aria-describedby='emailHelp'
-              value={this.state.company_details  || ''}
-              required
-               onChange={this.handleChange}
-            ></input>
-          </div>
-          <div className='password'>
-            <label className='form-label'>
-              Address Line 1
-            </label>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Please Enter Your Street Address'
-              name='address_line1'
-              value={this.state.address_line1  || ''}
-              required
-              onChange={this.handleChange}
-            ></input>
-          </div>
-           <div className='password'>
-            <label className='form-label'>
-              Address Line 2
-            </label>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Please Enter Your Street Address'
-              name='address_line2'
-              value={this.state.address_line2  || ''}
-              onChange={this.handleChange}
-            ></input>
-          </div>
-          <label className='form-label'>
-            City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; State
-          </label>
-          <div className='name'>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Eg.Satara'
-              name='city'
-              value={this.state.city  || ''}
-              required
-               onChange={this.handleChange}
-            ></input>
-
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Eg. Maharashtra'
-              name='state'
-              value={this.state.state  || ''}
-              required
+      <Wrapper className='container'>
+        <p>Bussiness Details</p>
+        <div className='formcontent'>
+          <form onSubmit={this.handleSubmit}>
+            <div className='password'>
+              <label className='form-label'>Company/Bussiness/Shop Name</label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Product name'
+                name='company_name'
+                value={this.state.company_name || ''}
+                required
                 onChange={this.handleChange}
-            ></input>
-          </div>
-          <label className='form-label'>
-            Zip Code
-          </label>
-          <div className='name'>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='6 digit Code  '
-               name='pin_code'
-              value={this.state.pin_code  || ''}
-              required
-               onChange={this.handleChange}
-            ></input>
-          </div>
+              />
+            </div>
 
-          <button type='submit' className='btn btn-warning'>Submit</button>
-        </form>
-      </div>
-    </Wrapper>
-  )
-}
+            <div className='password'>
+              <label className='form-label'>Company Details</label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Company Details'
+                name='company_details'
+                aria-describedby='emailHelp'
+                value={this.state.company_details || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <div className='password'>
+              <label className='form-label'>Address Line 1</label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Please Enter Your Street Address'
+                name='address_line1'
+                value={this.state.address_line1 || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <div className='password'>
+              <label className='form-label'>Address Line 2</label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Please Enter Your Street Address'
+                name='address_line2'
+                value={this.state.address_line2 || ''}
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <label className='form-label'>
+              City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; State
+            </label>
+            <div className='name'>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Eg.Satara'
+                name='city'
+                value={this.state.city || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Eg. Maharashtra'
+                name='state'
+                value={this.state.state || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <label className='form-label'>Zip Code</label>
+            <div className='name'>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='6 digit Code  '
+                name='pin_code'
+                value={this.state.pin_code || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+
+            <button type='submit' className='btn btn-warning'>
+              Submit
+            </button>
+          </form>
+        </div>
+      </Wrapper>
+    )
+  }
 }
 
 const Wrapper = styled.section`
@@ -332,17 +341,15 @@ const Wrapper = styled.section`
   }
 `
 
-
-const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
-    user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    user: JSON.parse(localStorage.getItem('user') || '[]'),
+    currentItem: state.auth.currentItem,
+  }
 }
 
-export default connect(mapStateToProps, {load_user, checkAuthenticated})(CompanyInfo)
-
-
-
-
+export default connect(mapStateToProps, { load_user, checkAuthenticated })(
+  CompanyInfo
+)

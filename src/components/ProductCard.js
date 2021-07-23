@@ -43,13 +43,21 @@ class ProductCard extends Component {
                 />
                 <div className='header'>
                   <div className='head-title'>
-                    <h5>{item.product.name}</h5>
-                    <MdFavorite
-                      onClick={() => this.props.removeFromFavourites(item.id)}
-                      className='fav'
-                      size={25}
-                    />
+                    <h5
+                      className='itemname'
+                      style={{ fontWeight: '700', width: '17rem' }}
+                    >
+                      {item.product.name}
+                    </h5>
+                    <section>
+                      <MdFavorite
+                        onClick={() => this.props.removeFromFavourites(item.id)}
+                        className='fav'
+                        size={25}
+                      />
+                    </section>
                   </div>
+
                   <div className='desc'>
                     <p>{item.product.details.slice(0, 90)}...</p>
                     <div className='rating'>
@@ -125,9 +133,6 @@ const Wrapper = styled.div`
     font-weight: 700;
   }
 
-  .fav {
-    margin-left: 10rem;
-  }
   .head-title {
     display: flex;
     justify-content: space-between;
@@ -155,7 +160,7 @@ const Wrapper = styled.div`
     box-shadow: 0 6px 12px -13px black;
 
     width: 20rem;
-    height: 33rem;
+    height: 35rem;
     border-radius: 1rem;
 
     &__image {
@@ -166,30 +171,24 @@ const Wrapper = styled.div`
     }
   }
   @media (min-width: 720px) {
-    .fav {
-      margin-left: 12rem;
-    }
     .containercard {
       width: 35rem;
-      height: 12rem;
+      height: 14rem;
       border-radius: 1rem;
 
       display: flex;
       &__image {
         border-radius: 1rem 0rem 0rem 1rem;
-        width: 10rem;
+        width: 14rem;
         background-size: cover;
         display: block;
       }
     }
   }
   @media (min-width: 1300px) {
-    .fav {
-      margin-left: 15rem;
-    }
     .containercard {
       width: 40rem;
-      height: 12rem;
+      height: 14rem;
       border-radius: 1rem;
       display: flex;
       &__image {

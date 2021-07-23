@@ -2,25 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-const Productinfo = ({currentItem,currentCompany}) => {
-  currentItem = JSON.parse(localStorage.getItem("currentItem") || "[]")
-  currentCompany = JSON.parse(localStorage.getItem("currentCompany") || "[]");
+const Productinfo = ({ currentItem, currentCompany }) => {
+  currentItem = JSON.parse(localStorage.getItem('currentItem') || '[]')
+  currentCompany = JSON.parse(localStorage.getItem('currentCompany') || '[]')
 
   return (
     <Reviewwrap className='content'>
       <div id='product' className='container'>
         <p className='ttag'>Product Details</p>
-        <div className='text'>
-          {currentItem.details}
-        </div>
+        <div className='text'>{currentItem.details}</div>
       </div>
 
       <div className='container'>
         <p className='ttag'>Company Details</p>
-        <div className='text'>
-         {currentCompany.company_details}
-        </div>
+        <div className='text'>{currentCompany.company_details}</div>
       </div>
+      <br />
     </Reviewwrap>
   )
 }
@@ -54,20 +51,15 @@ const Reviewwrap = styled.section`
   }
 `
 
-
- const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
     currentItem: state.auth.currentItem,
-    itemSearchedResult:state.auth.itemSearchedResult,
-    currentCompany: state.auth.currentCompany
+    itemSearchedResult: state.auth.itemSearchedResult,
+    currentCompany: state.auth.currentCompany,
   }
 }
-  
 
 export default connect(mapStateToProps, {})(Productinfo)
-
-
-

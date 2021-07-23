@@ -16,6 +16,7 @@ const Signup = ({ signup, isAuthenticated, props }) => {
     phone: '',
     password: '',
     re_password: '',
+    hide: '',
   })
 
   const { first_name, last_name, email, phone, password, re_password } =
@@ -30,9 +31,16 @@ const Signup = ({ signup, isAuthenticated, props }) => {
   const onSubmit = (e) => {
     e.preventDefault()
     console.log(first_name, last_name, phone, email, password, re_password)
-    if (password === re_password) {
-      setAccountCreated(true)
-      signup(first_name, last_name, phone, email, password, re_password)
+    if (password.length > 8) {
+      if (password === re_password) {
+        setFormData({ ...formData, hide: props.onHide })
+        setAccountCreated(true)
+        signup(first_name, last_name, phone, email, password, re_password)
+      } else {
+        alert("Password don't match")
+      }
+    } else {
+      alert('Password must have aleast 8 characters.')
     }
   }
 
@@ -89,7 +97,9 @@ const Signup = ({ signup, isAuthenticated, props }) => {
               ></input>
 
               <input
-                type='text'
+                maxLength={10}
+                pattern='\d{10}'
+                type='number'
                 className='form-control'
                 placeholder='Phone No.'
                 name='phone'
@@ -149,7 +159,7 @@ const Signup = ({ signup, isAuthenticated, props }) => {
             </label>
             <br />
             <button
-              onClick={props.onHide}
+              onClick={formData.hide}
               type='submit'
               className='btn btn-warning'
             >

@@ -37,9 +37,13 @@ const ProductResult = ({
 
     if (itemSearchedResult.length === 0) {
       return (
-        <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
-          No results found.
-        </h4>
+        <React.Fragment>
+          <br />
+          <br />
+          <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
+            No results found.
+          </h4>
+        </React.Fragment>
       )
     } else {
       return (
@@ -63,25 +67,33 @@ const ProductResult = ({
                   />
                   <div className='header'>
                     <div className='head-title'>
-                      <h5>{item.name}</h5>
-                      {userFavouriteProductsId.includes(item.id) ? (
-                        <MdFavorite
-                          onClick={() =>
-                            removeFromFavourites(
-                              userFavouriteProductsIdAndProductID[item.id]
-                            )
-                          }
-                          className='fav'
-                          size={25}
-                        />
-                      ) : (
-                        <MdFavoriteBorder
-                          onClick={() => addToFavourites(item.id, user.id)}
-                          className='fav'
-                          size={25}
-                        />
-                      )}
+                      <h5
+                        className='itemname'
+                        style={{ fontWeight: '700', width: '17rem' }}
+                      >
+                        {item.name}
+                      </h5>
+                      <section>
+                        {userFavouriteProductsId.includes(item.id) ? (
+                          <MdFavorite
+                            onClick={() =>
+                              removeFromFavourites(
+                                userFavouriteProductsIdAndProductID[item.id]
+                              )
+                            }
+                            className='fav'
+                            size={25}
+                          />
+                        ) : (
+                          <MdFavoriteBorder
+                            onClick={() => addToFavourites(item.id, user.id)}
+                            className='fav'
+                            size={25}
+                          />
+                        )}
+                      </section>
                     </div>
+
                     <div className='desc'>
                       <p>{item.details.slice(0, 90)}...</p>
                       <div className='rating'>
@@ -231,9 +243,6 @@ const Wrapper = styled.div`
     font-weight: 700;
   }
 
-  .fav {
-    margin-left: 10rem;
-  }
   .head-title {
     display: flex;
     justify-content: space-between;
@@ -261,7 +270,7 @@ const Wrapper = styled.div`
     box-shadow: 0 6px 12px -13px black;
 
     width: 20rem;
-    height: 33rem;
+    height: 35rem;
     border-radius: 1rem;
 
     &__image {
@@ -272,12 +281,9 @@ const Wrapper = styled.div`
     }
   }
   @media (min-width: 720px) {
-    .fav {
-      margin-left: 12rem;
-    }
     .containercard {
       width: 35rem;
-      height: 12rem;
+      height: 14rem;
       border-radius: 1rem;
 
       display: flex;
@@ -289,13 +295,11 @@ const Wrapper = styled.div`
       }
     }
   }
+
   @media (min-width: 1300px) {
-    .fav {
-      margin-left: 15rem;
-    }
     .containercard {
       width: 40rem;
-      height: 12rem;
+      height: 14rem;
       border-radius: 1rem;
       display: flex;
       &__image {
@@ -312,7 +316,7 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
-    user: state.auth.user,
+    user: JSON.parse(localStorage.getItem('user') || '[]'),
     currentItem: state.auth.currentItem,
     itemSearchedResult: state.auth.itemSearchedResult,
   }

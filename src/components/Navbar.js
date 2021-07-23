@@ -270,9 +270,13 @@ function Nav({ logout, isAuthenticated, user }) {
                     <MenuItem onClick={handleClose}>Help</MenuItem>
                     <MenuItem onClick={handleClose}>FAQ</MenuItem>
                     <MenuItem onClick={handleClose}>Report</MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <Link to='/account'> My account</Link>
-                    </MenuItem>
+                    <Link to='/selleracc'>
+                      <MenuItem onClick={handleClose}>Become a member</MenuItem>
+                    </Link>
+                    <Link to='/account'>
+                      {' '}
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                    </Link>
                   </div>
                 ) : (
                   <div>

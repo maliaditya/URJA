@@ -2,7 +2,9 @@ import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+
 // import CreateProduct from './CreateProduct'
+
 const api = process.env.REACT_APP_API_URL
 
 class BussinessDetails extends React.Component {
@@ -49,8 +51,9 @@ class BussinessDetails extends React.Component {
       .post(`${api}/api/company/`, body, config)
       .then((res) => {
         alert('Company Details are registerd successfully! ')
-
         console.log(res)
+        this.props.checkAuthenticated()
+        this.props.load_user()
       })
       .catch((err) => {
         alert('Unable to save the details please try again ! ')

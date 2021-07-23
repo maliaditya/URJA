@@ -3,6 +3,8 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { checkAuthenticated, load_user } from '../actions/auth'
+import { FaRegEdit } from 'react-icons/fa'
+
 // import CreateProduct from './CreateProduct'
 const api = process.env.REACT_APP_API_URL
 
@@ -19,6 +21,8 @@ class PersonalInfo extends React.Component {
       state: '',
       pin_code: '',
       user: JSON.parse(localStorage.getItem('user') || '[]'),
+      edit: false,
+      editAddress: false,
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -160,126 +164,216 @@ class PersonalInfo extends React.Component {
   render() {
     return (
       <Wrapper className='container'>
-        <h4>Personal Information</h4>
-        <div className='formcontent'>
-          <form onSubmit={this.handleSubmit}>
-            <label className='form-label'>
-              First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last Name
-            </label>
-            <div className='name'>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='First Name'
-                aria-describedby='emailHelp'
-                name='first_name'
-                value={this.state.first_name || ''}
-                required
-                onChange={this.handleChange}
-              ></input>
+        <br />
+        <br />
+        {this.state.edit ? (
+          <React.Fragment>
+            <h5 style={{ fontWeight: '700' }}>
+              Personal Information &nbsp;&nbsp;{' '}
+            </h5>
+            <br />
+            <div className='formcontent'>
+              <form onSubmit={this.handleSubmit}>
+                <label className='form-label'>
+                  First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last
+                  Name
+                </label>
+                <div className='name'>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='First Name'
+                    aria-describedby='emailHelp'
+                    name='first_name'
+                    value={this.state.first_name || ''}
+                    required
+                    onChange={this.handleChange}
+                  ></input>
 
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Last Name'
-                aria-describedby='emailHelp'
-                name='last_name'
-                value={this.state.last_name || ''}
-                required
-                onChange={this.handleChange}
-              ></input>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Last Name'
+                    aria-describedby='emailHelp'
+                    name='last_name'
+                    value={this.state.last_name || ''}
+                    required
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
+                <button type='submit' className='btn btn-warning'>
+                  Update&nbsp;
+                </button>
+                <button
+                  onClick={() => this.setState({ edit: false })}
+                  type='submit'
+                  className='btn btn-secondary'
+                >
+                  Cancel
+                </button>
+              </form>
             </div>
-            <button type='submit' className='btn btn-warning'>
-              Update
-            </button>
-          </form>
-          <br />
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <h5 style={{ fontWeight: '700' }}> Personal Information</h5>
+            <br />
+            <h5>
+              Name: {this.state.first_name} {this.state.last_name}&nbsp;&nbsp;{' '}
+              <FaRegEdit onClick={() => this.setState({ edit: true })} />
+            </h5>
+          </React.Fragment>
+        )}
+        <br />
 
-          <h4>Address Details</h4>
-          <form>
-            <div className='password'>
-              <label className='form-label'>Address Line 1</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Please Enter Your Street Address'
-                name='address_line1'
-                value={this.state.address_line1 || ''}
-                required
-                onChange={this.handleChange}
-              ></input>
-            </div>
-            <div className='password'>
-              <label className='form-label'>Address Line 2</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Please Enter Your Street Address'
-                name='address_line2'
-                value={this.state.address_line2 || ''}
-                onChange={this.handleChange}
-              ></input>
-            </div>
-            <label className='form-label'>
-              City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; State
-            </label>
-            <div className='name'>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Eg.Satara'
-                name='city'
-                value={this.state.city || ''}
-                required
-                onChange={this.handleChange}
-              ></input>
+        {this.state.editAddress ? (
+          <React.Fragment>
+            <h5 style={{ fontWeight: '700' }}>Address Details</h5>
+            <div className='formcontent'>
+              <form>
+                <div className='password'>
+                  <label className='form-label'>Address Line 1</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Please Enter Your Street Address'
+                    name='address_line1'
+                    value={this.state.address_line1 || ''}
+                    required
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
+                <div className='password'>
+                  <label className='form-label'>Address Line 2</label>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Please Enter Your Street Address'
+                    name='address_line2'
+                    value={this.state.address_line2 || ''}
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
+                <label className='form-label'>
+                  City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp; State
+                </label>
+                <div className='name'>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Eg.Satara'
+                    name='city'
+                    value={this.state.city || ''}
+                    required
+                    onChange={this.handleChange}
+                  ></input>
 
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Eg. Maharashtra'
-                name='state'
-                value={this.state.state || ''}
-                required
-                onChange={this.handleChange}
-              ></input>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Eg. Maharashtra'
+                    name='state'
+                    value={this.state.state || ''}
+                    required
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
+                <label className='form-label'>Zip Code</label>
+                <div className='name'>
+                  <input
+                    type='text'
+                    className='form-control'
+                    placeholder='6 digit Code  '
+                    name='pin_code'
+                    value={this.state.pin_code || ''}
+                    required
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
+                {this.state.user.address.length === 0 ? (
+                  <>
+                    <button
+                      onClick={(e) => this.handleSubmitAddress(e)}
+                      type='submit'
+                      className='btn btn-warning'
+                    >
+                      Save
+                    </button>
+
+                    <button
+                      onClick={() => this.setState({ editAddress: false })}
+                      type='submit'
+                      className='btn btn-secondary'
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={(e) => this.handleSubmitUpdateAddress(e)}
+                      type='submit'
+                      className='btn btn-warning'
+                    >
+                      update&nbsp;
+                    </button>
+                    <button
+                      onClick={() => this.setState({ editAddress: false })}
+                      type='submit'
+                      className='btn btn-secondary'
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )}
+              </form>
             </div>
-            <label className='form-label'>Zip Code</label>
-            <div className='name'>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='6 digit Code  '
-                name='pin_code'
-                value={this.state.pin_code || ''}
-                required
-                onChange={this.handleChange}
-              ></input>
+          </React.Fragment>
+        ) : (
+          <>
+            <h5 style={{ fontWeight: '700' }}>
+              Address Details&nbsp;&nbsp;{' '}
+              <FaRegEdit onClick={() => this.setState({ editAddress: true })} />
+            </h5>
+            <br />
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: '1rem' }}>Address Line 1:</p>
+              <p style={{ fontSize: '1rem' }}>
+                &nbsp;&nbsp;&nbsp; {this.state.address_line1}
+              </p>
             </div>
-            {this.state.user.address.length === 0 ? (
-              <button
-                onClick={(e) => this.handleSubmitAddress(e)}
-                type='submit'
-                className='btn btn-warning'
-              >
-                Save
-              </button>
-            ) : (
-              <button
-                onClick={(e) => this.handleSubmitUpdateAddress(e)}
-                type='submit'
-                className='btn btn-warning'
-              >
-                update
-              </button>
-            )}
-          </form>
-        </div>
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: '1rem' }}>Address Line 2: </p>
+              <p style={{ fontSize: '1rem' }}>
+                &nbsp;&nbsp;&nbsp;{this.state.address_line2}
+              </p>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: '1rem' }}> City:</p>
+              <p style={{ fontSize: '1rem' }}>
+                {' '}
+                &nbsp;&nbsp;&nbsp;{this.state.city}
+              </p>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: '1rem' }}>State:</p>
+              <p style={{ fontSize: '1rem' }}>
+                &nbsp;&nbsp;&nbsp;{this.state.state}
+              </p>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: '1rem' }}>Zip code:</p>
+              <p style={{ fontSize: '1rem' }}>
+                &nbsp;&nbsp;&nbsp; {this.state.pin_code}
+              </p>
+            </div>
+          </>
+        )}
       </Wrapper>
     )
   }
@@ -362,7 +456,6 @@ const Wrapper = styled.section`
       margin-bottom: 0.8rem;
     }
     form .btn {
-      background-color: #ffc232;
       margin-top: 1rem;
     }
     .check input {

@@ -7,9 +7,8 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
 const api = process.env.REACT_APP_API_URL
-const BestSellerCarousal = ({access, current_item_added}) => {
-
-  const [bestSellerItems,setBestSellerItems] = React.useState([])
+const BestSellerCarousal = ({ access, current_item_added }) => {
+  const [bestSellerItems, setBestSellerItems] = React.useState([])
 
   const responsive = {
     superLargeDesktop: {
@@ -32,40 +31,38 @@ const BestSellerCarousal = ({access, current_item_added}) => {
   }
 
   const fetchTrending = async () => {
-      const config = {headers: {
-            'content-type': 'appliation/json',
-            // 'Authorization': `Bearer ${access}`
-          }}
-      await axios.get(`${api}/api/product_enquires/`,
-                      config
-                      ).then(res=>{
-                        console.log(res);
-                        setBestSellerItems(res.data)
-                      }).catch(err=>{
-                        console.log(err);
-                      })
+    const config = {
+      headers: {
+        'content-type': 'appliation/json',
+        // 'Authorization': `Bearer ${access}`
+      },
+    }
+    await axios
+      .get(`${api}/api/product_enquires/`, config)
+      .then((res) => {
+        console.log(res)
+        setBestSellerItems(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     fetchTrending()
-  },[])
+  }, [])
 
-           
-  const uniqueObjects = []; 
-          
-  const uniqueItems = []; 
+  const uniqueObjects = []
 
-  bestSellerItems.map((item)=>{
+  const uniqueItems = []
 
-    if(!uniqueItems.includes(item.product.id)){
-        uniqueItems.push(item.product.id)
-        uniqueObjects.push(item)
+  bestSellerItems.map((item) => {
+    if (!uniqueItems.includes(item.product.id)) {
+      uniqueItems.push(item.product.id)
+      uniqueObjects.push(item)
     }
-     return 0
+    return 0
   })
-
-
-
 
   return (
     <Wrapper className='content'>
@@ -78,33 +75,40 @@ const BestSellerCarousal = ({access, current_item_added}) => {
       <div className='trending'>
         <Carousel
           responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}>
-          {
-          uniqueObjects.map((item, index)=>{
-            return(
-
-            <article key ={index}>
-              <Link   to='/product'  >
-                <img  alt='best seller'
-                  src={item.product.front_image}
-                  onClick={()=>current_item_added(item.product)}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+        >
+          {uniqueObjects.map((item, index) => {
+            return (
+              <article key={index}>
+                <Link to='/product'>
+                  <img
+                    alt='best seller'
+                    src={item.product.front_image}
+                    onClick={() => current_item_added(item.product)}
                   />
-              </Link>
-              <p style={{fontSize:'1.1rem', color:'black',fontWeight:700,marginLeft:'1.5rem'}}>{item.product.name}</p>
-              <p style={{fontSize:'1rem',marginLeft:'1.5rem'}}>{item.product.category.category_name}</p>
-            </article>
-         
-            )})}
+                </Link>
+                <p
+                  style={{
+                    fontSize: '1.1rem',
+                    color: 'black',
+                    fontWeight: 700,
+                    marginLeft: '1.5rem',
+                  }}
+                >
+                  {item.product.name}
+                </p>
+                <p style={{ fontSize: '1rem', marginLeft: '1.5rem' }}>
+                  {item.product.category.category_name}
+                </p>
+              </article>
+            )
+          })}
         </Carousel>
-      <hr />
-
+        <hr />
       </div>
     </Wrapper>
   )
 }
-
-
-
 
 const Wrapper = styled.div`
   .ptitle {
@@ -141,8 +145,6 @@ const Wrapper = styled.div`
     height: 198px;
     display: block;
     border-radius: 0.5rem;
- 
-
   }
   article a:hover img {
     transform: scale(1.1);
@@ -262,18 +264,15 @@ const Wrapper = styled.div`
   }
 `
 
- const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+  }
 }
 
-  
-
-
-export default connect(mapStateToProps, {current_item_added})(BestSellerCarousal)
-
-
-
+export default connect(mapStateToProps, { current_item_added })(
+  BestSellerCarousal
+)
