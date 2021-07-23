@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { RiDeleteBin5Line } from 'react-icons/ri'
 import { FaRegEdit } from 'react-icons/fa'
+import { RiDeleteBin5Line } from 'react-icons/ri'
 import { AiOutlineAppstoreAdd } from 'react-icons/ai'
 import ModalAddProduct from './ModalAddProduct'
 import ModalEditProduct from './ModalEditProduct'
 import ModalDeleteProduct from './ModalDeleteProduct'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { MdRefresh } from 'react-icons/md'
 import { current_item_added } from '../actions/auth'
@@ -18,6 +18,8 @@ import { HiOutlineViewGrid, HiOutlineViewList } from 'react-icons/hi'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { load_user, checkAuthenticated } from '../actions/auth'
+import { BiLinkExternal } from 'react-icons/bi'
+
 const api = process.env.REACT_APP_API_URL
 
 const MyProducts = ({
@@ -180,13 +182,21 @@ const MyProducts = ({
                       {item.name}
                     </h5>
                     <section>
-                      <RiDeleteBin5Line
-                        onClick={() => deleteProduct(item.id)}
-                        size={25}
-                      />
                       <FaRegEdit
                         onClick={() => addCurrentItemForEdit(item)}
                         className='fav'
+                        size={25}
+                      />{' '}
+                      <Link to='/product'>
+                        <BiLinkExternal
+                          onClick={() => current_item_added(item)}
+                          className='fav'
+                          size={25}
+                        />{' '}
+                      </Link>
+                      <RiDeleteBin5Line
+                        style={{ color: 'brown' }}
+                        onClick={() => deleteProduct(item.id)}
                         size={25}
                       />
                     </section>
@@ -294,17 +304,6 @@ const MyProducts = ({
                   <div className='header'>
                     <div className='head-title'>
                       <h5 style={{ fontWeight: '700' }}>{item.name}</h5>
-                      <section>
-                        <RiDeleteBin5Line
-                          onClick={() => deleteProduct(item.id)}
-                          size={25}
-                        />
-                        <FaRegEdit
-                          onClick={() => setModalEditProductShow(true)}
-                          className='fav'
-                          size={25}
-                        />
-                      </section>
                     </div>
                     <div className='desc'>
                       <div className='rating'>
@@ -353,11 +352,35 @@ const MyProducts = ({
                             Out of stock
                           </a>
                         )}
-
+                      </div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                        }}
+                      >
                         <h6 style={{ fontSize: '0.8rem' }}>
                           {' '}
                           Created on: {item.get_created_at}
                         </h6>
+                        <section>
+                          <FaRegEdit
+                            onClick={() => addCurrentItemForEdit(item)}
+                            className='fav'
+                            size={25}
+                          />{' '}
+                          <Link to='/product'>
+                            <BiLinkExternal
+                              onClick={() => current_item_added(item)}
+                              className='fav'
+                              size={25}
+                            />{' '}
+                          </Link>
+                          <RiDeleteBin5Line
+                            onClick={() => deleteProduct(item.id)}
+                            size={25}
+                          />
+                        </section>
                       </div>
                     </div>
                     {/* <button className='btn btn-warning'>Send enquiry </button>
@@ -541,7 +564,7 @@ const GridView = styled.article`
     margin-top: 3rem;
 
     width: 20rem;
-    height: 25rem;
+    height: 28rem;
     border-radius: 1rem;
     -webkit-box-shadow: 0 6px 12px -13px black;
     -moz-box-shadow: 0 6px 12px -13px black;

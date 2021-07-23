@@ -173,8 +173,6 @@ export const currentItemCompanyUser = (userId) => async (dispatch) => {
 }
 
 export const currentItemCompany = (companyId) => async (dispatch) => {
-  console.log('ADD_CURRENT_ITEM_USadasdER_SUCCESS', companyId)
-
   if (localStorage.getItem('access')) {
     const config = {
       headers: {
@@ -204,15 +202,21 @@ export const currentItemCompany = (companyId) => async (dispatch) => {
 
 export const current_item_added = (current_item, path) => async (dispatch) => {
   if (current_item !== null) {
-    dispatch({
-      type: CURRENT_ITEM_ADDED_SUCCESS,
-      payload: current_item,
-    })
     if (path === '/favourites') {
+      dispatch({
+        type: CURRENT_ITEM_ADDED_SUCCESS,
+        payload: current_item.product,
+      })
+    } else {
+      dispatch({
+        type: CURRENT_ITEM_ADDED_SUCCESS,
+        payload: current_item,
+      })
+    }
+    if (path === '/favourites') {
+      dispatch(currentItemCompany(current_item.product.company))
+    } else {
       dispatch(currentItemCompany(current_item.company))
-    } else if (path !== '/account') {
-      console.log('current_item.company', current_item.company)
-      dispatch(currentItemCompany(current_item.company.id))
     }
   } else {
     dispatch({
