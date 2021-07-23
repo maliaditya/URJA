@@ -5,12 +5,11 @@ import styled from 'styled-components'
 // import { FcGoogle } from 'react-icons/fc'
 // import { AiFillFacebook } from 'react-icons/ai'
 import { login } from '../actions/auth'
-import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 
-const LoginPage = ({ login, props,isAuthenticated }) => {
-  
-  const [showPassword, setshowPassword] = useState('password');
-            
+const LoginPage = ({ login, props, isAuthenticated }) => {
+  const [showPassword, setshowPassword] = useState('password')
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,14 +27,11 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
     e.preventDefault()
     login(email, password)
   }
-  if(isAuthenticated){
-    return(
-      <Redirect to='/' />
-    )
+  if (isAuthenticated) {
+    return <Redirect to='/' />
   }
 
   return (
- 
     <Wrapper>
       <section className='container'>
         <h3 className='title'>Log in</h3>
@@ -43,13 +39,10 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
             <div className='password'>
-              <label  className='form-label'>
-                Email
-              </label>
+              <label className='form-label'>Email</label>
               <input
                 type='email'
                 className='form-control'
-                
                 placeholder='Email'
                 name='email'
                 value={email}
@@ -59,37 +52,57 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
               ></input>
             </div>
             <div className='password'>
-              <label  className='form-label'>
-                Password
-              </label>
+              <label className='form-label'>Password</label>
               <input
                 type={showPassword}
                 className='form-control'
-                
                 placeholder='Password'
                 name='password'
                 value={password}
                 onChange={(e) => onChange(e)}
               ></input>
             </div>
-{showPassword==='password'?
-            <a className='showpass' href="#!" onClick={()=>{setshowPassword('re')}}>show password&nbsp;<AiFillEye /></a>
-            :<a className='showpass' href="#!" onClick={()=>{setshowPassword('password')}}>hide password&nbsp;<AiFillEyeInvisible/></a>
-            }
-<br />
+            {showPassword === 'password' ? (
+              <a
+                className='showpass'
+                href='#!'
+                onClick={() => {
+                  setshowPassword('re')
+                }}
+              >
+                show password&nbsp;
+                <AiFillEye />
+              </a>
+            ) : (
+              <a
+                className='showpass'
+                href='#!'
+                onClick={() => {
+                  setshowPassword('password')
+                }}
+              >
+                hide password&nbsp;
+                <AiFillEyeInvisible />
+              </a>
+            )}
             <br />
-              <button   className='btn btn-primary' type='submit'>
+            <br />
+            <button className='btn btn-primary' type='submit'>
               Login
             </button>
           </form>
         </div>
         <br />
-            <Link to='/'  style={{ fontSize: '1rem' }} >Need Account? </Link>
+        <Link to='' style={{ fontSize: '1rem' }}>
+          Need Account?{' '}
+        </Link>
         <p>
-            <Link   style={{ fontSize: '1rem' }} to='reset_password'>Forgot password ? </Link>
+          <Link style={{ fontSize: '1rem' }} to='reset_password'>
+            Forgot password ?{' '}
+          </Link>
         </p>
       </section>
-{/* 
+      {/* 
       <p className='middle'>&nbsp; or use &nbsp; </p>
 
       <div className='social'>
@@ -108,13 +121,12 @@ const LoginPage = ({ login, props,isAuthenticated }) => {
   )
 }
 const Wrapper = styled.section`
-
-.container{
-  margin-top:2rem;
-  padding:2vh;
-  border:1px solid grey;
-  border-radius:0.5rem;
-}
+  .container {
+    margin-top: 2rem;
+    padding: 2vh;
+    border: 1px solid grey;
+    border-radius: 0.5rem;
+  }
   form .btn {
     padding-left: 5rem;
     padding-right: 5rem;
@@ -158,16 +170,15 @@ const Wrapper = styled.section`
   label {
     margin-top: 5px;
     color: black;
-    margin-top:1.3rem;
-
+    margin-top: 1.3rem;
   }
-  .check{
-        margin-top:0.5rem;
-        margin-bottom:0.5rem;
+  .check {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
-  .showpass{
-        margin-top:1rem;
-    }
+  .showpass {
+    margin-top: 1rem;
+  }
   input {
     width: 10rem;
     margin-right: 1rem;
@@ -189,19 +200,17 @@ const Wrapper = styled.section`
     transform: translateY(-50%);
   }
   @media (min-width: 720px) {
-    .container{
-      margin-top:2rem;
-      padding:10vh;
-      border:1px solid grey;
-      border-radius:0.5rem;
+    .container {
+      margin-top: 2rem;
+      padding: 10vh;
+      border: 1px solid grey;
+      border-radius: 0.5rem;
     }
-}
+  }
   overflow: hidden;
 `
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-    
-});
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+})
 
 export default connect(mapStateToProps, { login })(LoginPage)
-

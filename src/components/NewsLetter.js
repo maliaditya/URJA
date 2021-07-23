@@ -4,63 +4,53 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 
 const api = process.env.REACT_APP_API_URL
-const NewsLetter = ({user,access,isAuthenticated}) => {
-  user = JSON.parse(localStorage.getItem("user") || "[]");
+const NewsLetter = ({ user, access, isAuthenticated }) => {
+  user = JSON.parse(localStorage.getItem('user') || '[]')
   const [formData, setFormData] = React.useState({
-    email: "",
-})
-
-const onChange=(e)=>{
-  setFormData({
-    email:e.target.value
+    email: '',
   })
-  
-}
 
-const onSubmit=(e)=>{
-  e.preventDefault()
-  postEmaiToNewsletter()
-  setFormData({
-    email:""
-  })
-}
-
-  const postEmaiToNewsletter=async()=>{
-    const config = {headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${access}`,
-              }}
-          const body = {
-            
-            "email":formData.email,
-            "user":user.id
-          } 
-            
-          console.log("newsletter",body)
-          await axios.post(
-            `${api}/api/news_letter/`,
-            body,
-            config 
-            ).then((res)=>{
-              console.log('Suscribed Successfully',res)
-               alert('Suscribed Successfully')
-      
-            }).catch((err)=>{
-              console.log(err)
-                alert(err,'Please try again later')
-
-            })
-          
-
-
+  const onChange = (e) => {
+    setFormData({
+      email: e.target.value,
+    })
   }
-  if(isAuthenticated ){
 
-    if( user.newsletter_details.length===0){
-      
-      
-      return (
-      <Newscont>
+  const onSubmit = (e) => {
+    e.preventDefault()
+    postEmaiToNewsletter()
+    setFormData({
+      email: '',
+    })
+  }
+
+  const postEmaiToNewsletter = async () => {
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${access}`,
+      },
+    }
+    const body = {
+      email: formData.email,
+      user: user.id,
+    }
+
+    console.log('newsletter', body)
+    await axios
+      .post(`${api}/api/news_letter/`, body, config)
+      .then((res) => {
+        console.log('Suscribed Successfully', res)
+        alert('Suscribed Successfully')
+      })
+      .catch((err) => {
+        console.log(err)
+        alert(err, 'Please try again later')
+      })
+  }
+
+  return (
+    <Newscont>
       <hr />
       <center>
         <p className='ttag'>
@@ -69,14 +59,17 @@ const onSubmit=(e)=>{
         </p>
       </center>
       <center>
-        <form onSubmit={(e)=>onSubmit(e)} className='input-group rounded container'>
+        <form
+          onSubmit={(e) => onSubmit(e)}
+          className='input-group rounded container'
+        >
           <input
             type='email'
             className='form-control rounded'
             placeholder='Enter your email address'
             aria-label='Search'
             aria-describedby='search-addon'
-            onChange={(e)=>onChange(e)}
+            onChange={(e) => onChange(e)}
             value={formData.email}
             required
           />
@@ -86,9 +79,6 @@ const onSubmit=(e)=>{
       </center>
     </Newscont>
   )
-}
-}
-return<React.Fragment></React.Fragment>
 }
 
 const Newscont = styled.section`
@@ -149,19 +139,12 @@ input {
 
 `
 
-
-const mapStateToProps=(state)=>{
- 
-
-  return{
-       isAuthenticated: state.auth.isAuthenticated,
-    access:state.auth.access,
-    user:state.auth.user,
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
   }
 }
 
-
-export default connect(mapStateToProps,{})(NewsLetter)
-
-
-
+export default connect(mapStateToProps, {})(NewsLetter)

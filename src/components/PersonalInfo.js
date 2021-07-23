@@ -8,191 +8,281 @@ const api = process.env.REACT_APP_API_URL
 
 class PersonalInfo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-            first_name: '',
-            last_name: '',
-            company_details: '',
-            address_line1: '',
-            address_line2: '',
-            city: '',
-            state: '',
-            pin_code: '',
-        
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  postBussinessDetails=async()=>{
-    const body = {
-      'first_name':this.state.first_name,
-      'last_name':this.state.last_name,
-      'address_line1':this.state.address_line1,
-      'address_line2':this.state.address_line2,
-      'city':this.state.city,
-      'state':this.state.state,
-      'pin_code':this.state.pin_code,
-
+      first_name: '',
+      last_name: '',
+      company_details: '',
+      address_line1: '',
+      address_line2: '',
+      city: '',
+      state: '',
+      pin_code: '',
+      user: JSON.parse(localStorage.getItem('user') || '[]'),
     }
-    console.log("body",body)
-       alert(' Details are being Updated Please Wait! ')
-    const config = {headers: {
-      'content-type': 'application/json',
-      'Authorization': `Bearer ${this.props.access}`,
-    }}
-    await axios.patch(`${api}/auth/users/me/`,
-            body,
-            config).then(res=>{
-      alert(' Details are Updated successfully! ')
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+  postBussinessDetails = async () => {
+    const body = {
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+    }
+
+    console.log('body', body)
+    alert(' Details are being Updated Please Wait! ')
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.props.access}`,
+      },
+    }
+    try {
+      await axios.patch(`${api}/auth/users/me/`, body, config)
+      alert('Your details have been uploaded Successfully! ')
+
       this.props.checkAuthenticated()
       this.props.load_user()
-
-      console.log(res)
-    }).catch(err=>{
+    } catch (err) {
       alert('Unable to save the details please try again ! ')
       console.log(err)
-    })
+    }
   }
-  
-    handleChange(event) {
-      this.setState({[event.target.name]: event.target.value});
-    }
-  
-    handleSubmit(event) {
-      console.log(this.state)
-      
-      event.preventDefault()
-      this.postBussinessDetails()
-        
-    }
-  
-  componentDidMount(){
-      const user = JSON.parse(localStorage.getItem("user") || "[]");
-      this.setState({
-            first_name: user.first_name,
-            last_name: user.last_name,
-            address_line1:user.address_line1,
-            address_line2: user.address_line2,
-            city: user.city,
-            state: user.state,
-            pin_code: user.pin_code,
-           
-         })
 
-   console.log("state", this.state )
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  handleSubmit(event) {
+    console.log(this.state)
+
+    event.preventDefault()
+    this.postBussinessDetails()
+  }
+  postAddressDetails = async () => {
+    alert('Your details are being uploaded please wait! ')
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.props.access}`,
+      },
+    }
+    const addressbody = {
+      address_line1: this.state.address_line1,
+      address_line2: this.state.address_line2,
+      city: this.state.city,
+      state: this.state.state,
+      pin_code: this.state.pin_code,
+      user: this.state.user.id,
+    }
+    await axios
+      .post(`${api}/api/address/`, addressbody, config)
+      .then((res) => {
+        alert('Your details have been uploaded Successfully! ')
+        console.log(res)
+        this.props.checkAuthenticated()
+        this.props.load_user()
+      })
+      .catch((err) => {
+        alert('Unable to save the details please try again ! ')
+        console.log(err)
+      })
+  }
+  patchAddressDetails = async () => {
+    alert('Your details are being uploaded please wait! ')
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.props.access}`,
+      },
+    }
+    const addressbody = {
+      address_line1: this.state.address_line1,
+      address_line2: this.state.address_line2,
+      city: this.state.city,
+      state: this.state.state,
+      pin_code: this.state.pin_code,
+      user: this.state.user.id,
+    }
+    await axios
+      .patch(
+        `${api}/api/address/${this.state.user.address[0].id}/`,
+        addressbody,
+        config
+      )
+      .then((res) => {
+        alert('Your details have been uploaded Successfully! ')
+        console.log(res)
+        this.props.checkAuthenticated()
+        this.props.load_user()
+      })
+      .catch((err) => {
+        alert('Unable to save the details please try again ! ')
+        console.log(err)
+      })
+  }
+
+  handleSubmitAddress(event) {
+    console.log(this.state)
+    event.preventDefault()
+    this.postAddressDetails()
+  }
+  handleSubmitUpdateAddress(event) {
+    console.log(this.state)
+    event.preventDefault()
+    this.patchAddressDetails()
+  }
+  componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+    this.state.user.address.length === 0
+      ? this.setState({
+          first_name: user.first_name,
+          last_name: user.last_name,
+          // address_line1: user.address[0].address_line1,
+          // address_line2: user.address[0].address_line2,
+          // city: user.address[0].city,
+          // state: user.address[0].state,
+          // pin_code: user.address[0].pin_code,
+        })
+      : this.setState({
+          first_name: user.first_name,
+          last_name: user.last_name,
+          address_line1: user.address[0].address_line1,
+          address_line2: user.address[0].address_line2,
+          city: user.address[0].city,
+          state: user.address[0].state,
+          pin_code: user.address[0].pin_code,
+        })
+
+    console.log('state', this.state)
   }
   render() {
     return (
-    <Wrapper className='container'>
-      <p>Personal Information</p>
-      <div className='formcontent'>
-        <form onSubmit={this.handleSubmit}>
-           <label className='form-label'>
-          First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last Name
-        </label>
-        <div className='name'>
-          <input
-            type='text'
-            className='form-control'
-            id='exampleInputEmail1'
-            placeholder='First Name'
-            aria-describedby='emailHelp'
-            name='first_name'
-              value={this.state.first_name || ''}
-              required
-                 onChange={this.handleChange}
-          ></input>
-
-          <input
-            type='text'
-            className='form-control'
-            id='exampleInputEmail1'
-            placeholder='Last Name'
-            aria-describedby='emailHelp'
-            name='last_name'
-              value={this.state.last_name || ''}
-              required
-                 onChange={this.handleChange}
-          ></input>
-        </div>
-          <div className='password'>
+      <Wrapper className='container'>
+        <h4>Personal Information</h4>
+        <div className='formcontent'>
+          <form onSubmit={this.handleSubmit}>
             <label className='form-label'>
-              Address Line 1
+              First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Last Name
             </label>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Please Enter Your Street Address'
-              name='address_line1'
-              value={this.state.address_line1 || ''}
-              required
-              onChange={this.handleChange}
-            ></input>
-          </div>
-           <div className='password'>
-            <label className='form-label'>
-              Address Line 2
-            </label>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Please Enter Your Street Address'
-              name='address_line2'
-              value={this.state.address_line2 || ''}
-              onChange={this.handleChange}
-            ></input>
-          </div>
-          <label className='form-label'>
-            City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            &nbsp; &nbsp; &nbsp; State
-          </label>
-          <div className='name'>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Eg.Satara'
-              name='city'
-              value={this.state.city || ''}
-              required
-               onChange={this.handleChange}
-            ></input>
-
-            <input
-              type='text'
-              className='form-control'
-              placeholder='Eg. Maharashtra'
-              name='state'
-              value={this.state.state || ''}
-              required
+            <div className='name'>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='First Name'
+                aria-describedby='emailHelp'
+                name='first_name'
+                value={this.state.first_name || ''}
+                required
                 onChange={this.handleChange}
-            ></input>
-          </div>
-          <label className='form-label'>
-            Zip Code
-          </label>
-          <div className='name'>
-            <input
-              type='text'
-              className='form-control'
-              placeholder='6 digit Code  '
-               name='pin_code'
-              value={this.state.pin_code || ''}
-              required
-               onChange={this.handleChange}
-            ></input>
-          </div>
+              ></input>
 
-          <button type='submit' className='btn btn-warning'>Update</button>
-        </form>
-      </div>
-    </Wrapper>
-  )
-}
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Last Name'
+                aria-describedby='emailHelp'
+                name='last_name'
+                value={this.state.last_name || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <button type='submit' className='btn btn-warning'>
+              Update
+            </button>
+          </form>
+          <br />
+
+          <h4>Address Details</h4>
+          <form>
+            <div className='password'>
+              <label className='form-label'>Address Line 1</label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Please Enter Your Street Address'
+                name='address_line1'
+                value={this.state.address_line1 || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <div className='password'>
+              <label className='form-label'>Address Line 2</label>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Please Enter Your Street Address'
+                name='address_line2'
+                value={this.state.address_line2 || ''}
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <label className='form-label'>
+              City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+              &nbsp; &nbsp; &nbsp; State
+            </label>
+            <div className='name'>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Eg.Satara'
+                name='city'
+                value={this.state.city || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Eg. Maharashtra'
+                name='state'
+                value={this.state.state || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            <label className='form-label'>Zip Code</label>
+            <div className='name'>
+              <input
+                type='text'
+                className='form-control'
+                placeholder='6 digit Code  '
+                name='pin_code'
+                value={this.state.pin_code || ''}
+                required
+                onChange={this.handleChange}
+              ></input>
+            </div>
+            {this.state.user.address.length === 0 ? (
+              <button
+                onClick={(e) => this.handleSubmitAddress(e)}
+                type='submit'
+                className='btn btn-warning'
+              >
+                Save
+              </button>
+            ) : (
+              <button
+                onClick={(e) => this.handleSubmitUpdateAddress(e)}
+                type='submit'
+                className='btn btn-warning'
+              >
+                update
+              </button>
+            )}
+          </form>
+        </div>
+      </Wrapper>
+    )
+  }
 }
 
 const Wrapper = styled.section`
@@ -220,7 +310,6 @@ const Wrapper = styled.section`
     color: black;
   }
   input {
-   
     width: 10rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
@@ -325,13 +414,15 @@ const Wrapper = styled.section`
   }
 `
 
-
-const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+  }
 }
 
-export default connect(mapStateToProps, {checkAuthenticated,load_user})(PersonalInfo)
+export default connect(mapStateToProps, { checkAuthenticated, load_user })(
+  PersonalInfo
+)

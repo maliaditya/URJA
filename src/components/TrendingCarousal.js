@@ -8,9 +8,8 @@ import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
 
 const api = process.env.REACT_APP_API_URL
-const TrendingCarousal = ({current_item_added}) => {
-
-  const [trendingItems,setTrendingItems] = React.useState([])
+const TrendingCarousal = ({ current_item_added }) => {
+  const [trendingItems, setTrendingItems] = React.useState([])
 
   const responsive = {
     superLargeDesktop: {
@@ -32,35 +31,37 @@ const TrendingCarousal = ({current_item_added}) => {
     },
   }
 
-   const fetchTrending = async () => {
-      const config = {headers: {
-            'content-type': 'appliation/json',
-            // 'Authorization': `Bearer ${access}`
-          }}
-      await axios.get(`${api}/api/favourites/`,
-                      config
-                      ).then(res=>{
-                        console.log(res);
-                        setTrendingItems(res.data)
-                      }).catch(err=>{
-                        console.log(err);
-                      })
+  const fetchTrending = async () => {
+    const config = {
+      headers: {
+        'content-type': 'appliation/json',
+        // 'Authorization': `Bearer ${access}`
+      },
+    }
+    await axios
+      .get(`${api}/api/favourites/`, config)
+      .then((res) => {
+        console.log(res)
+        setTrendingItems(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
-  React.useEffect(()=>{
-    console.log("i am running")
+  React.useEffect(() => {
+    console.log('i am running')
     fetchTrending()
-  },[])
- 
-  const uniqueObjects = []; 
-          
-  const uniqueItems = []; 
+  }, [])
 
-  trendingItems.map((item)=>{
+  const uniqueObjects = []
 
-    if(!uniqueItems.includes(item.product.id)){
-        uniqueItems.push(item.product.id)
-        uniqueObjects.push(item)
+  const uniqueItems = []
+
+  trendingItems.map((item) => {
+    if (!uniqueItems.includes(item.product.id)) {
+      uniqueItems.push(item.product.id)
+      uniqueObjects.push(item)
     }
     return 0
   })
@@ -78,22 +79,24 @@ const TrendingCarousal = ({current_item_added}) => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
-          {uniqueObjects.map((item, index)=>{
-            return(
-              <article key = {index}>
-            <Link to='/product'>
-              <img onClick={()=>current_item_added(item.product)}
-                src={item.product.front_image}
-                alt='Club Card'
-                />
-            </Link>{' '}
-            <h5 style={{marginLeft:'1.5rem'}}>{item.product.name}</h5>
-          </article>
-         )})}
-         
+          {uniqueObjects.map((item, index) => {
+            return (
+              <article key={index}>
+                <Link to='/product'>
+                  {}
+                  <img
+                    onClick={() => current_item_added(item.product)}
+                    src={item.product.front_image}
+                    alt='Club Card'
+                  />
+                </Link>{' '}
+                <h5 style={{ marginLeft: '1.5rem' }}>{item.product.name}</h5>
+              </article>
+            )
+          })}
         </Carousel>
-      <hr />
-    </div>
+        <hr />
+      </div>
     </Wrapper>
   )
 }
@@ -240,18 +243,15 @@ const Wrapper = styled.div`
   }
 `
 
-
- const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+  }
 }
 
-  
-
-
-export default connect(mapStateToProps, {current_item_added})(TrendingCarousal)
-
-
+export default connect(mapStateToProps, { current_item_added })(
+  TrendingCarousal
+)

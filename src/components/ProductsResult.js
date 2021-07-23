@@ -1,172 +1,229 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MdFavoriteBorder,MdFavorite } from 'react-icons/md'
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {current_item_added,
-        itemSearchedClear, 
-        addToFavourites, 
-        removeFromFavourites,
-        checkAuthenticated,
-        load_user
-      } from '../actions/auth'
+import {
+  current_item_added,
+  itemSearchedClear,
+  addToFavourites,
+  removeFromFavourites,
+  checkAuthenticated,
+  load_user,
+} from '../actions/auth'
 import Rating from '@material-ui/lab/Rating'
 import Box from '@material-ui/core/Box'
 
-const ProductResult=({itemSearchedResult,
-                      current_item_added,
-                      addToFavourites,
-                      removeFromFavourites,
-                      isAuthenticated,
-                      user     }) => {
+const ProductResult = ({
+  itemSearchedResult,
+  current_item_added,
+  addToFavourites,
+  removeFromFavourites,
+  isAuthenticated,
+  user,
+}) => {
+  if (isAuthenticated) {
+    const userFavouriteProductsId = []
+    user.user_favourites.map((item) => {
+      userFavouriteProductsId.push(item.product.id)
+      return userFavouriteProductsId
+    })
 
+    var userFavouriteProductsIdAndProductID = {}
+    user.user_favourites.map((item) => {
+      userFavouriteProductsIdAndProductID[item.product.id] = item.id
+      return userFavouriteProductsIdAndProductID
+    })
 
-if(isAuthenticated){
-
-            const userFavouriteProductsId = []
-            user.user_favourites.map((item)=>{
-              userFavouriteProductsId.push(item.product.id)
-              return userFavouriteProductsId
-          })
-
-
-          var userFavouriteProductsIdAndProductID = {}
-          user.user_favourites.map((item)=>{
-            userFavouriteProductsIdAndProductID[item.product.id] = item.id 
-            return userFavouriteProductsIdAndProductID
-            })
-
-            if(itemSearchedResult.length===0){
-                return (
-                  <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
-                  No results found.
-                </h4>
-                )
-          }else{
+    if (itemSearchedResult.length === 0) {
+      return (
+        <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
+          No results found.
+        </h4>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <br />
+          <h4
+            style={{ textAlign: 'left', marginLeft: '9rem', color: 'black' }}
+            className='title'
+          >
+            About {itemSearchedResult.length} results found.
+          </h4>
+          <br />
+          {itemSearchedResult.map((item, index) => {
             return (
-              <React.Fragment>
-                <br />
-                <h4 style={{ textAlign: 'left',marginLeft:'9rem', color: 'black' }} className='title'>
-                  About  {itemSearchedResult.length} results found.
-                </h4>
-                <br />
-            {itemSearchedResult.map((item,index)=>{
-              return(
-                <Wrapper key={index}  className='content'>
-                  <div  className='containercard border'>
-                    <img
+              <Wrapper key={index} className='content'>
+                <div className='containercard border'>
+                  <img
                     alt='product_image'
                     className='containercard__image'
                     src={item.front_image}
-                      />
-                    <div className='header'>
-                      <div className='head-title'>
-                        <h5>{item.name}</h5>
-                        {userFavouriteProductsId.includes(item.id)?
-                      <MdFavorite onClick={()=>removeFromFavourites(userFavouriteProductsIdAndProductID[item.id])} className="fav"  size={25} />
-                      :<MdFavoriteBorder onClick={()=>addToFavourites(item.id,user.id)} className="fav"  size={25} />
-                      }
-                      </div>
-                      <div className='desc'>
-                        <p>{item.details.slice(0, 90)}...</p>
-                        <div className='rating'>
-                          <Box component='fieldset' mb={0.3}  borderColor='transparent'>
-                                <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)[0]} readOnly />
-                        </Box>
-                          &nbsp; &nbsp; {item.reviews.map((sub)=>sub.rating)}.0 &nbsp; | &nbsp; {item.reviews.length} ratings
-                        </div>
-                        <div  className='price'>
-
-                        <p> ₹ {item.price}</p>    
-                        {item.in_stock?
-                              <p  className='instock' style={{fontSize:'0.8rem', color:'green'}}> In stock</p>:
-                              <p  className='instock' style={{fontSize:'0.8rem', color:'red'}}> Out of stock</p>
+                  />
+                  <div className='header'>
+                    <div className='head-title'>
+                      <h5>{item.name}</h5>
+                      {userFavouriteProductsId.includes(item.id) ? (
+                        <MdFavorite
+                          onClick={() =>
+                            removeFromFavourites(
+                              userFavouriteProductsIdAndProductID[item.id]
+                            )
                           }
-                          <h6 onClick={()=>current_item_added(item)}>
-                            <Link to='/product'> View more </Link>
-                            </h6>
+                          className='fav'
+                          size={25}
+                        />
+                      ) : (
+                        <MdFavoriteBorder
+                          onClick={() => addToFavourites(item.id, user.id)}
+                          className='fav'
+                          size={25}
+                        />
+                      )}
                     </div>
+                    <div className='desc'>
+                      <p>{item.details.slice(0, 90)}...</p>
+                      <div className='rating'>
+                        <Box
+                          component='fieldset'
+                          mb={0.3}
+                          borderColor='transparent'
+                        >
+                          <Rating
+                            name='read-only'
+                            value={item.reviews.map((sub) => sub.rating)[0]}
+                            readOnly
+                          />
+                        </Box>
+                        &nbsp; &nbsp; {item.reviews.map((sub) => sub.rating)}.0
+                        &nbsp; | &nbsp; {item.reviews.length} ratings
                       </div>
-
+                      <div className='price'>
+                        <p> ₹ {item.price}</p>
+                        {item.in_stock ? (
+                          <p
+                            className='instock'
+                            style={{ fontSize: '0.8rem', color: 'green' }}
+                          >
+                            {' '}
+                            In stock
+                          </p>
+                        ) : (
+                          <p
+                            className='instock'
+                            style={{ fontSize: '0.8rem', color: 'red' }}
+                          >
+                            {' '}
+                            Out of stock
+                          </p>
+                        )}
+                        <h6 onClick={() => current_item_added(item)}>
+                          <Link to='/product'> View more </Link>
+                        </h6>
+                      </div>
                     </div>
                   </div>
-                  <br />
-                  <br />
-                  <br />
-                </Wrapper>
-                  )})}
-              </React.Fragment>
+                </div>
+                <br />
+                <br />
+                <br />
+              </Wrapper>
             )
-          }
-}else{
-
-    if(itemSearchedResult.length===0){
-                return (
-                  <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
-                  No results found.
-                </h4>
-                )
-          }else{
+          })}
+        </React.Fragment>
+      )
+    }
+  } else {
+    if (itemSearchedResult.length === 0) {
+      return (
+        <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
+          No results found.
+        </h4>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <br />
+          <h4
+            style={{ textAlign: 'left', marginLeft: '9rem', color: 'black' }}
+            className='title'
+          >
+            About {itemSearchedResult.length} results found.
+          </h4>
+          <br />
+          {itemSearchedResult.map((item, index) => {
             return (
-              <React.Fragment>
-                <br />
-                <h4 style={{ textAlign: 'left',marginLeft:'9rem', color: 'black' }} className='title'>
-                  About  {itemSearchedResult.length} results found.
-                </h4>
-                <br />
-            {itemSearchedResult.map((item,index)=>{
-              return(
-                <Wrapper key={index}  className='content'>
-                  <div  className='containercard border'>
-                    <img
+              <Wrapper key={index} className='content'>
+                <div className='containercard border'>
+                  <img
                     alt='product_image'
                     className='containercard__image'
                     src={item.front_image}
-                      />
-                    <div className='header'>
-                      <div className='head-title'>
-                        <h5>{item.name}</h5>
-                      </div>
-                      <div className='desc'>
-                        <p>{item.details.slice(0, 90)}...</p>
-                        <div className='rating'>
-                          <Box component='fieldset' mb={0.3}  borderColor='transparent'>
-                                <Rating name='read-only' value={item.reviews.map((sub)=>sub.rating)[0]} readOnly />
-                        </Box>
-                          &nbsp; &nbsp; {item.reviews.map((sub)=>sub.rating)}.0 &nbsp; | &nbsp; {item.reviews.length} ratings
-                        </div>
-                        <div  className='price'>
-
-                        <p> ₹ {item.price}</p>    
-                        {item.in_stock?
-                              <p  className='instock' style={{fontSize:'0.8rem', color:'green'}}> In stock</p>:
-                              <p  className='instock' style={{fontSize:'0.8rem', color:'red'}}> Out of stock</p>
-                          }
-                          <h6 onClick={()=>current_item_added(item)}>
-                            <Link to='/product'> View more </Link>
-                            </h6>
+                  />
+                  <div className='header'>
+                    <div className='head-title'>
+                      <h5>{item.name}</h5>
                     </div>
+                    <div className='desc'>
+                      <p>{item.details.slice(0, 90)}...</p>
+                      <div className='rating'>
+                        <Box
+                          component='fieldset'
+                          mb={0.3}
+                          borderColor='transparent'
+                        >
+                          <Rating
+                            name='read-only'
+                            value={item.reviews.map((sub) => sub.rating)[0]}
+                            readOnly
+                          />
+                        </Box>
+                        &nbsp; &nbsp; {item.reviews.map((sub) => sub.rating)}.0
+                        &nbsp; | &nbsp; {item.reviews.length} ratings
                       </div>
-
+                      <div className='price'>
+                        <p> ₹ {item.price}</p>
+                        {item.in_stock ? (
+                          <p
+                            className='instock'
+                            style={{ fontSize: '0.8rem', color: 'green' }}
+                          >
+                            {' '}
+                            In stock
+                          </p>
+                        ) : (
+                          <p
+                            className='instock'
+                            style={{ fontSize: '0.8rem', color: 'red' }}
+                          >
+                            {' '}
+                            Out of stock
+                          </p>
+                        )}
+                        <h6 onClick={() => current_item_added(item)}>
+                          <Link to='/product'> View more </Link>
+                        </h6>
+                      </div>
                     </div>
                   </div>
-                  <br />
-                  <br />
-                  <br />
-                </Wrapper>
-                  )})}
-              </React.Fragment>
+                </div>
+                <br />
+                <br />
+                <br />
+              </Wrapper>
             )
-          }
-
+          })}
+        </React.Fragment>
+      )
+    }
+  }
 }
-                      }
 const Wrapper = styled.div`
-
-.price{
-  display:flex;
-  justify-content:space-between;
-}
+  .price {
+    display: flex;
+    justify-content: space-between;
+  }
   .fav {
     color: #ffc232;
   }
@@ -179,7 +236,7 @@ const Wrapper = styled.div`
   }
   .head-title {
     display: flex;
-    justify-content:space-between
+    justify-content: space-between;
   }
   button {
     font-size: 10px;
@@ -190,7 +247,7 @@ const Wrapper = styled.div`
     padding: 1rem;
   }
   .rating {
-    margin-top:10px;
+    margin-top: 10px;
     display: flex;
   }
   p {
@@ -251,20 +308,21 @@ const Wrapper = styled.div`
   }
 `
 
- const mapStateToProps = state => {
-       return {
-    
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
     currentItem: state.auth.currentItem,
-    itemSearchedResult:state.auth.itemSearchedResult
+    itemSearchedResult: state.auth.itemSearchedResult,
   }
 }
 
-export default connect(mapStateToProps, {checkAuthenticated, load_user ,current_item_added,itemSearchedClear,addToFavourites,removeFromFavourites})(ProductResult)
-  
-
-
-
-
+export default connect(mapStateToProps, {
+  checkAuthenticated,
+  load_user,
+  current_item_added,
+  itemSearchedClear,
+  addToFavourites,
+  removeFromFavourites,
+})(ProductResult)

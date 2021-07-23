@@ -4,15 +4,14 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { load_user, checkAuthenticated } from '../actions/auth'
 const api = process.env.REACT_APP_API_URL
-const ManageContact = ({user,access,checkAuthenticated,load_user}) => {
-
-   console.log(access)
+const ManageContact = ({ user, access, checkAuthenticated, load_user }) => {
+  console.log(access)
   const [formData, setFormData] = React.useState({
     email: '',
     phone: '',
   })
 
-  const { email, phone} = formData
+  const { email, phone } = formData
 
   const onChange = (e) =>
     setFormData({
@@ -22,63 +21,54 @@ const ManageContact = ({user,access,checkAuthenticated,load_user}) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    updatePhone(email,phone)
+    updatePhone(email, phone)
   }
 
+  console.log('phone', phone)
+  const updatePhone = async (email, phone) => {
+    alert('Your Data is being updated')
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${access}`,
+      },
+    }
+    const body = {
+      phone: phone,
+      email: email,
+    }
 
-  console.log('phone',phone)
-  const updatePhone = async (email,phone) =>{
-          alert('Your Data is being updated')
-    const config = {headers: {
-                'content-type': 'application/json',
-                'Authorization': `Bearer ${access}`,
-              }}
-          const body = {
-            "phone": phone,
-            "email":email
-          } 
-            
-          await axios.patch(
-            `${api}/auth/users/me/`,
-            body,
-            config 
-            ).then((res)=>{
-              console.log('Updated Successfully',res)
-               alert('Updated Successfully')
-                 checkAuthenticated()
-                  load_user()
-            }).catch((err)=>{
-              console.log(err)
-                alert(err,'Please try again later')
-
-            })
-          
-
+    await axios
+      .patch(`${api}/auth/users/me/`, body, config)
+      .then((res) => {
+        console.log('Updated Successfully', res)
+        alert('Updated Successfully')
+        checkAuthenticated()
+        load_user()
+      })
+      .catch((err) => {
+        console.log(err)
+        alert(err, 'Please try again later')
+      })
   }
-
-
 
   return (
     <Wrapper>
       <h4 className='title'>Manage Contact</h4>
       <form onSubmit={(e) => onSubmit(e)}>
         <div className='password'>
-          <label  className='form-label'>
-            Email Address
-          </label>
+          <label className='form-label'>Email Address</label>
           <input
             type='email'
             className='form-control'
             id='exampleInputEmail1'
             placeholder='Please Enter Your Email Address'
             aria-describedby='emailHelp'
-            defaultValue= {user.email}
+            defaultValue={user.email || ''}
           ></input>
         </div>
         <div className='password'>
-          <label  className='form-label'>
-            Mobile Number
-          </label>
+          <label className='form-label'>Mobile Number</label>
           <input
             type='phone'
             className='form-control'
@@ -88,7 +78,7 @@ const ManageContact = ({user,access,checkAuthenticated,load_user}) => {
             name='phone'
             required
             onChange={(e) => onChange(e)}
-            defaultValue= {user.phone}
+            defaultValue={user.phone || ''}
           ></input>
         </div>
 
@@ -97,7 +87,7 @@ const ManageContact = ({user,access,checkAuthenticated,load_user}) => {
     </Wrapper>
   )
 }
-  
+
 const Wrapper = styled.section`
   form .btn {
     background-color: #ffc232;
@@ -160,16 +150,13 @@ const Wrapper = styled.section`
   }
 `
 
-
-const mapStateToProps=(state)=>{
- 
-
-  return{
-    access:state.auth.access,
-    user:state.auth.user,
+const mapStateToProps = (state) => {
+  return {
+    access: state.auth.access,
+    user: state.auth.user,
   }
 }
 
-
-export default connect(mapStateToProps,{load_user, checkAuthenticated})(ManageContact)
-
+export default connect(mapStateToProps, { load_user, checkAuthenticated })(
+  ManageContact
+)

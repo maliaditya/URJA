@@ -1,35 +1,25 @@
-import React , {useState} from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import { signup } from '../actions/auth'
-import {AiFillEye,AiFillEyeInvisible} from 'react-icons/ai'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 
-
-const Signup = ({ signup,isAuthenticated , props}) => {
-  const [accountCreated, setAccountCreated] = useState(false);
-  const [showPassword, setshowPassword] = useState('password');
-   const [formData, setFormData] = useState({
-    first_name:'',
-    last_name:'',
+const Signup = ({ signup, isAuthenticated, props }) => {
+  const [accountCreated, setAccountCreated] = useState(false)
+  const [showPassword, setshowPassword] = useState('password')
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
     email: '',
     phone: '',
     password: '',
     re_password: '',
-    address_line1:'',
-    address_line2:'',
-    city:'',
-    state:'',
-    pin_code:''
   })
 
-  const {first_name, last_name,email,phone, password,re_password,address_line1,
-address_line2,
-city,
-state,
-pin_code,
- } = formData
+  const { first_name, last_name, email, phone, password, re_password } =
+    formData
 
   const onChange = (e) =>
     setFormData({
@@ -39,32 +29,23 @@ pin_code,
 
   const onSubmit = (e) => {
     e.preventDefault()
-    console.log(first_name, last_name,phone,email, password,re_password,address_line1,
-address_line2,
-city,
-state,
-pin_code)
-    if(password === re_password){
+    console.log(first_name, last_name, phone, email, password, re_password)
+    if (password === re_password) {
       setAccountCreated(true)
-        signup(first_name, last_name,phone,email, password,re_password,address_line1,
-address_line2,
-city,
-state,
-pin_code)
+      signup(first_name, last_name, phone, email, password, re_password)
     }
   }
 
   if (accountCreated) {
-        return <Redirect to='/signup_info' />
-    }
-
+    return <Redirect to='/signup_info' />
+  }
 
   return (
     <Wrapper>
       <div>
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
-            <label  className='form-label'>
+            <label className='form-label'>
               First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               &nbsp; &nbsp; &nbsp; Last Name
@@ -73,28 +54,24 @@ pin_code)
               <input
                 type='text'
                 className='form-control'
-                
                 placeholder='First Name'
                 name='first_name'
                 value={first_name}
                 onChange={(e) => onChange(e)}
                 required
-                
               ></input>
 
               <input
                 type='text'
                 className='form-control'
-                
                 placeholder='Last Name'
                 name='last_name'
                 value={last_name}
                 onChange={(e) => onChange(e)}
                 required
-                
               ></input>
             </div>
-            <label  className='form-label'>
+            <label className='form-label'>
               Email Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
               &nbsp; Mobile Number
@@ -103,7 +80,6 @@ pin_code)
               <input
                 type='email'
                 className='form-control'
-                
                 placeholder='Email'
                 name='email'
                 value={email}
@@ -115,7 +91,6 @@ pin_code)
               <input
                 type='text'
                 className='form-control'
-                
                 placeholder='Phone No.'
                 name='phone'
                 value={phone}
@@ -124,29 +99,22 @@ pin_code)
               ></input>
             </div>
             <div className='password'>
-              <label  className='form-label'>
-                Password
-              </label>
+              <label className='form-label'>Password</label>
               <input
                 type={showPassword}
                 className='form-control'
-                
                 placeholder='Password'
                 name='password'
                 value={password}
                 onChange={(e) => onChange(e)}
                 required
-
               ></input>
             </div>
             <div className='password'>
-              <label  className='form-label'>
-                Confirm Password
-              </label>
+              <label className='form-label'>Confirm Password</label>
               <input
                 type={showPassword}
                 className='form-control'
-                
                 placeholder='Confirm Password'
                 name='re_password'
                 value={re_password}
@@ -154,21 +122,42 @@ pin_code)
                 required
               ></input>
             </div>
-            {showPassword==='password'?
-            <div onClick={()=>{setshowPassword('re')}}>show password&nbsp;<AiFillEye /></div>
-            :<div onClick={()=>{setshowPassword('password')}}>hide password&nbsp;<AiFillEyeInvisible/></div>
-            }
+            {showPassword === 'password' ? (
+              <div
+                onClick={() => {
+                  setshowPassword('re')
+                }}
+              >
+                show password&nbsp;
+                <AiFillEye />
+              </div>
+            ) : (
+              <div
+                onClick={() => {
+                  setshowPassword('password')
+                }}
+              >
+                hide password&nbsp;
+                <AiFillEyeInvisible />
+              </div>
+            )}
 
             <label className='check'>
-              <input type='checkbox'  name='remember' /> I've
-              read and accepted <Link to='' >Terms and services</Link>
+              <input type='checkbox' name='remember' /> I've read and accepted{' '}
+              <Link to=''>Terms and services</Link>
               <span>&nbsp;</span> and<Link to=''> Privacy Policy</Link>
             </label>
             <br />
-            <button onClick={props.onHide}type='submit'className='btn btn-warning'>Create Account</button>
+            <button
+              onClick={props.onHide}
+              type='submit'
+              className='btn btn-warning'
+            >
+              Create Account
+            </button>
           </form>
           <br />
-        <Link to='/login'> Already have an account? Login</Link>
+          <Link to='/login'> Already have an account? Login</Link>
         </div>
       </div>
     </Wrapper>
@@ -312,9 +301,8 @@ const Wrapper = styled.section`
   }
 `
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+})
 
 export default connect(mapStateToProps, { signup })(Signup)
-

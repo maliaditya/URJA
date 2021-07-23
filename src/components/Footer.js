@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import {connect} from 'react-redux'
-const Footer = ({user,isAuthenticated}) => {
-    user = JSON.parse(localStorage.getItem("user") || "[]");
+import { connect } from 'react-redux'
+const Footer = ({ user, isAuthenticated }) => {
+  user = JSON.parse(localStorage.getItem('user') || '[]')
   return (
     <Wrapper>
       <div className='col-12 content'>
@@ -44,26 +44,26 @@ const Footer = ({user,isAuthenticated}) => {
             <div className='card'>
               <div className='card-body'>
                 <h5 className='card-title'>About Us</h5>
-         
-                  {isAuthenticated && user.company_details.length===0 && isAuthenticated?<div className='card-text'>
-                  <Link to=''> Who are we </Link>
-                  <br />
-                  <Link to=''> Programs</Link>
-                  <br />
-                  <Link to='/selleracc'>
-                     Become a member
-                  </Link>
-                </div>
-               : <div className='card-text'>
-                  <Link to=''> Who are we </Link>
-                  <br />
-                  <Link to=''> Programs</Link>
-                  <br />
-                  {/* <Link to='/selleracc'>
+
+                {isAuthenticated ? (
+                  <div className='card-text'>
+                    <Link to=''> Who are we </Link>
+                    <br />
+                    <Link to=''> Programs</Link>
+                    <br />
+                    <Link to='/selleracc'>Become a member</Link>
+                  </div>
+                ) : (
+                  <div className='card-text'>
+                    <Link to=''> Who are we </Link>
+                    <br />
+                    <Link to=''> Programs</Link>
+                    <br />
+                    {/* <Link to='/selleracc'>
                      Become a member
                   </Link> */}
-                </div>
-                  }
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -122,7 +122,8 @@ const Footer = ({user,isAuthenticated}) => {
           <p style={{ color: 'var(--clr-grey-3)' }}>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
             Handcrafted by:{' '}
-            <Link to=''
+            <Link
+              to=''
               style={{ color: 'var(--clr-grey-3)' }}
               className='adi'
               href='http://adityamali.herokuapp.com/'
@@ -218,18 +219,13 @@ const Wrapper = styled.footer`
   }
 `
 
-
- const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
-    currentItem: state.auth.currentItem}
+    currentItem: state.auth.currentItem,
+  }
 }
 
-  
-
-
 export default connect(mapStateToProps, {})(Footer)
-
-
