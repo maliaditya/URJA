@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import {
   Services,
   Navbar,
@@ -9,26 +9,26 @@ import {
   BestSellerCarousal,
   RecentlyViewedCarousal,
   NewsLetter,
-  Reviews,
+  // Reviews,
 } from '../components'
-
-
 const HomePage = () => {
- 
   return (
     <React.Fragment>
       <Navbar></Navbar>
-      <Banner />
 
+      <br />
+      <br />
+      <br />
+      <Banner />
       <TrendingCarousal />
       <BestSellerCarousal />
       <RecentlyViewedCarousal />
       <Services></Services>
-      <Reviews />
+      {/* <Reviews /> */}
       <NewsLetter />
       <Footer></Footer>
     </React.Fragment>
   )
 }
 
-export default (HomePage)
+export default HomePage

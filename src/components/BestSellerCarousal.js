@@ -30,26 +30,26 @@ const BestSellerCarousal = ({ access, current_item_added }) => {
     },
   }
 
-  const fetchTrending = async () => {
+  React.useEffect(() => {
+    let isMounted = true
     const config = {
       headers: {
         'content-type': 'appliation/json',
         // 'Authorization': `Bearer ${access}`
       },
     }
-    await axios
+    axios
       .get(`${api}/api/product_enquires/`, config)
       .then((res) => {
         console.log(res)
-        setBestSellerItems(res.data)
+        if (isMounted) setBestSellerItems(res.data)
       })
       .catch((err) => {
         console.log(err)
       })
-  }
-
-  React.useEffect(() => {
-    fetchTrending()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const uniqueObjects = []

@@ -1,11 +1,28 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import {
+  Productnav,
+  Services,
+  Footer,
+  NewsLetter,
+  RecentlyViewedProducts,
+} from '../components'
 
 const RecentlyViewedPage = () => {
   return (
-    <div>
-      <h3>Recently Viewed Page</h3>
+    <div className='recently-viewed'>
+      <Productnav />
+      <RecentlyViewedProducts />
+      <Services />
+      <NewsLetter />
+      <Footer />
     </div>
   )
 }
 
-export default RecentlyViewedPage
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+  }
+}
+export default connect(mapStateToProps, {})(RecentlyViewedPage)

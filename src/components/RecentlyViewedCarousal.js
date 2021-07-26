@@ -2,10 +2,12 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
-const RecentlyViewedCarousal = ({recentlyViewed,current_item_added}) => {
+import { HashLink } from 'react-router-hash-link'
+const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
+  const location = useLocation()
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -25,51 +27,73 @@ const RecentlyViewedCarousal = ({recentlyViewed,current_item_added}) => {
       items: 2,
     },
   }
- if(recentlyViewed.length!==0){
+  if (recentlyViewed.length !== 0) {
+    return (
+      <Wrapper className='content'>
+        <div className='trending'>
+          <span className=' underline-right'>
+            {' '}
+            <h4 style={{ fontWeight: '700' }}>Recently Viewed</h4>
+          </span>
+        </div>
 
-   return (
-     <Wrapper className='content'>
-      <div className='trending'>
-        <span className=' underline-right'>
-          {' '}
-          <h4 style={{ fontWeight: '700' }}>Recently Viewed</h4>
-        </span>
-      </div>
-
-      <div className='trending'>
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-          >
-          {recentlyViewed.map((item,index)=>{
-            return(
-
-              <article key={index}>
-            <Link to='/product'  >
-              <img 
-                onClick={()=>current_item_added(item)}
-                src={item.front_image}
-                alt='Club Card'
-                />
-            </Link>{' '}
-            <p className='ptitle'>&nbsp;&nbsp;{item.name}</p>
-            <p>&nbsp;&nbsp;{item.category.category_name}</p>
-          </article>
-         
-         )})}
-        </Carousel>
-      </div>
-    </Wrapper>
-  )}else{
+        <div className='trending'>
+          {location.pathname === '/product' ? (
+            <Carousel
+              responsive={responsive}
+              removeArrowOnDeviceType={['tablet', 'mobile']}
+            >
+              {recentlyViewed.map((item, index) => {
+                return (
+                  <article key={index}>
+                    <HashLink to='/product#productpage'>
+                      <img
+                        onClick={() => current_item_added(item)}
+                        src={item.front_image}
+                        alt='Club Card'
+                      />
+                    </HashLink>{' '}
+                    <p className='ptitle'>{item.name}</p>
+                    <p>{item.category.category_name}</p>
+                  </article>
+                )
+              })}
+            </Carousel>
+          ) : (
+            <Carousel
+              responsive={responsive}
+              removeArrowOnDeviceType={['tablet', 'mobile']}
+            >
+              {recentlyViewed.map((item, index) => {
+                return (
+                  <article key={index}>
+                    <Link to='/product'>
+                      <img
+                        onClick={() => current_item_added(item)}
+                        src={item.front_image}
+                        alt='Club Card'
+                      />
+                    </Link>{' '}
+                    <p className='ptitle'>{item.name}</p>
+                    <p>{item.category.category_name}</p>
+                  </article>
+                )
+              })}
+            </Carousel>
+          )}
+        </div>
+      </Wrapper>
+    )
+  } else {
     return <React.Fragment></React.Fragment>
   }
 }
-
 
 const Wrapper = styled.div`
   .ptitle {
     font-weight: 700;
     font-size: 1.1rem;
+    width: 10rem;
   }
   p {
     margin: 0px;
@@ -217,20 +241,16 @@ const Wrapper = styled.div`
   }
 `
 
-
- const mapStateToProps = state => {
-       return {
+const mapStateToProps = (state) => {
+  return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
     currentItem: state.auth.currentItem,
-    recentlyViewed: state.auth.recentlyViewed
+    recentlyViewed: state.auth.recentlyViewed,
   }
 }
 
-  
-
-
-export default connect(mapStateToProps, {current_item_added})(RecentlyViewedCarousal)
-
-
+export default connect(mapStateToProps, { current_item_added })(
+  RecentlyViewedCarousal
+)

@@ -3,7 +3,7 @@ import React from 'react'
 import {
   Productnav,
   // ScrollMenu,
-  Reviews,
+  // Reviews,
   NewsLetter,
   Footer,
   Productinfo,
@@ -11,7 +11,7 @@ import {
   Services,
   RecentlyViewedCarousal,
   // SimilarProducts,
-  BestSellerCarousal
+  BestSellerCarousal,
 } from '../components'
 
 const SingleProductPage = () => {
@@ -19,20 +19,23 @@ const SingleProductPage = () => {
     <React.Fragment>
       <Productnav />
       {/* <ScrollMenu /> */}
-      <br /><br /><br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Productdetailinfo></Productdetailinfo>
       <Productinfo />
       <BestSellerCarousal />
       {/* <SimilarProducts></SimilarProducts> */}
       <RecentlyViewedCarousal />
       <Services />
-      <Reviews />
+      {/* <Reviews /> */}
       <NewsLetter />
       <Footer />
     </React.Fragment>
   )
 }
-
-
 
 export default SingleProductPage

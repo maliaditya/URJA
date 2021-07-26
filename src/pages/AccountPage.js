@@ -7,14 +7,9 @@ import {
   Footer,
   NewsLetter,
 } from '../components'
-import { checkAuthenticated, load_user } from '../actions/auth'
 const AccountPage = () => {
-  React.useEffect(() => {
-    checkAuthenticated()
-    load_user()
-  }, [])
   return (
-    <div>
+    <div style={{ marginTop: '5rem' }}>
       <Productnav />
       <Account />
       <Services />
@@ -29,6 +24,4 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
   }
 }
-export default connect(mapStateToProps, { load_user, checkAuthenticated })(
-  AccountPage
-)
+export default connect(mapStateToProps, {})(AccountPage)

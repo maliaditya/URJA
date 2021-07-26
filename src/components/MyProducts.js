@@ -99,16 +99,13 @@ const MyProducts = ({
       .delete(`${api}/api/products/${id}/`, config)
       .then((res) => {
         console.log(res)
-        axios
-          .get(`${api}/api/products/`, config)
-          .then((res) => {
-            console.log(res)
-            load_user()
-            checkAuthenticated()
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+
+        setTimeout(() => {
+          checkAuthenticated()
+          load_user()
+          setProductList(user.user_products)
+        }, 3000)
+
         alert('product was deleted')
       })
       .catch((err) => {
@@ -127,11 +124,9 @@ const MyProducts = ({
     setModalEditProductShow(true)
   }
 
-  // useEffect(() => {
-  //   load_user()
-  //   checkAuthenticated()
-  //   setProductList(user.user_products)
-  // }, [load_user, checkAuthenticated, user.user_products])
+  React.useEffect(() => {
+    setProductList(user.user_products)
+  }, [user.user_products])
 
   const refresProductList = () => {
     load_user()
@@ -142,7 +137,7 @@ const MyProducts = ({
   if (value) {
     return (
       <Wrapper className='content'>
-        <div className='title'>
+        <div id='#myproducts' className='title'>
           <h4>
             My Products &nbsp;&nbsp;
             <MdRefresh onClick={() => refresProductList()} />
@@ -446,7 +441,6 @@ const Wrapper = styled.article`
   }
 
   .containercard {
-    margin-top: 3rem;
     width: 20rem;
     height: 37rem;
     border-radius: 1rem;
@@ -561,8 +555,6 @@ const GridView = styled.article`
   }
 
   .containercard {
-    margin-top: 3rem;
-
     width: 20rem;
     height: 28rem;
     border-radius: 1rem;

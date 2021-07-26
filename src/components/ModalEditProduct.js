@@ -5,6 +5,7 @@ function ModalEditProduct(props) {
   return (
     <Modal
       {...props}
+      style={{ marginTop: '5rem', height: '38rem' }}
       size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered

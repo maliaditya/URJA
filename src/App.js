@@ -1,4 +1,4 @@
-import React, { useEffect }   from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import {
   HomePage,
@@ -12,6 +12,7 @@ import {
   ResetPasswordConfirm,
   Activate,
   SignupInfo,
+  RecentlyViewedPage,
 } from './pages'
 
 import Signup from './components/Signup'
@@ -19,15 +20,15 @@ import { Error } from './components'
 import { connect } from 'react-redux'
 import { checkAuthenticated, load_user } from './actions/auth'
 import TestImage from './pages/TestImage'
-import { AppProvider } from './components/context';
-function App({checkAuthenticated,load_user}) {
-   useEffect(()=>{
+import { AppProvider } from './components/context'
+function App({ checkAuthenticated, load_user }) {
+  useEffect(() => {
     checkAuthenticated()
     load_user()
-  },[checkAuthenticated,load_user])
+  }, [checkAuthenticated, load_user])
   return (
-  <AppProvider>
-    <Router >
+    <AppProvider>
+      <Router>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route exact path='/product' component={SingleProductPage} />
@@ -37,6 +38,7 @@ function App({checkAuthenticated,load_user}) {
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/reset_password' component={ResetPassword} />
+          <Route exact path='/recently_viewed' component={RecentlyViewedPage} />
           <Route
             exact
             path='/password/reset/confirm/:uid/:token'
@@ -49,8 +51,8 @@ function App({checkAuthenticated,load_user}) {
           <Route path='/*' component={Error} />
         </Switch>
       </Router>
-  </AppProvider>
+    </AppProvider>
   )
 }
 
-export default connect(null,{checkAuthenticated, load_user})(App)
+export default connect(null, { checkAuthenticated, load_user })(App)

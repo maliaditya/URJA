@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 // import BackImage from './BackImage'
 import { connect } from 'react-redux'
 import axios from 'axios'
-
+import { load_user, checkAuthenticated } from '../actions/auth'
 const api = process.env.REACT_APP_API_URL
 
 class CreateProduct extends Component {
@@ -100,6 +100,8 @@ class CreateProduct extends Component {
       .then((res) => {
         console.log(res.data)
         alert('Your file is  uploaded!')
+        this.props.checkAuthenticated()
+        this.props.load_user()
       })
       .catch((err) => {
         console.log(err)
@@ -240,4 +242,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {})(CreateProduct)
+export default connect(mapStateToProps, { load_user, checkAuthenticated })(
+  CreateProduct
+)

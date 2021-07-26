@@ -14,10 +14,10 @@ import {
   SIGNUP_FAIL,
   ACTIVATION_SUCCESS,
   ACTIVATION_FAIL,
-  GOOGLE_AUTH_SUCCESS,
-  GOOGLE_AUTH_FAIL,
-  FACEBOOK_AUTH_SUCCESS,
-  FACEBOOK_AUTH_FAIL,
+  // GOOGLE_AUTH_SUCCESS,
+  // GOOGLE_AUTH_FAIL,
+  // FACEBOOK_AUTH_SUCCESS,
+  // FACEBOOK_AUTH_FAIL,
   LOGOUT,
   CURRENT_ITEM_ADDED_FAIL,
   CURRENT_ITEM_ADDED_SUCCESS,
@@ -34,10 +34,39 @@ import {
   ADD_TO_FAVOURITES_SUCCESS,
   REMOVE_FORM_FAVOURITES_FAIL,
   REMOVE_FORM_FAVOURITES_SUCCESS,
+  USER_COMPANY_EXISTS_SUCCESS,
+  USER_NEWSLETTER_EXISTS_SUCCESS,
 } from './types'
 
 const api = process.env.REACT_APP_API_URL
 
+export const userNewsLetterSuscribed = (user) => async (dispatch) => {
+  if (user.news_letter.length !== 0) {
+    dispatch({
+      type: USER_NEWSLETTER_EXISTS_SUCCESS,
+      payload: true,
+    })
+  } else {
+    dispatch({
+      type: USER_NEWSLETTER_EXISTS_SUCCESS,
+      payload: false,
+    })
+  }
+}
+
+export const userCompanyExits = (user) => async (dispatch) => {
+  if (user.company_details.length !== 0) {
+    dispatch({
+      type: USER_COMPANY_EXISTS_SUCCESS,
+      payload: true,
+    })
+  } else {
+    dispatch({
+      type: USER_COMPANY_EXISTS_SUCCESS,
+      payload: false,
+    })
+  }
+}
 export const removeFromFavourites = (favItem) => async (dispatch) => {
   if (localStorage.getItem('access')) {
     const config = {
@@ -50,8 +79,6 @@ export const removeFromFavourites = (favItem) => async (dispatch) => {
 
     try {
       await axios.delete(`${api}/api/favourites/${favItem}/`, config)
-
-      console.log('REMOVE_FORM_FAVOURITES_SUCCESS')
       alert('Product removed from your favourites')
       dispatch({
         type: REMOVE_FORM_FAVOURITES_SUCCESS,
@@ -71,7 +98,6 @@ export const removeFromFavourites = (favItem) => async (dispatch) => {
 }
 
 export const addToFavourites = (product, user) => async (dispatch) => {
-  console.log('ADD_TO_FAVOURITES_SUCCESS', product, user)
   if (localStorage.getItem('access')) {
     const config = {
       headers: {
@@ -89,7 +115,6 @@ export const addToFavourites = (product, user) => async (dispatch) => {
     try {
       await axios.post(`${api}/api/favourites/`, body, config)
 
-      console.log('ADD_TO_FAVOURITES_SUCCESS')
       alert('Product added to your favourites')
       dispatch({
         type: ADD_TO_FAVOURITES_SUCCESS,
@@ -116,8 +141,6 @@ export const itemSearchedClear = () => async (dispatch) => {
 }
 
 export const itemSearched = (current_item) => async (dispatch) => {
-  console.log('current_item', current_item)
-
   if (current_item !== null) {
     dispatch({
       type: ITEM_SEARCH_SUCCESS,
@@ -155,7 +178,6 @@ export const currentItemCompanyUser = (userId) => async (dispatch) => {
     try {
       const res = await axios.get(`${api}/api/account/${userId}/`, config)
 
-      console.log('ADD_CURRENT_ITEM_USadasdER_SUCCESS', res.data)
       dispatch({
         type: ADD_CURRENT_ITEM_USER_SUCCESS,
         payload: res.data,
@@ -225,6 +247,10 @@ export const current_item_added = (current_item, path) => async (dispatch) => {
   }
 }
 
+// const load_user_company_exists = (data) => async (dispatch) => {
+
+// }
+
 export const load_user = () => async (dispatch) => {
   if (localStorage.getItem('access')) {
     const config = {
@@ -243,6 +269,8 @@ export const load_user = () => async (dispatch) => {
         type: USER_LOADED_SUCCESS,
         payload: res.data,
       })
+      dispatch(userCompanyExits(res.data))
+      dispatch(userNewsLetterSuscribed(res.data))
     } catch (err) {
       dispatch({
         type: USER_LOADED_FAIL,
@@ -255,85 +283,85 @@ export const load_user = () => async (dispatch) => {
   }
 }
 
-export const googleAuthenticate = (state, code) => async (dispatch) => {
-  if (state && code && !localStorage.getItem('access')) {
-    const config = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }
+// export const googleAuthenticate = (state, code) => async (dispatch) => {
+//   if (state && code && !localStorage.getItem('access')) {
+//     const config = {
+//       headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded',
+//       },
+//     }
 
-    const details = {
-      state: state,
-      code: code,
-    }
+//     const details = {
+//       state: state,
+//       code: code,
+//     }
 
-    const formBody = Object.keys(details)
-      .map(
-        (key) =>
-          encodeURIComponent(key) + '=' + encodeURIComponent(details[key])
-      )
-      .join('&')
+//     const formBody = Object.keys(details)
+//       .map(
+//         (key) =>
+//           encodeURIComponent(key) + '=' + encodeURIComponent(details[key])
+//       )
+//       .join('&')
 
-    try {
-      const res = await axios.post(
-        `${api}/auth/o/google-oauth2/?${formBody}`,
-        config
-      )
+//     try {
+//       const res = await axios.post(
+//         `${api}/auth/o/google-oauth2/?${formBody}`,
+//         config
+//       )
 
-      dispatch({
-        type: GOOGLE_AUTH_SUCCESS,
-        payload: res.data,
-      })
+//       dispatch({
+//         type: GOOGLE_AUTH_SUCCESS,
+//         payload: res.data,
+//       })
 
-      dispatch(load_user())
-    } catch (err) {
-      dispatch({
-        type: GOOGLE_AUTH_FAIL,
-      })
-    }
-  }
-}
+//       dispatch(load_user())
+//     } catch (err) {
+//       dispatch({
+//         type: GOOGLE_AUTH_FAIL,
+//       })
+//     }
+//   }
+// }
 
-export const facebookAuthenticate = (state, code) => async (dispatch) => {
-  if (state && code && !localStorage.getItem('access')) {
-    const config = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    }
+// export const facebookAuthenticate = (state, code) => async (dispatch) => {
+//   if (state && code && !localStorage.getItem('access')) {
+//     const config = {
+//       headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded',
+//       },
+//     }
 
-    const details = {
-      state: state,
-      code: code,
-    }
+//     const details = {
+//       state: state,
+//       code: code,
+//     }
 
-    const formBody = Object.keys(details)
-      .map(
-        (key) =>
-          encodeURIComponent(key) + '=' + encodeURIComponent(details[key])
-      )
-      .join('&')
+//     const formBody = Object.keys(details)
+//       .map(
+//         (key) =>
+//           encodeURIComponent(key) + '=' + encodeURIComponent(details[key])
+//       )
+//       .join('&')
 
-    try {
-      const res = await axios.post(
-        `${api}/auth/o/facebook/?${formBody}`,
-        config
-      )
+//     try {
+//       const res = await axios.post(
+//         `${api}/auth/o/facebook/?${formBody}`,
+//         config
+//       )
 
-      dispatch({
-        type: FACEBOOK_AUTH_SUCCESS,
-        payload: res.data,
-      })
+//       dispatch({
+//         type: FACEBOOK_AUTH_SUCCESS,
+//         payload: res.data,
+//       })
 
-      dispatch(load_user())
-    } catch (err) {
-      dispatch({
-        type: FACEBOOK_AUTH_FAIL,
-      })
-    }
-  }
-}
+//       dispatch(load_user())
+//     } catch (err) {
+//       dispatch({
+//         type: FACEBOOK_AUTH_FAIL,
+//       })
+//     }
+//   }
+// }
 
 export const checkAuthenticated = () => async (dispatch) => {
   if (localStorage.getItem('access')) {
@@ -413,7 +441,6 @@ export const signup =
       password,
       re_password,
     })
-    console.log('my signup data', body)
 
     try {
       const res = await axios.post(`${api}/auth/users/`, body, config)
@@ -423,9 +450,25 @@ export const signup =
         payload: res.data,
       })
     } catch (err) {
-      alert(err)
+      const erros = {
+        msg: err.response.data,
+        status: err.response.status,
+      }
+      if (erros !== null) {
+        try {
+          alert(erros.msg.email[0])
+        } catch (err) {
+          console.log(err)
+        }
+        try {
+          alert(erros.msg.password[0])
+        } catch (err) {
+          console.log(err)
+        }
+      }
       dispatch({
         type: SIGNUP_FAIL,
+        payload: erros,
       })
     }
   }

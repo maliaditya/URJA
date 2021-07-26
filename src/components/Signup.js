@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import { signup } from '../actions/auth'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-
-const Signup = ({ signup, isAuthenticated, props }) => {
-  const [accountCreated, setAccountCreated] = useState(false)
+import { SignupInfo } from '../pages'
+import ModalLogin from './Modal'
+const Signup = ({
+  signup,
+  isAuthenticated,
+  props,
+  accountCreated,
+  signupErrors,
+}) => {
+  const [modalLoginShow, setModalLoginShow] = React.useState(false)
   const [showPassword, setshowPassword] = useState('password')
   const [formData, setFormData] = useState({
     first_name: '',
@@ -34,7 +40,6 @@ const Signup = ({ signup, isAuthenticated, props }) => {
     if (password.length > 8) {
       if (password === re_password) {
         setFormData({ ...formData, hide: props.onHide })
-        setAccountCreated(true)
         signup(first_name, last_name, phone, email, password, re_password)
       } else {
         alert("Password don't match")
@@ -43,21 +48,24 @@ const Signup = ({ signup, isAuthenticated, props }) => {
       alert('Password must have aleast 8 characters.')
     }
   }
+  const setLogin = () => {
+    setModalLoginShow(true)
+  }
 
   if (accountCreated) {
-    return <Redirect to='/signup_info' />
+    return <SignupInfo />
   }
 
   return (
     <Wrapper>
+      <ModalLogin
+        show={modalLoginShow}
+        onHide={() => setModalLoginShow(false)}
+      />
       <div>
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
-            <label className='form-label'>
-              First Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; Last Name
-            </label>
+            <label className='form-label'>First Name</label>
             <div className='name'>
               <input
                 type='text'
@@ -79,11 +87,7 @@ const Signup = ({ signup, isAuthenticated, props }) => {
                 required
               ></input>
             </div>
-            <label className='form-label'>
-              Email Address &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; Mobile Number
-            </label>
+            <label className='form-label'>Email Address</label>
             <div className='name'>
               <input
                 type='email'
@@ -158,16 +162,15 @@ const Signup = ({ signup, isAuthenticated, props }) => {
               <span>&nbsp;</span> and<Link to=''> Privacy Policy</Link>
             </label>
             <br />
-            <button
-              onClick={formData.hide}
-              type='submit'
-              className='btn btn-warning'
-            >
+            <button type='submit' className='btn btn-warning'>
               Create Account
             </button>
           </form>
           <br />
-          <Link to='/login'> Already have an account? Login</Link>
+          <a href='#!' style={{ fontSize: '1rem' }} onClick={() => setLogin()}>
+            {' '}
+            Already have an account? Login
+          </a>
         </div>
       </div>
     </Wrapper>
@@ -192,9 +195,6 @@ const Wrapper = styled.section`
     width: 1rem;
     margin-top: 1rem;
   }
-  .password input {
-    width: 21rem;
-  }
   .name {
     display: flex;
   }
@@ -202,8 +202,11 @@ const Wrapper = styled.section`
     margin-top: 5px;
     color: black;
   }
+  .password input {
+    width: 18rem;
+  }
   input {
-    width: 10rem;
+    width: 8rem;
     margin-right: 1rem;
   }
   .formcontent {
@@ -235,6 +238,14 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 720px) {
+    .password input {
+      width: 31rem;
+    }
+    input {
+      width: 20rem;
+      margin-right: 1rem;
+    }
+
     .left {
       display: flex;
       background-color: #ffc232;
@@ -248,6 +259,13 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 1300px) {
+    .password input {
+      width: 31rem;
+    }
+    input {
+      width: 20rem;
+      margin-right: 1rem;
+    }
     .social {
       display: flex;
     }
@@ -313,6 +331,8 @@ const Wrapper = styled.section`
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  accountCreated: state.auth.accountCreated,
+  signupErrors: state.auth.signupErrors,
 })
 
 export default connect(mapStateToProps, { signup })(Signup)

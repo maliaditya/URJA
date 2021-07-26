@@ -6,9 +6,22 @@ import CompanyInfo from './CompanyInfo'
 import MyProducts from './MyProducts'
 import { connect } from 'react-redux'
 import EnquiryTable from './EnquiryTable'
+
 const Account = ({ user }) => {
   user = JSON.parse(localStorage.getItem('user') || '[]')
-  const [value, setValue] = useState(<PersonalInfo />)
+  const [value, setValue] = useState()
+  const [menuColor, setMenuColor] = useState()
+
+  const setMenuValues = (component) => {
+    setValue(component)
+    setMenuColor('#fcc232')
+  }
+
+  React.useEffect(() => {
+    user.company_details.length !== 0
+      ? setValue(<MyProducts />)
+      : setValue(<PersonalInfo />)
+  }, [user.company_details.length])
   return (
     <Wrapper className='content'>
       <div className='col-md-12'>
@@ -27,25 +40,31 @@ const Account = ({ user }) => {
                   <div className='card-text'>
                     {user.company_details.length !== 0 ? (
                       <div>
-                        <button onClick={() => setValue(<PersonalInfo />)}>
+                        <button onClick={() => setMenuValues(<PersonalInfo />)}>
                           Personal Information
                         </button>
                         <br />
-                        <button onClick={() => setValue(<CompanyInfo />)}>
+                        <button onClick={() => setMenuValues(<CompanyInfo />)}>
                           {' '}
                           Company Information
                           <br />
                         </button>
-                        <button onClick={() => setValue(<ManageContact />)}>
+                        <button
+                          onClick={() => setMenuValues(<ManageContact />)}
+                        >
                           Manage Contact
                         </button>
                       </div>
                     ) : (
                       <div>
-                        <button onClick={() => setValue(<PersonalInfo />)}>
+                        <button onClick={() => setMenuValues(<PersonalInfo />)}>
                           Personal Information
                         </button>
-                        <button onClick={() => setValue(<ManageContact />)}>
+                        <button
+                          className='boxClickCss'
+                          style={{ color: `${menuColor}` }}
+                          onClick={() => setMenuValues(<ManageContact />)}
+                        >
                           Manage Contact
                         </button>
                       </div>

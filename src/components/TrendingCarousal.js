@@ -31,27 +31,27 @@ const TrendingCarousal = ({ current_item_added }) => {
     },
   }
 
-  const fetchTrending = async () => {
+  React.useEffect(() => {
+    let isMounted = true
+    console.log('iam runnig')
     const config = {
       headers: {
         'content-type': 'appliation/json',
         // 'Authorization': `Bearer ${access}`
       },
     }
-    await axios
+    axios
       .get(`${api}/api/favourites/`, config)
       .then((res) => {
         console.log(res)
-        setTrendingItems(res.data)
+        if (isMounted) setTrendingItems(res.data)
       })
       .catch((err) => {
         console.log(err)
       })
-  }
-
-  React.useEffect(() => {
-    console.log('i am running')
-    fetchTrending()
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const uniqueObjects = []

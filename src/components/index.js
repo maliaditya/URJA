@@ -21,7 +21,9 @@ import UsersInfo from './UsersInfo'
 import ProductCard from './ProductCard'
 import SellerAccount from './SellerAccount'
 import Account from './Account'
+import RecentlyViewedProducts from './RecentlyViewedProducts'
 export {
+  RecentlyViewedProducts,
   Account,
   SellerAccount,
   ProductCard,

@@ -13,14 +13,12 @@ const Footer = ({ user, isAuthenticated }) => {
               <div className='card-body'>
                 <h5 className='card-title'>Customer Service</h5>
                 <div className='card-text'>
-                  <Link to=''> Hello Center</Link>
+                  <Link to=''> Help Center</Link>
                   <br />
                   <Link to=''> FAQ</Link>
                   <br />
-
                   <Link to=''> Terms and Conditions</Link>
                   <br />
-
                   <Link to=''> Reports</Link>
                 </div>
               </div>
@@ -51,7 +49,7 @@ const Footer = ({ user, isAuthenticated }) => {
                     <br />
                     <Link to=''> Programs</Link>
                     <br />
-                    <Link to='/selleracc'>Become a member</Link>
+                    <Link to=''>Become a member</Link>
                   </div>
                 ) : (
                   <div className='card-text'>
@@ -122,7 +120,7 @@ const Footer = ({ user, isAuthenticated }) => {
           <p style={{ color: 'var(--clr-grey-3)' }}>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
             Handcrafted by:{' '}
-            <Link
+            <a
               to=''
               style={{ color: 'var(--clr-grey-3)' }}
               className='adi'
@@ -130,7 +128,7 @@ const Footer = ({ user, isAuthenticated }) => {
             >
               {' '}
               Aditya Mali
-            </Link>
+            </a>
           </p>
         </center>
       </div>

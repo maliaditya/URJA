@@ -2,9 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { connect } from 'react-redux'
-
+import { checkAuthenticated, load_user } from '../actions/auth'
 const api = process.env.REACT_APP_API_URL
-const NewsLetter = ({ user, access, isAuthenticated }) => {
+const NewsLetter = ({
+  user,
+  access,
+  isAuthenticated,
+  currentUserNewsLetter,
+  checkAuthenticated,
+  load_user,
+}) => {
   user = JSON.parse(localStorage.getItem('user') || '[]')
   const [formData, setFormData] = React.useState({
     email: '',
@@ -41,7 +48,10 @@ const NewsLetter = ({ user, access, isAuthenticated }) => {
       .post(`${api}/api/news_letter/`, body, config)
       .then((res) => {
         console.log('Suscribed Successfully', res)
+
         alert('Suscribed Successfully')
+        checkAuthenticated()
+        load_user()
       })
       .catch((err) => {
         console.log(err)
@@ -49,36 +59,40 @@ const NewsLetter = ({ user, access, isAuthenticated }) => {
       })
   }
 
-  return (
-    <Newscont>
-      <hr />
-      <center>
-        <p className='ttag'>
-          {' '}
-          Suscribe to our news letter and never miss exciting offers!
-        </p>
-      </center>
-      <center>
-        <form
-          onSubmit={(e) => onSubmit(e)}
-          className='input-group rounded container'
-        >
-          <input
-            type='email'
-            className='form-control rounded'
-            placeholder='Enter your email address'
-            aria-label='Search'
-            aria-describedby='search-addon'
-            onChange={(e) => onChange(e)}
-            value={formData.email}
-            required
-          />
-          <span> &nbsp; &nbsp; </span>
-          <button className='btn btn-warning'>Suscribe</button>
-        </form>
-      </center>
-    </Newscont>
-  )
+  if (isAuthenticated && !currentUserNewsLetter) {
+    return (
+      <Newscont>
+        <hr />
+        <center>
+          <p className='ttag'>
+            {' '}
+            Suscribe to our news letter and never miss exciting offers!
+          </p>
+        </center>
+        <center>
+          <form
+            onSubmit={(e) => onSubmit(e)}
+            className='input-group rounded container'
+          >
+            <input
+              type='email'
+              className='form-control rounded'
+              placeholder='Enter your email address'
+              aria-label='Search'
+              aria-describedby='search-addon'
+              onChange={(e) => onChange(e)}
+              value={formData.email}
+              required
+            />
+            <span> &nbsp; &nbsp; </span>
+            <button className='btn btn-warning'>Suscribe</button>
+          </form>
+        </center>
+      </Newscont>
+    )
+  } else {
+    return <React.Fragment></React.Fragment>
+  }
 }
 
 const Newscont = styled.section`
@@ -144,7 +158,10 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
     user: state.auth.user,
+    currentUserNewsLetter: state.auth.currentUserNewsLetter,
   }
 }
 
-export default connect(mapStateToProps, {})(NewsLetter)
+export default connect(mapStateToProps, { checkAuthenticated, load_user })(
+  NewsLetter
+)

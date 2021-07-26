@@ -3,10 +3,10 @@ import Modal from 'react-bootstrap/Modal'
 import CreateProduct from './CreateProduct'
 import { Button } from 'react-bootstrap'
 function ModalAddProduct(props) {
-
   return (
     <Modal
       {...props}
+      style={{ marginTop: '5rem', height: '38rem' }}
       size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered
@@ -20,12 +20,11 @@ function ModalAddProduct(props) {
       <Modal.Body>
         <CreateProduct />
       </Modal.Body>
-       <Modal.Footer>
-          <Button variant="secondary" onClick={props.onHide} >
-            Close
-          </Button>
-         
-        </Modal.Footer>
+      <Modal.Footer>
+        <Button variant='secondary' onClick={props.onHide}>
+          Close
+        </Button>
+      </Modal.Footer>
     </Modal>
   )
 }

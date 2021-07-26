@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import ImageGallery from 'react-image-gallery'
 import 'react-image-gallery/styles/css/image-gallery.css'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 // import {checkAuthenticated, load_user} from '../actions/auth'
 import Rating from '@material-ui/lab/Rating'
@@ -12,6 +11,7 @@ import ModalSuccess from './ModalSuccess'
 import ModalSellerInfo from './ModalSellerInfo'
 import { itemAddedToRecentlyViewed } from '../actions/auth'
 import { HashLink } from 'react-router-hash-link'
+import ModalLogin from './Modal'
 
 const api = process.env.REACT_APP_API_URL
 const Productdetailinfo = ({
@@ -29,6 +29,7 @@ const Productdetailinfo = ({
   currentCompanyUser = JSON.parse(
     localStorage.getItem('currentCompanyUser') || '[]'
   )
+  const [modalLoginShow, setModalLoginShow] = React.useState(false)
 
   const [modalModalSuccess, setModalSuccess] = React.useState(false)
   const [modalModalSellerInfo, setModalSellerInfo] = React.useState(false)
@@ -108,7 +109,11 @@ const Productdetailinfo = ({
         show={modalModalSellerInfo}
         onHide={() => setModalSellerInfo(false)}
       />
-      <div className='col-md-12 row'>
+      <ModalLogin
+        show={modalLoginShow}
+        onHide={() => setModalLoginShow(false)}
+      />
+      <div className='col-md-12 row '>
         <div className='col-md-6 imagebanner  '>
           <ImageGallery
             className='gallery'
@@ -138,13 +143,33 @@ const Productdetailinfo = ({
               </Box>
               &nbsp; &nbsp; 0.0 &nbsp; | &nbsp; 0 ratings
             </div>
+
             <p className='price'>
               ₹ {currentItem.price}&nbsp;{' '}
-              <Link to='' className='glp' href=''>
+              <HashLink to='/product#enquiry' className='glp'>
                 {' '}
                 Get Latest Price
-              </Link>
+              </HashLink>
             </p>
+            <div>
+              {currentItem.in_stock ? (
+                <p
+                  className='instock'
+                  style={{ fontSize: '1.5rem', color: 'green' }}
+                >
+                  {' '}
+                  In stock
+                </p>
+              ) : (
+                <p
+                  className='instock'
+                  style={{ fontSize: '1.5rem', color: 'red' }}
+                >
+                  {' '}
+                  Out of stock
+                </p>
+              )}
+            </div>
             <hr />
           </div>
           {isAuthenticated ? (
@@ -394,6 +419,7 @@ const Productdetailinfo = ({
                 </div>
                 <br />
                 <button
+                  id='enquiry'
                   onClick={() => setModalSellerInfo(true)}
                   className='btn btn-secondary'
                 >
@@ -462,11 +488,13 @@ const Productdetailinfo = ({
                 <div className='card-body'>
                   <p className='card-title' style={{ fontWeight: 700 }}>
                     Login to view more information.
-                  </p>
-                  <Link to='/login'>
-                    {' '}
-                    <button className='btn btn-primary'>Login</button>
-                  </Link>
+                  </p>{' '}
+                  <button
+                    onClick={() => setModalLoginShow(true)}
+                    className='btn btn-warning'
+                  >
+                    Login
+                  </button>
                 </div>
               </div>
             </center>
@@ -478,6 +506,7 @@ const Productdetailinfo = ({
 }
 
 const Wrapper = styled.section`
+margin-top:85rem
 .gallery{
   position:sticky;
 }

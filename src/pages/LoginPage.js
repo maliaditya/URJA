@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-// import { FcGoogle } from 'react-icons/fc'
-// import { AiFillFacebook } from 'react-icons/ai'
+import loginSuccess from '../assets/login.png'
 import { login } from '../actions/auth'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-
-const LoginPage = ({ login, props, isAuthenticated }) => {
+import ModalSignup from '../components/ModalSignup'
+import youtube from '../assets/youtube.png'
+const LoginPage = ({ login, isAuthenticated, user }) => {
   const [showPassword, setshowPassword] = useState('password')
+  const [modalSignupShow, setModalSignupShow] = React.useState(false)
+  const [showInfo, setShowInfo] = React.useState(false)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -28,14 +30,101 @@ const LoginPage = ({ login, props, isAuthenticated }) => {
     login(email, password)
   }
   if (isAuthenticated) {
-    return <Redirect to='/' />
-  }
-
-  return (
-    <Wrapper>
-      <section className='container'>
-        <h3 className='title'>Log in</h3>
-        <hr />
+    if (showInfo) {
+      return (
+        <section>
+          <center>
+            <h4>
+              Hello, Nice to meet you, {user.first_name} {user.last_name}
+            </h4>
+            <h6>Here are few vedio to help you get started with urja</h6>
+            <img
+              style={{
+                padding: '5rem 15rem 5rem 15rem ',
+                borderRadius: '1rem',
+                backgroundColor: 'gray',
+              }}
+              src={youtube}
+              alt='youtube'
+            />
+            <br />
+            <a href='#!'>
+              <svg
+                width='172'
+                height='13'
+                viewBox='0 0 172 13'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <rect
+                  x='171.99'
+                  y='12.0073'
+                  width='76'
+                  height='9'
+                  rx='4.5'
+                  transform='rotate(180 171.99 12.0073)'
+                  fill='#2D2C2C'
+                />
+                <rect
+                  onClick={() => setShowInfo(false)}
+                  x='76.0117'
+                  y='9.99268'
+                  width='76'
+                  height='9'
+                  rx='4.5'
+                  transform='rotate(180 76.0117 9.99268)'
+                  fill='#C4C4C4'
+                />
+              </svg>
+            </a>
+          </center>
+        </section>
+      )
+    }
+    return (
+      <section>
+        <center>
+          <h4 style={{ fontWeight: '700' }}>Success!...</h4>
+          <img
+            style={{ width: '400px', height: '250px' }}
+            src={loginSuccess}
+            alt='login'
+          />
+          <h5>You are successfully logged into our system</h5>
+          <button className='btn btn-warning' onClick={() => setShowInfo(true)}>
+            Next{' '}
+          </button>
+          <br />
+          <br />
+          <a href='#!'>
+            <svg
+              width='172'
+              height='9'
+              viewBox='0 0 172 9'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <rect width='76' height='9' rx='4.5' fill='#2D2C2C' />
+              <rect
+                onClick={() => setShowInfo(true)}
+                x='96'
+                width='76'
+                height='9'
+                rx='4.5'
+                fill='#C4C4C4'
+              />
+            </svg>
+          </a>
+        </center>
+      </section>
+    )
+  } else {
+    return (
+      <Wrapper>
+        <ModalSignup
+          show={modalSignupShow}
+          onHide={() => setModalSignupShow(false)}
+        />
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
             <div className='password'>
@@ -88,39 +177,47 @@ const LoginPage = ({ login, props, isAuthenticated }) => {
             <br />
             <br />
             <button className='btn btn-primary' type='submit'>
-              Login
+              Log in
             </button>
           </form>
         </div>
         <br />
-        <Link to='' style={{ fontSize: '1rem' }}>
+        <a
+          href='#!'
+          onClick={() => setModalSignupShow(true)}
+          style={{ fontSize: '1rem' }}
+        >
           Need Account?{' '}
-        </Link>
+        </a>
         <p>
           <Link style={{ fontSize: '1rem' }} to='reset_password'>
             Forgot password ?{' '}
           </Link>
         </p>
-      </section>
-      {/* 
+        {/* 
       <p className='middle'>&nbsp; or use &nbsp; </p>
-
+      
       <div className='social'>
-        <button className='btn'>
-          {' '}
-          <AiFillFacebook />
-          &nbsp;Facebook
-        </button>
-
-        <button className='btn'>
-          <FcGoogle />
-          &nbsp; Google
-        </button>
-      </div> */}
-    </Wrapper>
-  )
+      <button className='btn'>
+      {' '}
+      <AiFillFacebook />
+      &nbsp;Facebook
+      </button>
+      
+      <button className='btn'>
+      <FcGoogle />
+      &nbsp; Google
+      </button>
+    </div> */}
+      </Wrapper>
+    )
+  }
 }
 const Wrapper = styled.section`
+  .formcontent {
+    margin: 0 auto;
+  }
+
   .container {
     margin-top: 2rem;
     padding: 2vh;
@@ -209,8 +306,16 @@ const Wrapper = styled.section`
   }
   overflow: hidden;
 `
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-})
+
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+    currentCompany: state.auth.currentCompany,
+    currentCompanyUser: state.auth.currentCompanyUser,
+  }
+}
 
 export default connect(mapStateToProps, { login })(LoginPage)

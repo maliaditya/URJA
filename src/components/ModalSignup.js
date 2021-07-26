@@ -6,7 +6,8 @@ function ModalSignup(props) {
   return (
     <Modal
       {...props}
-      size='500'
+      style={{ marginTop: '5rem', height: '38rem' }}
+      size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered
       scrollable={true}

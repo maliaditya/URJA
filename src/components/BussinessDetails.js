@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-
+import { load_user, checkAuthenticated } from '../actions/auth'
 // import CreateProduct from './CreateProduct'
 
 const api = process.env.REACT_APP_API_URL
@@ -22,6 +22,7 @@ class BussinessDetails extends React.Component {
       leading_seller: false,
       verified_seller: false,
       userid: JSON.parse(localStorage.getItem('user') || '[]'),
+      info: false,
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -54,6 +55,7 @@ class BussinessDetails extends React.Component {
         console.log(res)
         this.props.checkAuthenticated()
         this.props.load_user()
+        this.setState({ info: true })
       })
       .catch((err) => {
         alert('Unable to save the details please try again ! ')
@@ -85,107 +87,123 @@ class BussinessDetails extends React.Component {
   }
 
   render() {
-    return (
-      <Wrapper className='container'>
-        <p>Bussiness Details</p>
-        <div className='formcontent'>
-          <form onSubmit={this.handleSubmit}>
-            <div className='password'>
-              <label className='form-label'>Company/Bussiness/Shop Name</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Product name'
-                name='company_name'
-                value={this.state.company_name}
-                required
-                onChange={this.handleChange}
-              />
-            </div>
+    if (!this.state.info) {
+      return (
+        <Wrapper className='container'>
+          <p>Bussiness Details</p>
+          <div className='formcontent'>
+            <form onSubmit={this.handleSubmit}>
+              <div className='password'>
+                <label className='form-label'>
+                  Company/Bussiness/Shop Name
+                </label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Product name'
+                  name='company_name'
+                  value={this.state.company_name}
+                  required
+                  onChange={this.handleChange}
+                />
+              </div>
 
-            <div className='password'>
-              <label className='form-label'>Company Details</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Company Details'
-                name='company_details'
-                aria-describedby='emailHelp'
-                value={this.state.company_details}
-                required
-                onChange={this.handleChange}
-              ></input>
-            </div>
-            <div className='password'>
-              <label className='form-label'>Address Line 1</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Please Enter Your Street Address'
-                name='address_line1'
-                value={this.state.address_line1}
-                required
-                onChange={this.handleChange}
-              ></input>
-            </div>
-            <div className='password'>
-              <label className='form-label'>Address Line 2</label>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Please Enter Your Street Address'
-                name='address_line2'
-                value={this.state.address_line2}
-                onChange={this.handleChange}
-              ></input>
-            </div>
-            <label className='form-label'>
-              City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-              &nbsp; &nbsp; &nbsp; State
-            </label>
-            <div className='name'>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Eg.Satara'
-                name='city'
-                value={this.state.city}
-                required
-                onChange={this.handleChange}
-              ></input>
+              <div className='password'>
+                <label className='form-label'>Company Details</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Company Details'
+                  name='company_details'
+                  aria-describedby='emailHelp'
+                  value={this.state.company_details}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <div className='password'>
+                <label className='form-label'>Address Line 1</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Please Enter Your Street Address'
+                  name='address_line1'
+                  value={this.state.address_line1}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <div className='password'>
+                <label className='form-label'>Address Line 2</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Please Enter Your Street Address'
+                  name='address_line2'
+                  value={this.state.address_line2}
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <label className='form-label'>
+                City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; State
+              </label>
+              <div className='name'>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg.Satara'
+                  name='city'
+                  value={this.state.city}
+                  required
+                  onChange={this.handleChange}
+                ></input>
 
-              <input
-                type='text'
-                className='form-control'
-                placeholder='Eg. Maharashtra'
-                name='state'
-                value={this.state.state}
-                required
-                onChange={this.handleChange}
-              ></input>
-            </div>
-            <label className='form-label'>Zip Code</label>
-            <div className='name'>
-              <input
-                type='text'
-                className='form-control'
-                placeholder='6 digit Code  '
-                name='pin_code'
-                value={this.state.pin_code}
-                required
-                onChange={this.handleChange}
-              ></input>
-            </div>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg. Maharashtra'
+                  name='state'
+                  value={this.state.state}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <label className='form-label'>Zip Code</label>
+              <div className='name'>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='6 digit Code  '
+                  name='pin_code'
+                  value={this.state.pin_code}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
 
-            <button type='submit' className='btn btn-warning'>
-              Submit
-            </button>
-          </form>
-        </div>
-      </Wrapper>
-    )
+              <button type='submit' className='btn btn-warning'>
+                Submit
+              </button>
+            </form>
+          </div>
+        </Wrapper>
+      )
+    } else {
+      return (
+        <center>
+          <div>
+            <p>Your Bussiness Details were added Successfully! </p>
+            <p>
+              You can add your products by clicking on top Right Link (Sell Your
+              Product)
+            </p>
+          </div>
+        </center>
+      )
+    }
   }
 }
 
@@ -322,9 +340,11 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
-    user: state.auth.user,
+    user: JSON.parse(localStorage.getItem('user') || '[]'),
     currentItem: state.auth.currentItem,
   }
 }
 
-export default connect(mapStateToProps, {})(BussinessDetails)
+export default connect(mapStateToProps, { load_user, checkAuthenticated })(
+  BussinessDetails
+)
