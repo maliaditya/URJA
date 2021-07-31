@@ -2,11 +2,17 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
 import { HashLink } from 'react-router-hash-link'
 const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index
+  }
+
+  recentlyViewed = recentlyViewed.filter(onlyUnique)
+
   const location = useLocation()
   const responsive = {
     superLargeDesktop: {
@@ -16,7 +22,7 @@ const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
-      items: 6,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1300, min: 720 },
@@ -24,7 +30,7 @@ const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
     },
     mobile: {
       breakpoint: { max: 720, min: 0 },
-      items: 2,
+      items: 1,
     },
   }
   if (recentlyViewed.length !== 0) {
@@ -43,21 +49,34 @@ const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
               responsive={responsive}
               removeArrowOnDeviceType={['tablet', 'mobile']}
             >
-              {recentlyViewed.map((item, index) => {
-                return (
-                  <article key={index}>
-                    <HashLink to='/product#productpage'>
-                      <img
-                        onClick={() => current_item_added(item)}
-                        src={item.front_image}
-                        alt='Club Card'
-                      />
-                    </HashLink>{' '}
-                    <p className='ptitle'>{item.name}</p>
-                    <p>{item.category.category_name}</p>
-                  </article>
-                )
-              })}
+              {recentlyViewed
+                .splice(0, recentlyViewed.length - 1)
+                .map((item, index) => {
+                  return (
+                    <article key={index}>
+                      <HashLink to='/product#productpage'>
+                        <img
+                          onClick={() => current_item_added(item)}
+                          src={item.front_image}
+                          alt='Club Card'
+                        />
+                        <h5
+                          onClick={() => current_item_added(item)}
+                          style={{
+                            color: 'black',
+                            marginTop: '0.7rem',
+                          }}
+                          className='ptitle'
+                        >
+                          {item.name}
+                        </h5>
+                        <p style={{ fontSize: '1rem', marginTop: '-0.7rem' }}>
+                          {item.category.category_name}
+                        </p>
+                      </HashLink>{' '}
+                    </article>
+                  )
+                })}
             </Carousel>
           ) : (
             <Carousel
@@ -67,15 +86,26 @@ const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
               {recentlyViewed.map((item, index) => {
                 return (
                   <article key={index}>
-                    <Link to='/product'>
+                    <HashLink to='/product#productpage'>
                       <img
                         onClick={() => current_item_added(item)}
                         src={item.front_image}
                         alt='Club Card'
                       />
-                    </Link>{' '}
-                    <p className='ptitle'>{item.name}</p>
-                    <p>{item.category.category_name}</p>
+                      <h5
+                        onClick={() => current_item_added(item)}
+                        style={{
+                          color: 'black',
+                          marginTop: '0.7rem',
+                        }}
+                        className='ptitle'
+                      >
+                        {item.name}
+                      </h5>
+                      <p style={{ fontSize: '1rem', marginTop: '-0.7rem' }}>
+                        {item.category.category_name}
+                      </p>
+                    </HashLink>{' '}
                   </article>
                 )
               })}

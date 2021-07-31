@@ -1,16 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Productnav,
+  // Productnav,
   Account,
   Services,
   Footer,
   NewsLetter,
 } from '../components'
+import ProductNavSearch from '../components/ProductNavSearch'
+
 const AccountPage = () => {
   return (
     <div style={{ marginTop: '5rem' }}>
-      <Productnav />
+      <ProductNavSearch />
       <Account />
       <Services />
       <NewsLetter />

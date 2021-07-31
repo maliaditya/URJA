@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-  Productnav,
+  // Productnav,
   // ScrollMenu,
   // Reviews,
   NewsLetter,
@@ -13,14 +13,13 @@ import {
   // SimilarProducts,
   BestSellerCarousal,
 } from '../components'
+import ProductNavSearch from '../components/ProductNavSearch'
 
 const SingleProductPage = () => {
   return (
     <React.Fragment>
-      <Productnav />
+      <ProductNavSearch />
       {/* <ScrollMenu /> */}
-      <br />
-      <br />
       <br />
       <br />
       <br />

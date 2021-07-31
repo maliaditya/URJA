@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { load_user, checkAuthenticated } from '../actions/auth'
+import { LoopCircleLoading } from 'react-loadingg'
 const api = process.env.REACT_APP_API_URL
 
 class CreateProduct extends Component {
@@ -25,7 +26,9 @@ class CreateProduct extends Component {
       company: props.user.company_details[0].id,
       productType: [],
       productCategories: [],
+      approved: false,
       in_stock: true,
+      loading: false,
     }
   }
 
@@ -87,8 +90,11 @@ class CreateProduct extends Component {
     form_data.append('rating', this.state.rating)
     form_data.append('total_ratings', this.state.total_ratings)
     form_data.append('in_stock', this.state.in_stock)
+    form_data.append('approved', this.state.approved)
 
-    alert('Your file is  being uploaded')
+    this.setState({
+      loading: true,
+    })
     let url = `${api}/api/products/`
     axios
       .post(url, form_data, {
@@ -99,13 +105,17 @@ class CreateProduct extends Component {
       })
       .then((res) => {
         console.log(res.data)
-        alert('Your file is  uploaded!')
+
         this.props.checkAuthenticated()
         this.props.load_user()
+        this.setState({
+          loading: false,
+        })
+        alert('Your Product Is Uploaded!')
       })
       .catch((err) => {
         console.log(err)
-        alert(err)
+        alert('PRODUCT UPLOAD FAILED!, PLEASE TRY AGAIN AFTER SOMETIME!')
       })
 
     this.setState({
@@ -120,6 +130,15 @@ class CreateProduct extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <div style={{ padding: '10rem' }}>
+          <center>
+            <LoopCircleLoading />
+          </center>
+        </div>
+      )
+    }
     return (
       <div className='App'>
         <form onSubmit={this.handleSubmit}>
@@ -242,6 +261,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { load_user, checkAuthenticated })(
-  CreateProduct
-)
+export default connect(mapStateToProps, {
+  load_user,
+  checkAuthenticated,
+})(CreateProduct)

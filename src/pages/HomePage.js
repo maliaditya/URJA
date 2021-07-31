@@ -20,6 +20,7 @@ const HomePage = () => {
       <br />
       <br />
       <Banner />
+
       <TrendingCarousal />
       <BestSellerCarousal />
       <RecentlyViewedCarousal />

@@ -19,6 +19,7 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { load_user, checkAuthenticated } from '../actions/auth'
 import { BiLinkExternal } from 'react-icons/bi'
+import { LoopCircleLoading } from 'react-loadingg'
 
 const api = process.env.REACT_APP_API_URL
 
@@ -35,7 +36,7 @@ const MyProducts = ({
   const [modalDeleteProductShow, setModalDeleteProductShow] =
     React.useState(false)
   const [productList, setProductList] = React.useState(user.user_products)
-
+  const [Loading, setLoading] = React.useState(false)
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -99,7 +100,7 @@ const MyProducts = ({
       .delete(`${api}/api/products/${id}/`, config)
       .then((res) => {
         console.log(res)
-
+        setLoading(true)
         setTimeout(() => {
           checkAuthenticated()
           load_user()
@@ -126,6 +127,7 @@ const MyProducts = ({
 
   React.useEffect(() => {
     setProductList(user.user_products)
+    setLoading(false)
   }, [user.user_products])
 
   const refresProductList = () => {
@@ -138,6 +140,7 @@ const MyProducts = ({
     return (
       <Wrapper className='content'>
         <div id='#myproducts' className='title'>
+          {Loading ? <LoopCircleLoading /> : <div></div>}
           <h4>
             My Products &nbsp;&nbsp;
             <MdRefresh onClick={() => refresProductList()} />
@@ -146,21 +149,27 @@ const MyProducts = ({
             &nbsp;&nbsp; <HiOutlineViewGrid onClick={() => setValue(false)} />
           </h4>
 
-          <Button variant='primary' onClick={() => setModalShow(true)}>
+          <Button variant='warning' onClick={() => setModalShow(true)}>
             {' '}
             <AiOutlineAppstoreAdd className='addnewicon' size={20} />
             &nbsp;&nbsp; Add Product
           </Button>
         </div>
+        <ModalEditProduct
+          show={modalEditProductShow}
+          onHide={() => setModalEditProductShow(false)}
+        />
+        &nbsp;&nbsp;
+        {/* ithe jar changes ahe modal madhun item pavaycha ahe to aplayala state madhe gheun karaycha ahe ata */}
+        <ModalDeleteProduct
+          // item={item}
+          show={modalDeleteProductShow}
+          onHide={() => setModalDeleteProductShow(false)}
+        />
         <ModalAddProduct show={modalShow} onHide={() => setModalShow(false)} />
         {productList.map((item, index) => {
           return (
             <article key={item.id}>
-              <ModalEditProduct
-                show={modalEditProductShow}
-                onHide={() => setModalEditProductShow(false)}
-              />
-
               <br />
               <div className='containercard border '>
                 <img
@@ -217,11 +226,6 @@ const MyProducts = ({
                       </a>
                     </div>
                     <div className='pricedate'>
-                      <ModalDeleteProduct
-                        item={item}
-                        show={modalDeleteProductShow}
-                        onHide={() => setModalDeleteProductShow(false)}
-                      />
                       <h6 style={{ fontSize: '0.9rem' }}>₹ {item.price}</h6>
                       {item.in_stock ? (
                         <a
@@ -446,6 +450,7 @@ const Wrapper = styled.article`
     border-radius: 1rem;
     -webkit-box-shadow: 0 6px 12px -13px black;
     -moz-box-shadow: 0 6px 12px -13px black;
+    background: #eee;
     box-shadow: 0 6px 12px -13px black;
     &__image {
       border-radius: 1rem 1rem 0rem 0rem;
@@ -492,7 +497,7 @@ const Wrapper = styled.article`
     .containercard {
       margin-left: 1rem;
 
-      width: 40rem;
+      width: 50rem;
       height: 14rem;
       border-radius: 1rem;
       display: flex;

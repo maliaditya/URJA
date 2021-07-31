@@ -2,7 +2,8 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+import { HashLink } from 'react-router-hash-link'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
@@ -18,7 +19,7 @@ const BestSellerCarousal = ({ access, current_item_added }) => {
     },
     desktop: {
       breakpoint: { max: 1600, min: 1300 },
-      items: 6,
+      items: 5,
     },
     tablet: {
       breakpoint: { max: 1300, min: 720 },
@@ -26,7 +27,7 @@ const BestSellerCarousal = ({ access, current_item_added }) => {
     },
     mobile: {
       breakpoint: { max: 720, min: 0 },
-      items: 2,
+      items: 1,
     },
   }
 
@@ -77,32 +78,33 @@ const BestSellerCarousal = ({ access, current_item_added }) => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
-          {uniqueObjects.map((item, index) => {
-            return (
-              <article key={index}>
-                <Link to='/product'>
-                  <img
-                    alt='best seller'
-                    src={item.product.front_image}
-                    onClick={() => current_item_added(item.product)}
-                  />
-                </Link>
-                <p
-                  style={{
-                    fontSize: '1.1rem',
-                    color: 'black',
-                    fontWeight: 700,
-                    marginLeft: '1.5rem',
-                  }}
-                >
-                  {item.product.name}
-                </p>
-                <p style={{ fontSize: '1rem', marginLeft: '1.5rem' }}>
-                  {item.product.category.category_name}
-                </p>
-              </article>
-            )
-          })}
+          {uniqueObjects
+            .filter((item) => item.product.approved === true)
+            .map((item, index) => {
+              return (
+                <article key={index}>
+                  <HashLink to='/product#productpage'>
+                    <img
+                      alt='best seller'
+                      src={item.product.front_image}
+                      onClick={() => current_item_added(item.product)}
+                    />
+                    <h5
+                      onClick={() => current_item_added(item.product)}
+                      style={{
+                        color: 'black',
+                        marginTop: '0.7rem',
+                      }}
+                    >
+                      {item.product.name}
+                    </h5>
+                    <p style={{ fontSize: '1rem', marginTop: '-0.7rem' }}>
+                      {item.product.category.category_name}
+                    </p>
+                  </HashLink>
+                </article>
+              )
+            })}
         </Carousel>
         <hr />
       </div>

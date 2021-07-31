@@ -36,6 +36,9 @@ import {
   REMOVE_FORM_FAVOURITES_SUCCESS,
   USER_COMPANY_EXISTS_SUCCESS,
   USER_NEWSLETTER_EXISTS_SUCCESS,
+  SEARCH_KEYWORD,
+  ORIGINAL_SEARCHED_ARRAY,
+  CLEAR_ORIGINAL_SEARCHED_ARRAY,
 } from './types'
 
 const api = process.env.REACT_APP_API_URL
@@ -133,6 +136,13 @@ export const addToFavourites = (product, user) => async (dispatch) => {
   }
 }
 
+export const clearOriginalArray = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_ORIGINAL_SEARCHED_ARRAY,
+    payload: [],
+  })
+}
+
 export const itemSearchedClear = () => async (dispatch) => {
   dispatch({
     type: ITEM_SEARCH_CLEAR,
@@ -140,8 +150,21 @@ export const itemSearchedClear = () => async (dispatch) => {
   })
 }
 
-export const itemSearched = (current_item) => async (dispatch) => {
+export const itemSearchedOriginalArray = (current_item) => async (dispatch) => {
   if (current_item !== null) {
+    dispatch({
+      type: ORIGINAL_SEARCHED_ARRAY,
+      payload: current_item,
+    })
+  }
+}
+
+export const itemSearched = (current_item, search_key) => async (dispatch) => {
+  if (current_item !== null) {
+    dispatch({
+      type: SEARCH_KEYWORD,
+      payload: search_key,
+    })
     dispatch({
       type: ITEM_SEARCH_SUCCESS,
       payload: current_item,
@@ -203,6 +226,7 @@ export const currentItemCompany = (companyId) => async (dispatch) => {
         Accept: 'application/json',
       },
     }
+    console.log('NOW ', companyId)
     try {
       const res = await axios.get(`${api}/api/company/${companyId}/`, config)
       dispatch({
@@ -235,7 +259,10 @@ export const current_item_added = (current_item, path) => async (dispatch) => {
         payload: current_item,
       })
     }
-    if (path === '/favourites') {
+
+    if (path === 'companyObject') {
+      dispatch(currentItemCompany(current_item.company.id))
+    } else if (path === '/favourites') {
       dispatch(currentItemCompany(current_item.product.company))
     } else {
       dispatch(currentItemCompany(current_item.company))
@@ -511,6 +538,7 @@ export const reset_password = (email) => async (dispatch) => {
       type: PASSWORD_RESET_SUCCESS,
     })
   } catch (err) {
+    console.log('error', err)
     dispatch({
       type: PASSWORD_RESET_FAIL,
     })

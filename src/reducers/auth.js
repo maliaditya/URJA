@@ -35,6 +35,9 @@ import {
   REMOVE_FORM_FAVOURITES_SUCCESS,
   USER_COMPANY_EXISTS_SUCCESS,
   USER_NEWSLETTER_EXISTS_SUCCESS,
+  SEARCH_KEYWORD,
+  ORIGINAL_SEARCHED_ARRAY,
+  CLEAR_ORIGINAL_SEARCHED_ARRAY,
 } from '../actions/types'
 
 const initialState = {
@@ -51,12 +54,23 @@ const initialState = {
   currentUserCompanyExists: false,
   accountCreated: false,
   signupErrors: null,
+  searchKeyword: null,
+  originalSearchArray: [],
+}
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index
 }
 
 export default function foo(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
+    case SEARCH_KEYWORD:
+      return {
+        ...state,
+        searchKeyword: payload,
+      }
     case USER_NEWSLETTER_EXISTS_SUCCESS:
       return {
         ...state,
@@ -106,15 +120,48 @@ export default function foo(state = initialState, action) {
         currentCompany: payload,
       }
 
+    case CLEAR_ORIGINAL_SEARCHED_ARRAY:
+      return {
+        ...state,
+        originalSearchArray: [],
+      }
     case ITEM_SEARCH_CLEAR:
       return {
         ...state,
         itemSearchedResult: [],
       }
-    case ITEM_SEARCH_SUCCESS:
+
+    case ORIGINAL_SEARCHED_ARRAY:
+      let uniqueObjectsArray1 = []
+      const uniqueItemsArray1 = []
+      if (state.originalSearchArray !== null) {
+        state.originalSearchArray.map((item) => {
+          if (!uniqueItemsArray1.includes(item.id)) {
+            uniqueItemsArray1.push(item.id)
+            uniqueObjectsArray1.push(item)
+          }
+          return 0
+        })
+      }
       return {
         ...state,
-        itemSearchedResult: [...state.itemSearchedResult, payload],
+        originalSearchArray: [...uniqueObjectsArray1, payload],
+      }
+    case ITEM_SEARCH_SUCCESS:
+      let uniqueObjectsArray = []
+      const uniqueItemsArray = []
+      if (state.itemSearchedResult !== null) {
+        state.itemSearchedResult.map((item) => {
+          if (!uniqueItemsArray.includes(item.id)) {
+            uniqueItemsArray.push(item.id)
+            uniqueObjectsArray.push(item)
+          }
+          return 0
+        })
+      }
+      return {
+        ...state,
+        itemSearchedResult: [...uniqueObjectsArray, payload],
       }
     case ITEM_SEARCH_FAIL:
       return {
@@ -126,7 +173,7 @@ export default function foo(state = initialState, action) {
         ...state,
       }
     case ITEM_ADDED_TO_RECENTLY_VIEWED_SUCCESS:
-      const uniqueObjects = []
+      let uniqueObjects = []
 
       const uniqueItems = []
       if (state.recentlyViewed !== null) {
@@ -138,6 +185,7 @@ export default function foo(state = initialState, action) {
           return 0
         })
       }
+      uniqueObjects = uniqueObjects.filter(onlyUnique)
 
       return {
         ...state,

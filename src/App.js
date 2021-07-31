@@ -19,7 +19,7 @@ import Signup from './components/Signup'
 import { Error } from './components'
 import { connect } from 'react-redux'
 import { checkAuthenticated, load_user } from './actions/auth'
-import TestImage from './pages/TestImage'
+// import TestImage from './pages/TestImage'
 import { AppProvider } from './components/context'
 function App({ checkAuthenticated, load_user }) {
   useEffect(() => {
@@ -33,7 +33,7 @@ function App({ checkAuthenticated, load_user }) {
           <Route exact path='/' component={HomePage} />
           <Route exact path='/product' component={SingleProductPage} />
           <Route exact path='/categories' component={CategoriesPage} />
-          <Route exact path='/image' component={TestImage} />
+          {/* <Route exact path='/image' component={TestImage} /> */}
           <Route exact path='/favourites' component={FavouritesPage} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/login' component={LoginPage} />

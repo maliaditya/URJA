@@ -3,26 +3,31 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
+import InputBase from '@material-ui/core/InputBase'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import SearchIcon from '@material-ui/icons/Search'
 import MoreIcon from '@material-ui/icons/MoreVert'
-import { AiOutlineHome, AiFillHome } from 'react-icons/ai'
+import { AiOutlineHome } from 'react-icons/ai'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
-import { RiAccountCircleLine } from 'react-icons/ri'
-import { GiReceiveMoney } from 'react-icons/gi'
+import { CgProfile } from 'react-icons/cg'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import { FiLogOut } from 'react-icons/fi'
-import { Link, useLocation } from 'react-router-dom'
 import logo from '../assets/urja.png'
-import { logout } from '../actions/auth'
 // import logo from '../assets/urja.svg'
 import Typography from '@material-ui/core/Typography'
-import ModalCreateBussinessAccount from './ModalCreateBussinessAccount'
+import styled from 'styled-components'
+import axios from 'axios'
 import { connect } from 'react-redux'
+import { logout } from '../actions/auth'
 import {
   current_item_added,
   itemSearched,
   itemSearchedClear,
+  itemSearchedOriginalArray,
+  clearOriginalArray,
 } from '../actions/auth'
+const api = process.env.REACT_APP_API_URL
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -32,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    display: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -67,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '60ch',
+      width: '52ch',
     },
   },
   sectionDesktop: {
@@ -86,20 +92,68 @@ const useStyles = makeStyles((theme) => ({
 
 function PrimarySearchAppBar({
   logout,
-  access,
   itemSearched,
   itemSearchedClear,
   itemSearchedResult,
   isAuthenticated,
-  currentUserCompanyExists,
+  itemSearchedOriginalArray,
+  clearOriginalArray,
   user,
 }) {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
   const location = useLocation()
-  const [modalCreateBussinessnShow, setModalCreateBussinessShow] =
-    React.useState(false)
+  const [search, setSearchItem] = React.useState({
+    searchItem: '',
+  })
+
+  const [searchResultItems, setSearchResultItems] = React.useState([])
+  console.log(searchResultItems)
+
+  const fetchSearchResults = async (keyword) => {
+    const config = {
+      headers: {
+        'content-type': 'appliation/json',
+        // 'Authorization': `Bearer ${access}`
+      },
+    }
+    await axios
+      .get(`${api}/api/product/?search=${keyword}`, config)
+      .then((res) => {
+        console.log(res)
+        setSearchResultItems(res.data)
+        clearOriginalArray()
+        res.data.map((item) => {
+          console.log('itemdata', item)
+          itemSearchedOriginalArray(item)
+          itemSearched(item)
+          return 0
+        })
+        if (res.data.length === 0) {
+          return alert('No search results found')
+        }
+        // if(itemSearchedResult.length === 0){
+        //   return alert('No search results found')
+        // }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const onChange = (e) => {
+    setSearchItem({
+      ...search,
+      [e.target.name]: e.target.value,
+    })
+  }
+  const onSubmit = (e) => {
+    e.preventDefault()
+    fetchSearchResults(search.searchItem)
+    itemSearchedClear()
+  }
+
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -162,11 +216,11 @@ function PrimarySearchAppBar({
           </IconButton>
           <IconButton>
             <Link to='account'>
-              <RiAccountCircleLine style={{ color: 'black' }} size={30} />
+              <CgProfile style={{ color: 'black' }} size={30} />
             </Link>
           </IconButton>
           <IconButton>
-            <Link to=''>
+            <Link to='/login'>
               <FiLogOut onClick={logout} style={{ color: 'black' }} size={30} />
             </Link>
           </IconButton>
@@ -187,61 +241,84 @@ function PrimarySearchAppBar({
       )}
     </Menu>
   )
-  if (user !== null) {
-    return (
-      <div className={classes.grow}>
-        <ModalCreateBussinessAccount
-          show={modalCreateBussinessnShow}
-          onHide={() => setModalCreateBussinessShow(false)}
-        />
-        <AppBar
-          style={{ backgroundColor: 'white', color: 'black' }}
-          position='fixed'
-        >
-          <Toolbar>
-            <Typography variant='h6' className={classes.title}>
-              <Link to='/'>
-                <img
-                  style={{ width: '100px', height: '40px' }}
-                  src={logo}
-                  alt=''
-                />
-              </Link>
-            </Typography>
-            <div className={classes.grow} />
+
+  if (itemSearchedResult.length !== 0) {
+    return <Redirect to='/categories' />
+  }
+
+  return (
+    <div id='productpage' className={classes.grow}>
+      <AppBar
+        style={{ backgroundColor: 'white', color: 'black' }}
+        position='fixed'
+      >
+        <Toolbar>
+          <Typography variant='h6' className={classes.title}>
+            <Link to='/'>
+              <img
+                style={{ width: '100px', height: '40px' }}
+                src={logo}
+                alt=''
+              />
+            </Link>
+          </Typography>
+          <Wrapper></Wrapper>
+          {/* <button style={{ display: 'flex' }} className='btn btn-warning'>
+            All&nbsp;&nbsp;
+            <svg
+              style={{ marginTop: '0.3rem' }}
+              xmlns='http://www.w3.org/2000/svg'
+              width='16'
+              height='16'
+              fill='currentColor'
+              className='bi bi-chevron-down'
+              viewBox='0 0 16 16'
+            >
+              <path
+                fillRule='evenodd'
+                d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
+              />
+            </svg>
+          </button> */}
+          <form onSubmit={(e) => onSubmit(e)} className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+
+            <InputBase
+              style={{
+                color: 'black',
+                backgroundColor: 'rgba(196, 196, 196, 0.5)',
+                borderRadius: '5px',
+              }}
+              type='text'
+              placeholder='Search Products, Categories...'
+              name='searchItem'
+              value={search.searchItem}
+              onChange={(e) => onChange(e)}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </form>
+          <div className={classes.grow} />
+          {isAuthenticated ? (
             <div className={classes.sectionDesktop}>
               <div style={{ paddingLeft: '1.2rem' }}>
-                <IconButton
-                  size='small'
-                  aria-label='show 4 new mails'
-                  color='inherit'
-                >
+                <IconButton aria-label='show 4 new mails' color='inherit'>
                   <Link to='/'>
-                    {location.pathname === '' ? (
-                      <React.Fragment>
-                        <AiOutlineHome
-                          onClick={() => itemSearchedClear()}
-                          style={{ color: 'black', marginTop: '5px' }}
-                          size={37}
-                        />
-                        <p style={{ color: 'black', fontSize: '0.8rem' }}>
-                          Home
-                        </p>
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <AiFillHome
-                          onClick={() => itemSearchedClear()}
-                          style={{ color: '#ffc232', marginTop: '5px' }}
-                          size={37}
-                        />
-                        <p style={{ color: '#ffc232', fontSize: '0.8rem' }}>
-                          Home
-                        </p>
-                      </React.Fragment>
-                    )}
+                    <AiOutlineHome
+                      onClick={() => itemSearchedClear()}
+                      style={{ color: 'black' }}
+                      size={30}
+                    />
                   </Link>
                 </IconButton>
+                <p style={{ fontSize: '0.8rem', marginTop: '-15px' }}>
+                  &nbsp;&nbsp;&nbsp;Home
+                </p>
               </div>
 
               {location.pathname === '/recently_viewed' ? (
@@ -304,9 +381,9 @@ function PrimarySearchAppBar({
 
               {/* <IconButton aria-label="show 17 new notifications" color="inherit">
             < Link to='/' style={{color:'black'}}>
-            <AiOutlineHistory size={30} />
-            </Link>
-          </IconButton> */}
+                <AiOutlineHistory size={30} />
+                </Link>
+              </IconButton> */}
               {location.pathname === '/favourites' ? (
                 <div style={{ paddingLeft: '1.2rem' }}>
                   <IconButton>
@@ -411,13 +488,7 @@ function PrimarySearchAppBar({
                 </div>
               )}
 
-              <div
-                style={{
-                  borderRight: '1px solid black',
-                  paddingLeft: '0.8rem',
-                  paddingRight: '1rem',
-                }}
-              >
+              <div style={{ paddingLeft: '1.2rem' }}>
                 <IconButton>
                   <Link to=''>
                     <FiLogOut
@@ -427,76 +498,50 @@ function PrimarySearchAppBar({
                     />
                   </Link>
                 </IconButton>
-                <p
-                  style={{
-                    color: 'black',
-                    fontSize: '0.8rem',
-                    marginTop: '-15px',
-                  }}
-                >
+                <p style={{ fontSize: '0.8rem', marginTop: '-15px' }}>
                   &nbsp;&nbsp;Logout
                 </p>
               </div>
             </div>
-            {!currentUserCompanyExists ? (
-              <center
-                onClick={() => setModalCreateBussinessShow(true)}
-                style={{ paddingLeft: '1.2rem' }}
-              >
-                <IconButton size='small'>
-                  <Link to=''>
-                    <GiReceiveMoney
-                      style={{ color: 'black', marginTop: '5px' }}
-                      size={30}
-                    />
-                    <p style={{ color: 'black', fontSize: '0.8rem' }}>
-                      Sell Your Product
-                    </p>
-                  </Link>
-                </IconButton>
-              </center>
-            ) : (
-              <center style={{ paddingLeft: '1.2rem' }}>
-                <IconButton size='small'>
-                  <Link to='/account'>
-                    <GiReceiveMoney
-                      style={{ color: 'black', marginTop: '5px' }}
-                      size={30}
-                    />
-                    <p style={{ fontSize: '0.8rem' }}>Sell Your Product</p>
-                  </Link>
-                </IconButton>
-              </center>
-            )}
-
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label='show more'
-                aria-controls={mobileMenuId}
-                aria-haspopup='true'
-                onClick={handleMobileMenuOpen}
-                color='inherit'
-              >
-                <MoreIcon />
+          ) : (
+            <div className={classes.sectionDesktop}>
+              <IconButton aria-label='show 4 new mails' color='inherit'>
+                <Link to='/'>
+                  <AiOutlineHome
+                    onClick={() => itemSearchedClear()}
+                    style={{ color: 'black' }}
+                    size={30}
+                  />
+                </Link>
               </IconButton>
             </div>
-          </Toolbar>
-        </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
-      </div>
-    )
-  }
+          )}
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label='show more'
+              aria-controls={mobileMenuId}
+              aria-haspopup='true'
+              onClick={handleMobileMenuOpen}
+              color='inherit'
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </div>
+  )
 }
 
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     access: state.auth.access,
-    user: JSON.parse(localStorage.getItem('user') || '[]'),
+    user: state.auth.user,
     currentItem: state.auth.currentItem,
     itemSearchedResult: state.auth.itemSearchedResult,
-    currentUserCompanyExists: state.auth.currentUserCompanyExists,
   }
 }
 
@@ -505,4 +550,12 @@ export default connect(mapStateToProps, {
   itemSearched,
   itemSearchedClear,
   logout,
+  itemSearchedOriginalArray,
+  clearOriginalArray,
 })(PrimarySearchAppBar)
+
+const Wrapper = styled.section`
+  @media (min-width: 1200px) {
+    margin-left: 13rem;
+  }
+`

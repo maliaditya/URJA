@@ -91,7 +91,7 @@ const NewsLetter = ({
       </Newscont>
     )
   } else {
-    return <React.Fragment></React.Fragment>
+    return <div></div>
   }
 }
 

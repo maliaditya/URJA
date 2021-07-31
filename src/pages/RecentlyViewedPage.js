@@ -1,17 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Productnav,
+  // Productnav,
   Services,
   Footer,
   NewsLetter,
   RecentlyViewedProducts,
 } from '../components'
+import ProductNavSearch from '../components/ProductNavSearch'
 
 const RecentlyViewedPage = () => {
   return (
     <div className='recently-viewed'>
-      <Productnav />
+      <ProductNavSearch />
       <RecentlyViewedProducts />
       <Services />
       <NewsLetter />

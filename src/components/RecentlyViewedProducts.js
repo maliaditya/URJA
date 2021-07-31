@@ -1,31 +1,39 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
 import styled from 'styled-components'
-
+import { HashLink } from 'react-router-hash-link'
 const RecentlyViewedProducts = ({ recentlyViewed, current_item_added }) => {
   if (recentlyViewed.length !== 0) {
     return (
       <Wrapper className='rc-content'>
-        <h4 className='rc-title'>Recently Viewed</h4>
+        <h4 className='rc-title mt-5'>Your recently viewed items</h4>
         <section className='recently-viewed-products'>
           {recentlyViewed.map((item, index) => {
             return (
               <article key={index} className='rc-product'>
                 {console.log(item)}
-                <Link to='/product'>
+                <HashLink to='/product#productpage'>
                   <img
                     onClick={() => current_item_added(item)}
                     src={item.front_image}
                     alt='Club Card'
                   />
-                </Link>{' '}
-                <div className='details'>
-                  {/* <h5 className='rc-company'>Title Name Title</h5> */}
-                  {/* <h6 className='rc-category'>{item.category.category_name}</h6> */}
-                  <h6 className='rc-title'>{item.name}</h6>
-                </div>
+                  <h5
+                    onClick={() => current_item_added(item)}
+                    style={{
+                      color: 'black',
+                      marginTop: '0.7rem',
+                      fontWeight: '700',
+                    }}
+                    className='ptitle'
+                  >
+                    {item.name}
+                  </h5>
+                  <p style={{ fontSize: '1rem', marginTop: '-0.7rem' }}>
+                    {item.category.category_name}
+                  </p>
+                </HashLink>{' '}
               </article>
             )
           })}

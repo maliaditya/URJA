@@ -24,6 +24,9 @@ import {
   current_item_added,
   itemSearched,
   itemSearchedClear,
+  itemSearchedOriginalArray,
+  clearOriginalArray,
+  logout,
 } from '../actions/auth'
 const api = process.env.REACT_APP_API_URL
 
@@ -71,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '40ch',
+      width: '51ch',
     },
   },
   sectionDesktop: {
@@ -95,6 +98,8 @@ function PrimarySearchAppBar({
   itemSearchedClear,
   itemSearchedResult,
   isAuthenticated,
+  itemSearchedOriginalArray,
+  clearOriginalArray,
   user,
 }) {
   const classes = useStyles()
@@ -116,14 +121,20 @@ function PrimarySearchAppBar({
       },
     }
     await axios
-      .get(`${api}/api/products/?name=${keyword}`, config)
+      .get(`${api}/api/product/?search=${keyword}`, config)
       .then((res) => {
         console.log(res)
         setSearchResultItems(res.data)
+        clearOriginalArray()
         res.data.map((item) => {
           console.log('itemdata', item)
-          return itemSearched(item)
+          itemSearchedOriginalArray(item)
+          itemSearched(item)
+          return 0
         })
+        // if (res.data.length === 0) {
+        //   return alert('No search results found')
+        // }
         // if(itemSearchedResult.length === 0){
         //   return alert('No search results found')
         // }
@@ -192,7 +203,11 @@ function PrimarySearchAppBar({
         <MenuItem>
           <IconButton aria-label='show 4 new mails' color='inherit'>
             <Link to='/'>
-              <AiOutlineHome style={{ color: 'black' }} size={30} />
+              <AiOutlineHome
+                onClick={() => itemSearchedClear()}
+                style={{ color: 'black' }}
+                size={30}
+              />
             </Link>
           </IconButton>
           {/* <IconButton aria-label="show 17 new notifications" color="inherit">
@@ -202,12 +217,20 @@ function PrimarySearchAppBar({
               </IconButton> */}
           <IconButton>
             <Link to='favourites'>
-              <MdFavoriteBorder style={{ color: 'black' }} size={30} />
+              <MdFavoriteBorder
+                onClick={() => itemSearchedClear()}
+                style={{ color: 'black' }}
+                size={30}
+              />
             </Link>
           </IconButton>
           <IconButton>
             <Link to='account'>
-              <CgProfile style={{ color: 'black' }} size={30} />
+              <CgProfile
+                onClick={() => itemSearchedClear()}
+                style={{ color: 'black' }}
+                size={30}
+              />
             </Link>
           </IconButton>
           <IconButton>
@@ -250,7 +273,7 @@ function PrimarySearchAppBar({
             </Link>
           </Typography>
           <Wrapper></Wrapper>
-          <button style={{ display: 'flex' }} className='btn btn-warning'>
+          {/* <button style={{ display: 'flex' }} className='btn btn-warning'>
             All&nbsp;&nbsp;
             <svg
               style={{ marginTop: '0.3rem' }}
@@ -266,30 +289,28 @@ function PrimarySearchAppBar({
                 d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'
               />
             </svg>
-          </button>
+          </button> */}
           <form onSubmit={(e) => onSubmit(e)} className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <Link to='/categories'>
-              <InputBase
-                style={{
-                  color: 'black',
-                  backgroundColor: 'rgba(196, 196, 196, 0.5)',
-                  borderRadius: '5px',
-                }}
-                type='text'
-                placeholder='Search Products, Categories...'
-                name='searchItem'
-                value={search.searchItem}
-                onChange={(e) => onChange(e)}
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Link>
+            <InputBase
+              style={{
+                color: 'black',
+                backgroundColor: 'rgba(196, 196, 196, 0.5)',
+                borderRadius: '5px',
+              }}
+              type='text'
+              placeholder='Search Products, Categories...'
+              name='searchItem'
+              value={search.searchItem}
+              onChange={(e) => onChange(e)}
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
           </form>
           <div className={classes.grow} />
           {isAuthenticated ? (
@@ -314,6 +335,7 @@ function PrimarySearchAppBar({
                   <IconButton>
                     <Link to='recently_viewed'>
                       <svg
+                        onClick={() => itemSearchedClear()}
                         width='30'
                         height='30'
                         viewBox='0 0 30 30'
@@ -334,7 +356,7 @@ function PrimarySearchAppBar({
                       marginTop: '-15px',
                     }}
                   >
-                    Recently Viewed
+                    Recently
                   </p>
                 </center>
               ) : (
@@ -342,6 +364,7 @@ function PrimarySearchAppBar({
                   <IconButton>
                     <Link to='recently_viewed'>
                       <svg
+                        onClick={() => itemSearchedClear()}
                         width='28'
                         height='29'
                         viewBox='0 0 28 29'
@@ -362,7 +385,7 @@ function PrimarySearchAppBar({
                       marginTop: '-15px',
                     }}
                   >
-                    Recently Viewed
+                    Recently
                   </p>
                 </center>
               )}
@@ -393,7 +416,11 @@ function PrimarySearchAppBar({
                 <div style={{ paddingLeft: '1.2rem' }}>
                   <IconButton>
                     <Link to='favourites'>
-                      <MdFavoriteBorder style={{ color: 'black' }} size={30} />
+                      <MdFavoriteBorder
+                        onClick={() => itemSearchedClear()}
+                        style={{ color: 'black' }}
+                        size={30}
+                      />
                     </Link>
                   </IconButton>
                   <p
@@ -412,6 +439,7 @@ function PrimarySearchAppBar({
                   <IconButton>
                     <Link to='account'>
                       <svg
+                        onClick={() => itemSearchedClear()}
                         width='28'
                         height='29'
                         viewBox='0 0 28 29'
@@ -444,6 +472,7 @@ function PrimarySearchAppBar({
                   <IconButton>
                     <Link to='account'>
                       <svg
+                        onClick={() => itemSearchedClear()}
                         style={{ color: 'black' }}
                         width='28'
                         height='29'
@@ -480,6 +509,7 @@ function PrimarySearchAppBar({
                 <IconButton>
                   <Link to=''>
                     <FiLogOut
+                      // onClick={() => itemSearchedClear()}
                       onClick={logout}
                       style={{ color: 'black' }}
                       size={30}
@@ -537,6 +567,9 @@ export default connect(mapStateToProps, {
   current_item_added,
   itemSearched,
   itemSearchedClear,
+  logout,
+  itemSearchedOriginalArray,
+  clearOriginalArray,
 })(PrimarySearchAppBar)
 
 const Wrapper = styled.section`

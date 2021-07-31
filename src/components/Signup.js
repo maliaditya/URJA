@@ -6,13 +6,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import { SignupInfo } from '../pages'
 import ModalLogin from './Modal'
-const Signup = ({
-  signup,
-  isAuthenticated,
-  props,
-  accountCreated,
-  signupErrors,
-}) => {
+const Signup = ({ signup, props, accountCreated }) => {
   const [modalLoginShow, setModalLoginShow] = React.useState(false)
   const [showPassword, setshowPassword] = useState('password')
   const [formData, setFormData] = useState({
@@ -45,7 +39,9 @@ const Signup = ({
         alert("Password don't match")
       }
     } else {
-      alert('Password must have aleast 8 characters.')
+      alert(
+        'Password must have aleast 8 characters, one uppercase & special Character '
+      )
     }
   }
   const setLogin = () => {
@@ -124,6 +120,7 @@ const Signup = ({
                 required
               ></input>
             </div>
+
             <div className='password'>
               <label className='form-label'>Confirm Password</label>
               <input
@@ -157,8 +154,8 @@ const Signup = ({
             )}
 
             <label className='check'>
-              <input type='checkbox' name='remember' /> I've read and accepted{' '}
-              <Link to=''>Terms and services</Link>
+              <input type='checkbox' name='remember' required /> I've read and
+              accepted <Link to=''>Terms and services</Link>
               <span>&nbsp;</span> and<Link to=''> Privacy Policy</Link>
             </label>
             <br />

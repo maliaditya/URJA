@@ -2,16 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {
-  Productnav,
+  // Productnav,
   Footer,
   NewsLetter,
   Services,
   ProductCard,
 } from '../components'
+import ProductNavSearch from '../components/ProductNavSearch'
+
 const FavouritesPage = () => {
   return (
     <div style={{ marginTop: '5rem' }}>
-      <Productnav style={{ zIndex: 1000 }} />
+      <ProductNavSearch style={{ zIndex: 1000 }} />
       <div className='content'>
         <ProductCard style={{ zIndex: 900 }} />
       </div>
@@ -23,7 +25,10 @@ const FavouritesPage = () => {
 }
 
 const mapStateToProps = (state) => {
-  return { isAuthenticated: state.auth.isAuthenticated }
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    itemSearchedResult: state.auth.itemSearchedResult,
+  }
 }
 
 export default connect(mapStateToProps, {})(FavouritesPage)

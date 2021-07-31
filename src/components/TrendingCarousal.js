@@ -2,15 +2,17 @@ import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { current_item_added } from '../actions/auth'
+import { HashLink } from 'react-router-hash-link'
+import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading'
 
 const api = process.env.REACT_APP_API_URL
 const TrendingCarousal = ({ current_item_added }) => {
   const [trendingItems, setTrendingItems] = React.useState([])
-
+  const [loading, setLoading] = React.useState(true)
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -27,7 +29,7 @@ const TrendingCarousal = ({ current_item_added }) => {
     },
     mobile: {
       breakpoint: { max: 720, min: 0 },
-      items: 2,
+      items: 1,
     },
   }
 
@@ -45,9 +47,11 @@ const TrendingCarousal = ({ current_item_added }) => {
       .then((res) => {
         console.log(res)
         if (isMounted) setTrendingItems(res.data)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
     return () => {
       isMounted = false
@@ -55,9 +59,7 @@ const TrendingCarousal = ({ current_item_added }) => {
   }, [])
 
   const uniqueObjects = []
-
   const uniqueItems = []
-
   trendingItems.map((item) => {
     if (!uniqueItems.includes(item.product.id)) {
       uniqueItems.push(item.product.id)
@@ -68,6 +70,7 @@ const TrendingCarousal = ({ current_item_added }) => {
 
   return (
     <Wrapper className='content container-fluid'>
+      {loading ? <LoopCircleLoading /> : <div></div>}
       <div className='trending'>
         <span className=' underline-right'>
           {' '}
@@ -79,21 +82,32 @@ const TrendingCarousal = ({ current_item_added }) => {
           responsive={responsive}
           removeArrowOnDeviceType={['tablet', 'mobile']}
         >
-          {uniqueObjects.map((item, index) => {
-            return (
-              <article key={index}>
-                <Link to='/product'>
-                  {}
-                  <img
-                    onClick={() => current_item_added(item.product)}
-                    src={item.product.front_image}
-                    alt='Club Card'
-                  />
-                </Link>{' '}
-                <h5 style={{ marginLeft: '1.5rem' }}>{item.product.name}</h5>
-              </article>
-            )
-          })}
+          {uniqueObjects
+            .filter((item) => item.product.approved === true)
+            .map((item, index) => {
+              return (
+                <article key={index}>
+                  <HashLink to='/product#productpage'>
+                    {}
+                    <img
+                      onClick={() => current_item_added(item.product)}
+                      src={item.product.front_image}
+                      alt='Club Card'
+                    />
+
+                    <h5
+                      onClick={() => current_item_added(item.product)}
+                      style={{
+                        color: 'black',
+                        marginTop: '0.7rem',
+                      }}
+                    >
+                      {item.product.name}
+                    </h5>
+                  </HashLink>{' '}
+                </article>
+              )
+            })}
         </Carousel>
         <hr />
       </div>

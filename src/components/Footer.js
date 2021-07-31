@@ -42,26 +42,13 @@ const Footer = ({ user, isAuthenticated }) => {
             <div className='card'>
               <div className='card-body'>
                 <h5 className='card-title'>About Us</h5>
-
-                {isAuthenticated ? (
-                  <div className='card-text'>
-                    <Link to=''> Who are we </Link>
-                    <br />
-                    <Link to=''> Programs</Link>
-                    <br />
-                    <Link to=''>Become a member</Link>
-                  </div>
-                ) : (
-                  <div className='card-text'>
-                    <Link to=''> Who are we </Link>
-                    <br />
-                    <Link to=''> Programs</Link>
-                    <br />
-                    {/* <Link to='/selleracc'>
-                     Become a member
-                  </Link> */}
-                  </div>
-                )}
+                <div className='card-text'>
+                  <Link to=''> Who are we </Link>
+                  <br />
+                  <Link to=''> Programs</Link>
+                  <br />
+                  <Link to=''>Become a member</Link>
+                </div>
               </div>
             </div>
           </div>
@@ -119,16 +106,6 @@ const Footer = ({ user, isAuthenticated }) => {
           <hr />
           <p style={{ color: 'var(--clr-grey-3)' }}>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
-            Handcrafted by:{' '}
-            <a
-              to=''
-              style={{ color: 'var(--clr-grey-3)' }}
-              className='adi'
-              href='http://adityamali.herokuapp.com/'
-            >
-              {' '}
-              Aditya Mali
-            </a>
           </p>
         </center>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import loginSuccess from '../assets/login.png'
@@ -7,6 +7,8 @@ import { login } from '../actions/auth'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import ModalSignup from '../components/ModalSignup'
 import youtube from '../assets/youtube.png'
+import { ResetPassword } from '../pages'
+
 const LoginPage = ({ login, isAuthenticated, user }) => {
   const [showPassword, setshowPassword] = useState('password')
   const [modalSignupShow, setModalSignupShow] = React.useState(false)
@@ -17,6 +19,8 @@ const LoginPage = ({ login, isAuthenticated, user }) => {
     password: '',
   })
 
+  const [forgotPassword, setForgotPassword] = useState(false)
+
   const { email, password } = formData
 
   const onChange = (e) =>
@@ -25,9 +29,30 @@ const LoginPage = ({ login, isAuthenticated, user }) => {
       [e.target.name]: e.target.value,
     })
 
+  const onClickForgotPassword = () => {
+    if (forgotPassword) {
+      setForgotPassword(false)
+    } else {
+      setForgotPassword(true)
+    }
+  }
+
   const onSubmit = (e) => {
     e.preventDefault()
     login(email, password)
+  }
+  if (forgotPassword) {
+    return (
+      <div>
+        <ResetPassword />
+        <br />
+        &nbsp; &nbsp;
+        <a onClick={() => onClickForgotPassword()} href='#!'>
+          {' '}
+          back to login
+        </a>
+      </div>
+    )
   }
   if (isAuthenticated) {
     if (showInfo) {
@@ -190,9 +215,13 @@ const LoginPage = ({ login, isAuthenticated, user }) => {
           Need Account?{' '}
         </a>
         <p>
-          <Link style={{ fontSize: '1rem' }} to='reset_password'>
+          <a
+            href='#!'
+            onClick={() => onClickForgotPassword()}
+            style={{ fontSize: '1rem' }}
+          >
             Forgot password ?{' '}
-          </Link>
+          </a>
         </p>
         {/* 
       <p className='middle'>&nbsp; or use &nbsp; </p>
@@ -214,12 +243,7 @@ const LoginPage = ({ login, isAuthenticated, user }) => {
   }
 }
 const Wrapper = styled.section`
-  .formcontent {
-    margin: 0 auto;
-  }
-
   .container {
-    margin-top: 2rem;
     padding: 2vh;
     border: 1px solid grey;
     border-radius: 0.5rem;
@@ -298,7 +322,6 @@ const Wrapper = styled.section`
   }
   @media (min-width: 720px) {
     .container {
-      margin-top: 2rem;
       padding: 10vh;
       border: 1px solid grey;
       border-radius: 0.5rem;

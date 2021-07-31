@@ -34,7 +34,7 @@ class ProductCard extends Component {
         <br />
         {this.props.user.map((item, index) => {
           return (
-            <Wrapper key={index} className='content'>
+            <Wrapper key={index}>
               <div className='containercard border'>
                 <img
                   alt='product_image'
@@ -158,7 +158,7 @@ const Wrapper = styled.div`
     -webkit-box-shadow: 0 6px 12px -13px black;
     -moz-box-shadow: 0 6px 12px -13px black;
     box-shadow: 0 6px 12px -13px black;
-
+    background: #eee;
     width: 20rem;
     height: 35rem;
     border-radius: 1rem;
@@ -187,7 +187,7 @@ const Wrapper = styled.div`
   }
   @media (min-width: 1300px) {
     .containercard {
-      width: 40rem;
+      width: 50rem;
       height: 14rem;
       border-radius: 1rem;
       display: flex;
