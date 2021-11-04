@@ -39,7 +39,7 @@ class PersonalInfo extends React.Component {
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.props.access}`,
+        'Authorization': `Bearer ${this.props.access}`,
       },
     }
     try {
@@ -69,7 +69,7 @@ class PersonalInfo extends React.Component {
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.props.access}`,
+        'Authorization': `Bearer ${this.props.access}`,
       },
     }
     const addressbody = {
@@ -98,7 +98,7 @@ class PersonalInfo extends React.Component {
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.props.access}`,
+        'Authorization': `Bearer ${this.props.access}`,
       },
     }
     const addressbody = {

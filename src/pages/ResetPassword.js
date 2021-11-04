@@ -8,6 +8,10 @@ const ResetPassword = ({ reset_password }) => {
   const [formData, setFormData] = useState({
     email: '',
   })
+     React.useEffect(() => {
+      let title = 'URJA | Reset Password '
+      document.title = title;
+    });
 
   const { email } = formData
 
@@ -15,6 +19,8 @@ const ResetPassword = ({ reset_password }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const onSubmit = (e) => {
+alert("Reset Password Link Has Been Successfully Send to your Email")
+
     e.preventDefault()
 
     reset_password(email)
@@ -42,7 +48,7 @@ const ResetPassword = ({ reset_password }) => {
           />
         </div>
         <br />
-        <button className='btn btn-primary' type='submit'>
+        <button  className='btn btn-primary' type='submit'>
           Reset Password
         </button>
       </form>

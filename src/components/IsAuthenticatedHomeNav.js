@@ -24,6 +24,7 @@ import {
   itemSearchedClear,
 } from '../actions/auth'
 
+
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -199,7 +200,7 @@ function PrimarySearchAppBar({
           position='fixed'
         >
           <Toolbar>
-            <Typography variant='h6' className={classes.title}>
+            <Typography  component={'div'} variant='h6' className={classes.title}>
               <Link to='/'>
                 <img
                   style={{ width: '100px', height: '40px' }}
@@ -449,7 +450,7 @@ function PrimarySearchAppBar({
                       style={{ color: 'black', marginTop: '5px' }}
                       size={30}
                     />
-                    <p style={{ color: 'black', fontSize: '0.8rem' }}>
+                    <p  style={{color: 'black', fontSize: '0.8rem' }}>
                       Sell Your Product
                     </p>
                   </Link>
@@ -463,9 +464,9 @@ function PrimarySearchAppBar({
                       style={{ color: 'black', marginTop: '5px' }}
                       size={30}
                     />
-                    <p style={{ fontSize: '0.8rem' }}>Sell Your Product</p>
+                    <p style={{color: 'black',  fontSize: '0.8rem' }}>Sell Your Product</p>
                   </Link>
-                </IconButton>
+                </IconButton> 
               </center>
             )}
 
@@ -499,6 +500,7 @@ const mapStateToProps = (state) => {
     currentUserCompanyExists: state.auth.currentUserCompanyExists,
   }
 }
+
 
 export default connect(mapStateToProps, {
   current_item_added,

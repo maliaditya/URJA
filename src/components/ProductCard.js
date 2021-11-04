@@ -43,11 +43,10 @@ class ProductCard extends Component {
                 />
                 <div className='header'>
                   <div className='head-title'>
-                    <h5
-                      className='itemname'
-                      style={{ fontWeight: '700', width: '17rem' }}
-                    >
-                      {item.product.name}
+                    <h5 className='itemname' style={{ fontWeight: '700' }}>
+                      {item.product.name.length > 40
+                        ? item.product.name.slice(0, 40) + '...'
+                        : item.product.name}
                     </h5>
                     <section>
                       <MdFavorite
@@ -59,7 +58,25 @@ class ProductCard extends Component {
                   </div>
 
                   <div className='desc'>
-                    <p>{item.product.details.slice(0, 90)}...</p>
+                       {item.product.details.length > 90?
+
+                    <p>{item.product.details.slice(0, 90)}...</p>:
+                     <p>{item.product.details} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   </p>
+                    }
                     <div className='rating'>
                       <Box
                         component='fieldset'
@@ -79,7 +96,15 @@ class ProductCard extends Component {
                       &nbsp; {item.product.reviews.length} ratings
                     </div>
                     <div className='price'>
-                      <p> ₹ {item.product.price}</p>
+                      {parseInt(item.product.discount)!==0?
+                      <h6 style={{ fontSize: '1rem' }}>
+                      ₹{ parseInt(item.product.price)-(parseInt(item.product.price)*parseInt(item.product.discount)/100)} &nbsp;
+                      <s style={{ fontSize: '0.8rem' }}>₹ {item.product.price}</s> &nbsp;
+                      <b style={{color:'green', fontSize: '0.8rem'}}>{item.product.discount}% off</b> &nbsp;  </h6>:
+                      <h6 style={{ fontSize: '1rem' }}>₹ {item.product.price}&nbsp;
+                       </h6>
+                    }
+                      
                       {item.product.in_stock ? (
                         <p
                           className='instock'
@@ -166,6 +191,7 @@ const Wrapper = styled.div`
     &__image {
       border-radius: 1rem 1rem 0rem 0rem;
       width: 20rem;
+      max-height:18rem;
       background-size: cover;
       display: block;
     }

@@ -36,7 +36,7 @@ const BestSellerCarousal = ({ access, current_item_added }) => {
     const config = {
       headers: {
         'content-type': 'appliation/json',
-        // 'Authorization': `Bearer ${access}`
+        // ''Authorization'': `Bearer ${access}`
       },
     }
     axios
@@ -74,12 +74,9 @@ const BestSellerCarousal = ({ access, current_item_added }) => {
       </div>
 
       <div className='trending'>
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-        >
+        <Carousel responsive={responsive}>
           {uniqueObjects
-            .filter((item) => item.product.approved === true)
+            .filter((item) => item.product.approved === 'Approved ')
             .map((item, index) => {
               return (
                 <article key={index}>

@@ -12,7 +12,7 @@ import ModalSellerInfo from './ModalSellerInfo'
 import { itemAddedToRecentlyViewed } from '../actions/auth'
 import { HashLink } from 'react-router-hash-link'
 import ModalLogin from './Modal'
-
+import ModalAddAddress from './ModalAddAddress'
 const api = process.env.REACT_APP_API_URL
 const Productdetailinfo = ({
   isAuthenticated,
@@ -30,6 +30,7 @@ const Productdetailinfo = ({
     localStorage.getItem('currentCompanyUser') || '[]'
   )
   const [modalLoginShow, setModalLoginShow] = React.useState(false)
+  const [modalAddAddress, setModalAddAddress] = React.useState(false)
 
   const [modalModalSuccess, setModalSuccess] = React.useState(false)
   const [modalModalSellerInfo, setModalSellerInfo] = React.useState(false)
@@ -39,13 +40,19 @@ const Productdetailinfo = ({
       original: currentItem.front_image,
       thumbnail: currentItem.front_image,
 
-      thumbnailWidth: 60,
+      thumbnailWidth: 10,
     },
     {
       original: currentItem.back_image,
       thumbnail: currentItem.back_image,
 
-      thumbnailWidth: 60,
+      thumbnailWidth: 10,
+    },
+     {
+      original: currentItem.extra_image,
+      thumbnail: currentItem.extra_image,
+
+      thumbnailWidth: 10,
     },
   ]
 
@@ -62,7 +69,7 @@ const Productdetailinfo = ({
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${access}`,
+        'Authorization': `Bearer ${access}`,
         Accept: 'application/json',
       },
     }
@@ -75,6 +82,8 @@ const Productdetailinfo = ({
       email: user.email,
       product_name: currentItem.name,
       enquiry_for: `${amount}/${unit}`,
+      city: `${user.address[0].city}`,
+      state: `${user.address[0].state}`,
       paid: false,
     }
 
@@ -104,6 +113,10 @@ const Productdetailinfo = ({
       <ModalSuccess
         show={modalModalSuccess}
         onHide={() => setModalSuccess(false)}
+      />
+      <ModalAddAddress
+        show={modalAddAddress}
+        onHide={() => setModalAddAddress(false)}
       />
       <ModalSellerInfo
         show={modalModalSellerInfo}
@@ -143,14 +156,23 @@ const Productdetailinfo = ({
               </Box>
               &nbsp; &nbsp; 0.0 &nbsp; | &nbsp; 0 ratings
             </div>
-
-            <p className='price'>
+             {parseInt(currentItem.discount)!==0?
+                      <p className='price' >
+                      ₹{ parseInt(currentItem.price)-(parseInt(currentItem.price)*parseInt(currentItem.discount)/100)} &nbsp;<s style={{fontSize:'1rem'}}>₹ {currentItem.price}</s> &nbsp;
+                      <b style={{color:'green',fontSize:'1rem'}}>({currentItem.discount}% OFF )</b> &nbsp; <HashLink to='/product#enquiry' className='glp'>
+                {' '}
+                Get Latest Price
+              </HashLink>  </p>:
+                        <p className='price'>
               ₹ {currentItem.price}&nbsp;{' '}
               <HashLink to='/product#enquiry' className='glp'>
                 {' '}
                 Get Latest Price
               </HashLink>
             </p>
+                    }
+
+        
             <div>
               {currentItem.in_stock ? (
                 <p
@@ -437,50 +459,73 @@ const Productdetailinfo = ({
                 <span> &nbsp; &nbsp; </span>
                 <button className='btn btn-warning'>Check</button>
               </div> */}
-              <form onSubmit={(e) => onSubmit(e)}>
-                <div className='card'>
-                  <div className='card-title'>Tell us how much you need</div>
-                  <div className='card-text'>
-                    {' '}
-                    <div
-                      className='input-group rounded '
-                      style={{ marginBottom: '1rem' }}
-                    >
-                      <input
-                        type='search'
-                        className='form-control rounded'
-                        placeholder='Amount'
-                        aria-label='Search'
-                        aria-describedby='search-addon'
-                        name='amount'
-                        value={formData.amount}
-                        onChange={(e) => onChange(e)}
-                        required
-                      />
-                      <span> &nbsp; &nbsp; </span>
-                      <input
-                        type='search'
-                        className='form-control rounded'
-                        placeholder='Enter the unit eg: Kg, g.'
-                        aria-label='Search'
-                        aria-describedby='search-addon'
-                        name='unit'
-                        value={formData.unit}
-                        onChange={(e) => onChange(e)}
-                        required
-                      />{' '}
-                      <br />
+              {user.address.length !== 0 ? (
+                <form onSubmit={(e) => onSubmit(e)}>
+                  <div className='card'>
+                    <div className='card-title'>Tell us how much you need</div>
+                    <div className='card-text'>
+                      {' '}
+                      <div
+                        className='input-group rounded '
+                        style={{ marginBottom: '1rem' }}
+                      >
+                        <input
+                          type='search'
+                          className='form-control rounded'
+                          placeholder='Amount'
+                          aria-label='Search'
+                          aria-describedby='search-addon'
+                          name='amount'
+                          value={formData.amount}
+                          onChange={(e) => onChange(e)}
+                          required
+                        />
+                        <span> &nbsp; &nbsp; </span>
+                        <input
+                          type='search'
+                          className='form-control rounded'
+                          placeholder='Enter the unit eg: Kg, g.'
+                          aria-label='Search'
+                          aria-describedby='search-addon'
+                          name='unit'
+                          value={formData.unit}
+                          onChange={(e) => onChange(e)}
+                          required
+                        />{' '}
+                        <br />
+                      </div>
+                      <button
+                        type='submit'
+                        className='btn btn-warning'
+                        style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
+                      >
+                        Send Enquiry
+                      </button>
                     </div>
-                    <button
-                      type='submit'
-                      className='btn btn-warning'
-                      style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
-                    >
-                      Send Enquiry
-                    </button>
                   </div>
+                </form>
+              ) : (
+                <div
+                  className='container'
+                  style={{
+                    padding: '2rem 2rem 2rem 2rem',
+                    marginTop: '2rem',
+                    border: '1px solid #eee',
+                  }}
+                >
+                  <button
+                    className='btn btn-warning'
+                    onClick={() => setModalAddAddress(true)}
+                    style={{ paddingLeft: '4rem', paddingRight: '4rem' }}
+                  >
+                    Add Address Details
+                  </button>
+                  <br />
+                  <br />
+                  please add your address details in order to send enquiry to
+                  the seller
                 </div>
-              </form>
+              )}
             </center>
           ) : (
             <center>

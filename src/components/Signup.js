@@ -1,14 +1,21 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import { signup } from '../actions/auth'
+import { signup,addUserEmail } from '../actions/auth'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-import { SignupInfo } from '../pages'
+// import { SignupInfo } from '../pages'
+import { LoopCircleLoading } from 'react-loadingg'
+
 import ModalLogin from './Modal'
+import PasswordStrengthMeter from './PasswordStrengthMeter'
+import axios from 'axios'
+
+const api = process.env.REACT_APP_API_URL
 const Signup = ({ signup, props, accountCreated }) => {
   const [modalLoginShow, setModalLoginShow] = React.useState(false)
   const [showPassword, setshowPassword] = useState('password')
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -29,12 +36,15 @@ const Signup = ({ signup, props, accountCreated }) => {
     })
 
   const onSubmit = (e) => {
+    setLoading(true)
     e.preventDefault()
     console.log(first_name, last_name, phone, email, password, re_password)
+   
     if (password.length > 8) {
       if (password === re_password) {
         setFormData({ ...formData, hide: props.onHide })
         signup(first_name, last_name, phone, email, password, re_password)
+         addUserEmail(formData.email)
       } else {
         alert("Password don't match")
       }
@@ -47,11 +57,50 @@ const Signup = ({ signup, props, accountCreated }) => {
   const setLogin = () => {
     setModalLoginShow(true)
   }
-
-  if (accountCreated) {
-    return <SignupInfo />
+  const resendActivationEmail=()=>{
+    const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }
 
+  const body = {
+    "email":`${formData.email}`
+  }
+
+   axios.post(`${api}/auth/users/resend_activation/`, body, config).then((res)=>{
+     console.log(res)
+     alert("Email has been send successfully!")
+   }).catch((err)=>{
+     console.log(err)
+   })
+
+  }
+if (accountCreated) {
+    return (    <section className='container' style={{ padding: '10vh' }}>
+      <div className='jumbotron'>
+
+        <h4>Thank you for signing up for a URJA account!</h4>
+        <hr />
+        <p style={{fontSize:'1.5rem'}} >
+          Please <b> Verify Your Email </b> by clicking on the link you have received on <b>{formData.email}  </b>in order to access your URJA account.{' '}
+        </p>
+      </div>
+      <button onClick={()=>resendActivationEmail()} className="btn btn-info">Resend Activation Email</button>
+    </section>)
+  }
+
+if (loading) {
+     return (
+        <div style={{ padding: '10rem' }}>
+          <center>
+            <LoopCircleLoading />
+          </center>
+        </div>
+      )
+  }
+
+ 
   return (
     <Wrapper>
       <ModalLogin
@@ -108,20 +157,23 @@ const Signup = ({ signup, props, accountCreated }) => {
                 required
               ></input>
             </div>
-            <div className='password'>
+            <div className='password '>
               <label className='form-label'>Password</label>
               <input
                 type={showPassword}
-                className='form-control'
+                className='form-control shadow-none'
                 placeholder='Password'
                 name='password'
                 value={password}
                 onChange={(e) => onChange(e)}
                 required
               ></input>
+              <div className='passmeter text-right'>
+                <PasswordStrengthMeter password={formData.password} />
+              </div>
             </div>
 
-            <div className='password'>
+            <div className='password' style={{ marginTop: '-20px' }}>
               <label className='form-label'>Confirm Password</label>
               <input
                 type={showPassword}
@@ -202,6 +254,9 @@ const Wrapper = styled.section`
   .password input {
     width: 18rem;
   }
+  .passmeter {
+    width: 18rem;
+  }
   input {
     width: 8rem;
     margin-right: 1rem;
@@ -238,6 +293,9 @@ const Wrapper = styled.section`
     .password input {
       width: 31rem;
     }
+    .passmeter {
+      width: 28rem;
+    }
     input {
       width: 20rem;
       margin-right: 1rem;
@@ -258,6 +316,9 @@ const Wrapper = styled.section`
   @media (min-width: 1300px) {
     .password input {
       width: 31rem;
+    }
+    .passmeter {
+      width: 28rem;
     }
     input {
       width: 20rem;
@@ -332,4 +393,4 @@ const mapStateToProps = (state) => ({
   signupErrors: state.auth.signupErrors,
 })
 
-export default connect(mapStateToProps, { signup })(Signup)
+export default connect(mapStateToProps, { signup ,addUserEmail})(Signup)

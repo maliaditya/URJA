@@ -30,7 +30,7 @@ const ManageContact = ({ user, access, checkAuthenticated, load_user }) => {
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${access}`,
+        'Authorization': `Bearer ${access}`,
       },
     }
     const body = {

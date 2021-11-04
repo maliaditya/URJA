@@ -6,10 +6,16 @@ import {
   Services,
   Footer,
   NewsLetter,
+  
 } from '../components'
 import ProductNavSearch from '../components/ProductNavSearch'
 
 const AccountPage = () => {
+   React.useEffect(() => {
+      let title = 'URJA | Account'
+      document.title = title;
+    });
+
   return (
     <div style={{ marginTop: '5rem' }}>
       <ProductNavSearch />

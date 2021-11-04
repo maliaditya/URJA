@@ -5,6 +5,10 @@ import { verify } from '../actions/auth';
 
 const Activate = ({ verify, match }) => {
     const [verified, setVerified] = useState(false);
+  React.useEffect(() => {
+      let title = 'URJA | Verify Account'
+      document.title = title;
+    });
 
     const verify_account = e => {
         const uid = match.params.uid;

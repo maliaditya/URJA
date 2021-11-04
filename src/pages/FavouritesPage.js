@@ -11,6 +11,10 @@ import {
 import ProductNavSearch from '../components/ProductNavSearch'
 
 const FavouritesPage = () => {
+    React.useEffect(() => {
+      let title = 'URJA | Favourites'
+      document.title = title;
+    });
   return (
     <div style={{ marginTop: '5rem' }}>
       <ProductNavSearch style={{ zIndex: 1000 }} />

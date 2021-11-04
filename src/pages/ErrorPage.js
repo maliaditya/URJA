@@ -2,12 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 const ErrorPage = () => {
+  React.useEffect(() => {
+      let title = 'URJA | Error'
+      document.title = title;
+    });
   return(
 
     <Wrapper>
 
-    <h4>error page</h4>
-    <Link to='\'> Back </Link>
+    <h4>Error Page</h4>
+    <Link to='\'> Back. </Link>
     </Wrapper>
     )
 }

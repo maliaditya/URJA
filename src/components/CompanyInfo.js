@@ -44,7 +44,7 @@ class CompanyInfo extends React.Component {
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${this.props.access}`,
+        'Authorization': `Bearer ${this.props.access}`,
       },
     }
     await axios
@@ -118,7 +118,7 @@ class CompanyInfo extends React.Component {
               <input
                 type='text'
                 className='form-control'
-                placeholder='Product name'
+                placeholder='Company name'
                 name='company_name'
                 value={this.state.company_name || ''}
                 required

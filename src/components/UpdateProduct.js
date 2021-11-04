@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 // import ImageUpload from './ImageUpload'
 // import BackImage from './BackImage'
 import { connect } from 'react-redux'
+import { load_user, checkAuthenticated } from '../actions/auth'
 import axios from 'axios'
 // import { Link, Redirect } from 'react-router-dom'
 
@@ -15,6 +16,7 @@ class UpdateProduct extends Component {
       name: '',
       details: '',
       price: '',
+      discount: '',
       front_image: '',
       created_by: props.user.id,
       back_image: '',
@@ -30,7 +32,7 @@ class UpdateProduct extends Component {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        Authorization: `Bearer ${this.props.access}`,
+        'Authorization': `Bearer ${this.props.access}`,
       },
     }
     const product_type = await axios.get(`${api}/api/product_type/`, config)
@@ -67,6 +69,7 @@ class UpdateProduct extends Component {
     // form_data.append('front_image', this.state.front_image, this.state.front_image.name);
     form_data.append('name', this.state.name)
     form_data.append('price', this.state.price)
+    form_data.append('discount', this.state.discount)
     form_data.append('details', this.state.details)
     form_data.append('created_by', this.state.created_by)
     form_data.append('category', this.state.category)
@@ -76,15 +79,17 @@ class UpdateProduct extends Component {
     let url = `${api}/api/products/${this.props.currentItem.id}/`
     console.log('form_data', form_data)
     axios
-      .patch(url, form_data, {
+      .put(url, form_data, {
         headers: {
           'content-type': 'multipart/form-data',
-          Authorization: `Bearer ${this.props.access}`,
+          'Authorization': `Bearer ${this.props.access}`,
         },
       })
       .then((res) => {
+           this.props.checkAuthenticated()
+        this.props.load_user()
         console.log('form_data', res.data)
-        alert('Your file is  uploaded!')
+        alert('Product Updated Successfully!')
       })
       .catch((err) => {
         console.log(err)
@@ -99,6 +104,7 @@ class UpdateProduct extends Component {
       name: currentItem.name,
       details: currentItem.details,
       price: currentItem.price,
+      discount: currentItem.discount,
       front_image: currentItem.front_image,
       created_by: currentItem.created_by,
       back_image: currentItem.back_image,
@@ -171,7 +177,7 @@ class UpdateProduct extends Component {
             />
           </p>
           <p>
-            <label className='form-label'>Product price</label>
+            <label className='form-label'>Product Price (₹) *</label>
 
             <input
               type='text'
@@ -184,10 +190,25 @@ class UpdateProduct extends Component {
             />
           </p>
           <p>
+            <label className='form-label'>Discount ( Will be taken in '%' ) * </label>
+
+            <input
+              type='number'
+              className='form-control'
+              placeholder='(Enter 0 for no discount), Enter Discount eg : 10 '
+              id='discount'      
+              min='0'
+              max='100'
+              value={this.state.discount || ''}
+              onChange={this.handleChange}
+              required
+            />
+          </p>
+          <p>
             <label className='form-label'>Product details</label>
 
             <textarea
-              type='text'
+              type='number'
               className='form-control'
               placeholder='Product details'
               id='details'
@@ -196,8 +217,9 @@ class UpdateProduct extends Component {
               required
             />
           </p>
+          {/* {console.log("frontimage",this.state.front_image)} */}
 
-          <p>
+          {/* <p>
             <input
               type='file'
               id='image'
@@ -214,7 +236,7 @@ class UpdateProduct extends Component {
               onChange={this.handleBackImageChange}
               required
             />
-          </p>
+          </p> */}
           <button className='btn btn-primary' type='submit'>
             Update Product
           </button>
@@ -232,4 +254,5 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {})(UpdateProduct)
+export default connect(mapStateToProps, {  load_user,
+  checkAuthenticated,})(UpdateProduct)

@@ -39,9 +39,71 @@ import {
   SEARCH_KEYWORD,
   ORIGINAL_SEARCHED_ARRAY,
   CLEAR_ORIGINAL_SEARCHED_ARRAY,
+  CATEGORYWISE_SEARCH_SUCCESS,
+  CATEGORYWISE_SEARCH_FAIL,
+  CATEGORYWISE_SEARCH_CLEAR,
+  PRODUCT_NAME_LIST,
+  ADD_SEARCHED_ITEM_PAGINATION_INFO,
+  USER_EMAIL,
 } from './types'
 
 const api = process.env.REACT_APP_API_URL
+
+export const addUserEmail = (email) => async (dispatch) => {
+  dispatch({
+    type: USER_EMAIL,
+    payload: email,
+  })
+}
+
+export const addPaginationInfo =
+  (count, previous, next) => async (dispatch) => {
+    const data = {
+      count: count,
+      previous: previous,
+      next: next,
+    }
+
+    dispatch({
+      type: ADD_SEARCHED_ITEM_PAGINATION_INFO,
+      payload: data,
+    })
+  }
+
+export const addproductNames = (name) => async (dispatch) => {
+  dispatch({
+    type: PRODUCT_NAME_LIST,
+    payload: name,
+  })
+}
+
+export const sendSearchKeyWord = (search_key) => async (dispatch) => {
+  dispatch({
+    type: SEARCH_KEYWORD,
+    payload: search_key,
+  })
+}
+
+export const itemSearchedCategoryWise =
+  (current_item, search_key) => async (dispatch) => {
+    if (current_item !== null) {
+      dispatch({
+        type: CATEGORYWISE_SEARCH_SUCCESS,
+        payload: current_item,
+      })
+    } else {
+      dispatch({
+        type: CATEGORYWISE_SEARCH_FAIL,
+      })
+    }
+  }
+
+export const itemSearchedCategoryWiseClear = () => async (dispatch) => {
+  dispatch({
+    type: CATEGORYWISE_SEARCH_CLEAR,
+    payload: [],
+  })
+}
 
 export const userNewsLetterSuscribed = (user) => async (dispatch) => {
   if (user.news_letter.length !== 0) {
@@ -75,7 +137,7 @@ export const removeFromFavourites = (favItem) => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }
@@ -105,7 +167,7 @@ export const addToFavourites = (product, user) => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }
@@ -194,7 +256,7 @@ export const currentItemCompanyUser = (userId) => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }
@@ -222,7 +284,7 @@ export const currentItemCompany = (companyId) => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }
@@ -283,7 +345,7 @@ export const load_user = () => async (dispatch) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }

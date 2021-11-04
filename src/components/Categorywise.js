@@ -39,8 +39,8 @@ class Categorywise extends Component {
       searchResultBackupStore: [],
       verifiedDisable: false,
       leadingDisable: false,
-      min: 0,
-      max: 0,
+      min: 'min',
+      max: 'max',
     }
     this.viewMore = this.viewMore.bind(this)
     this.onStockChange = this.onStockChange.bind(this)
@@ -90,6 +90,9 @@ class Categorywise extends Component {
       [e.target.name]: e.target.value,
     })
   }
+
+ 
+
 
   onSubmit = (e) => {
     e.preventDefault()
@@ -219,7 +222,7 @@ class Categorywise extends Component {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        // 'Authorization': `Bearer ${this.props.access}`,
+        // ''Authorization'': `Bearer ${this.props.access}`,
       },
     }
     const product_type = await axios.get(`${api}/api/product_type/`, config)
@@ -280,7 +283,7 @@ class Categorywise extends Component {
   render() {
     return (
       <Wrapper className='content'>
-        <div className='col-md-12 row'>
+        <div  className='col-md-12 row'>
           <div className='check sidenav col-md-4'>
             <ul>
               <div className='bussiness-type'>
@@ -424,7 +427,7 @@ class Categorywise extends Component {
                 </div>
               </div>
               <br />
-              <div className='other-categories'>
+              {/* <div className='other-categories'>
                 <h5>Other Categories</h5>
                 <div className='row'>
                   <ul>
@@ -434,6 +437,7 @@ class Categorywise extends Component {
                           <label className='check'>
                             <input
                               onChange={this.onCategoryChange}
+                              
                               name={item.category_name}
                               type='checkbox'
                             />{' '}
@@ -444,7 +448,7 @@ class Categorywise extends Component {
                     })}
                   </ul>
                 </div>
-              </div>
+              </div> */}
             </ul>
           </div>
           <div className=' col-md-8'>

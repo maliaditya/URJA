@@ -16,9 +16,11 @@ class CreateProduct extends Component {
       name: '',
       details: '',
       price: '',
+      discount: '',
       front_image: null,
       created_by: props.user.id,
-      back_image: null,
+      back_image: '',
+      extra_image: '',
       category: null,
       product_type: null,
       rating: 0,
@@ -26,7 +28,7 @@ class CreateProduct extends Component {
       company: props.user.company_details[0].id,
       productType: [],
       productCategories: [],
-      approved: false,
+      // approved: 'Pending',
       in_stock: true,
       loading: false,
     }
@@ -36,7 +38,7 @@ class CreateProduct extends Component {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        Authorization: `Bearer ${this.props.access}`,
+        'Authorization': `Bearer ${this.props.access}`,
       },
     }
     const product_type = await axios.get(`${api}/api/product_type/`, config)
@@ -69,7 +71,11 @@ class CreateProduct extends Component {
       back_image: e.target.files[0],
     })
   }
-
+handleExtraImageChange = (e) => {
+    this.setState({
+      extra_image: e.target.files[0],
+    })
+  }
   handleSubmit = (e) => {
     e.preventDefault()
     console.log(this.state)
@@ -81,16 +87,18 @@ class CreateProduct extends Component {
     )
     form_data.append('name', this.state.name)
     form_data.append('price', this.state.price)
+    form_data.append('discount', this.state.discount)
     form_data.append('details', this.state.details)
     form_data.append('created_by', this.state.created_by)
     form_data.append('category', this.state.category)
     form_data.append('back_image', this.state.back_image)
+    form_data.append('extra_image', this.state.extra_image)
     form_data.append('product_type', this.state.product_type)
     form_data.append('company', this.state.company)
     form_data.append('rating', this.state.rating)
     form_data.append('total_ratings', this.state.total_ratings)
     form_data.append('in_stock', this.state.in_stock)
-    form_data.append('approved', this.state.approved)
+    // form_data.append('approved', this.state.approved)
 
     this.setState({
       loading: true,
@@ -100,7 +108,7 @@ class CreateProduct extends Component {
       .post(url, form_data, {
         headers: {
           'content-type': 'multipart/form-data',
-          Authorization: `Bearer ${this.props.access}`,
+          'Authorization': `Bearer ${this.props.access}`,
         },
       })
       .then((res) => {
@@ -122,8 +130,10 @@ class CreateProduct extends Component {
       name: '',
       details: '',
       price: '',
+      discount:'',
       front_image: '',
       back_image: '',
+      extra_image:'',
       category: '',
       product_type: '',
     })
@@ -143,12 +153,12 @@ class CreateProduct extends Component {
       <div className='App'>
         <form onSubmit={this.handleSubmit}>
           <p>
-            <label className='form-label'>Seller </label>
+            <label className='form-label'>Seller Type (Mandatory) *</label>
             <select
               className='form-select'
               onChange={(e) => this.setState({ product_type: e.target.value })}
             >
-              <option>Select Seller Type</option>
+              <option>Select Seller Type </option>
               {this.state.productType.map((item) => {
                 return (
                   <option
@@ -165,7 +175,7 @@ class CreateProduct extends Component {
             </select>
           </p>
           <p>
-            <label className='form-label'>Product Category</label>
+            <label className='form-label'>Product Category (Mandatory) *</label>
             <select
               className='form-select'
               onChange={(e) => this.setState({ category: e.target.value })}
@@ -189,7 +199,7 @@ class CreateProduct extends Component {
           </p>
 
           <p>
-            <label className='form-label'>Product name</label>
+            <label className='form-label'>Product name * </label>
             <input
               type='text'
               className='form-control'
@@ -201,20 +211,36 @@ class CreateProduct extends Component {
             />
           </p>
           <p>
-            <label className='form-label'>Product price</label>
+            <label className='form-label'>Product price (₹) *</label>
 
             <input
-              type='text'
+              type='number'
               className='form-control'
-              placeholder='Product price'
+              placeholder='Product Price/ MRP '
               id='price'
+              min='0'
               value={this.state.price}
               onChange={this.handleChange}
               required
             />
           </p>
+           <p>
+            <label className='form-label'>Discount ( Will be taken in '%' ) * </label>
+
+            <input
+              type='number'
+              className='form-control'
+              placeholder='(Enter 0 for no discount), Enter Discount eg : 10 '
+              id='discount'      
+              min='0'
+              max='100'
+              value={this.state.discount}
+              onChange={this.handleChange}
+              required
+            />
+          </p>
           <p>
-            <label className='form-label'>Product details</label>
+            <label className='form-label'>Product details *</label>
 
             <textarea
               type='text'
@@ -228,6 +254,7 @@ class CreateProduct extends Component {
           </p>
 
           <p>
+              <label className='form-label'>Front Image: * &nbsp;</label>
             <input
               type='file'
               id='image'
@@ -237,12 +264,25 @@ class CreateProduct extends Component {
             />
           </p>
           <p>
+              <label className='form-label'>Back Image:  &nbsp; &nbsp;</label>
+
             <input
               type='file'
               id='image'
               accept='image/png, image/jpeg'
               onChange={this.handleBackImageChange}
-              required
+              
+            />
+          </p>
+          <p>
+              <label className='form-label'>Extra Image:  &nbsp; &nbsp;</label>
+
+            <input
+              type='file'
+              id='image'
+              accept='image/png, image/jpeg'
+              onChange={this.handleExtraImageChange}
+              
             />
           </p>
           <button className='btn btn-primary' type='submit'>

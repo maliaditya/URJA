@@ -16,6 +16,10 @@ import {
 import ProductNavSearch from '../components/ProductNavSearch'
 
 const SingleProductPage = () => {
+  React.useEffect(() => {
+      let title = 'URJA | Product '
+      document.title = title;
+    });
   return (
     <React.Fragment>
       <ProductNavSearch />

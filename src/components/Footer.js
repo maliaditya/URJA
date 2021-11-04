@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-const Footer = ({ user, isAuthenticated }) => {
+import { HashLink } from 'react-router-hash-link'
+const Footer = ({ user, isAuthenticated ,seller_account}) => {
   user = JSON.parse(localStorage.getItem('user') || '[]')
   return (
     <Wrapper>
@@ -13,13 +14,12 @@ const Footer = ({ user, isAuthenticated }) => {
               <div className='card-body'>
                 <h5 className='card-title'>Customer Service</h5>
                 <div className='card-text'>
-                  <Link to=''> Help Center</Link>
+                  <Link to='/help-center'> Help Center</Link>
+                   {isAuthenticated ? <React.Fragment>  <br /> <Link to='/faqs'> FAQ</Link></React.Fragment> : ''}
                   <br />
-                  <Link to=''> FAQ</Link>
+                  <a target='blank' href='https://drive.google.com/file/d/12xltxO07cgp1EqITF8d6f9RAE31Ov7x8/view?usp=sharing'> Terms and Conditions</a>
                   <br />
-                  <Link to=''> Terms and Conditions</Link>
-                  <br />
-                  <Link to=''> Reports</Link>
+                  {isAuthenticated ? <Link to='/reports'> Reports</Link> : ''}
                 </div>
               </div>
             </div>
@@ -30,24 +30,38 @@ const Footer = ({ user, isAuthenticated }) => {
               <div className='card-body'>
                 <h5 className='card-title'>Sell on Urja</h5>
                 <div className='card-text'>
-                  <Link to=''>Suppliers prime membership</Link>
+                  <HashLink to='/comming_soon#underConst'>
+                    Suppliers prime membership
+                  </HashLink>
                   <br />
-                  <Link to=''> Partner Program</Link>
+                  <HashLink to='/comming_soon#underConst'>
+                    {' '}
+                    Partner Program
+                  </HashLink>
                 </div>
               </div>
             </div>
           </div>
-
           <div className='col-md-3 mb-4'>
             <div className='card'>
               <div className='card-body'>
                 <h5 className='card-title'>About Us</h5>
                 <div className='card-text'>
-                  <Link to=''> Who are we </Link>
+                  <HashLink to='/who-r-we#underConst'>
+                    {' '}
+                    Who are we{' '}
+                  </HashLink>
                   <br />
-                  <Link to=''> Programs</Link>
+                  <HashLink to='/comming_soon#underConst'> Programs</HashLink>
                   <br />
-                  <Link to=''>Become a member</Link>
+                  {isAuthenticated? user.seller_account.length !== 0?
+                  <HashLink to='/mbw'>
+                    Become a member
+                  </HashLink>:
+                   <HashLink to='/become-member'>
+                    Become a member
+                  </HashLink>:""
+                  }
                 </div>
               </div>
             </div>
@@ -56,6 +70,25 @@ const Footer = ({ user, isAuthenticated }) => {
             <div className='card'>
               <div className='card-body'>
                 <h5 className='card-title'>Contact Us</h5>
+                 <div className='card-text'>
+                  <a href='#!'>
+                   urja.customercare@gmail.com
+                  </a>
+                  <br />
+                 <a href='#!'>
+                   +91 8380000665
+                  </a>
+                  <br />
+           
+                </div>
+                <iframe
+                  title='map'
+                  src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d108376.92662906153!2d73.9675397630867!3d17.672378205372876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc239be08d96bbd%3A0x5f4adf559fb4b19a!2sSatara%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1628163702358!5m2!1sen!2sin'
+                  width='200'
+                  height='150'
+                  style={{ border: '0' }}
+                  loading='lazy'
+                ></iframe>
               </div>
             </div>
           </div>
@@ -63,7 +96,7 @@ const Footer = ({ user, isAuthenticated }) => {
 
         <center>
           <div className='container'>
-            <Link to=''>
+            <Link to='/comming_soon'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='30'
@@ -76,7 +109,7 @@ const Footer = ({ user, isAuthenticated }) => {
               </svg>
             </Link>
             <span> &nbsp; &nbsp; </span>
-            <Link to=''>
+            <Link to='/comming_soon'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='30'
@@ -89,7 +122,7 @@ const Footer = ({ user, isAuthenticated }) => {
               </svg>
             </Link>
             <span> &nbsp; &nbsp; </span>
-            <Link to=''>
+            <Link to='/comming_soon'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='30'
@@ -106,7 +139,9 @@ const Footer = ({ user, isAuthenticated }) => {
           <hr />
           <p style={{ color: 'var(--clr-grey-3)' }}>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
+             Developed by : The Source
           </p>
+
         </center>
       </div>
     </Wrapper>

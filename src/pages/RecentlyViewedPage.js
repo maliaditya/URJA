@@ -10,6 +10,10 @@ import {
 import ProductNavSearch from '../components/ProductNavSearch'
 
 const RecentlyViewedPage = () => {
+   React.useEffect(() => {
+      let title = 'URJA | Recently Viewed'
+      document.title = title;
+    });
   return (
     <div className='recently-viewed'>
       <ProductNavSearch />

@@ -1,66 +1,171 @@
 import React from 'react'
+import axios from 'axios'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
+import { checkAuthenticated, load_user } from '../actions/auth'
 
-const AddAddress = () => {
-  return (
-    <Wrapper className='container'>
-      <p>Address</p>
-      <div className='formcontent'>
-        <form action=''>
-          <div className='password'>
-            <label for='First Name1' className='form-label'>
-              Street Address
-            </label>
-            <input
-              type='email'
-              className='form-control'
-              id='exampleInputEmail1'
-              placeholder='Please enter your Street Address'
-              aria-describedby='emailHelp'
-            ></input>
-          </div>
-          <div className='password'>
-            <label for='First Name1' className='form-label'>
-              City
-            </label>
-            <input
-              type='email'
-              className='form-control'
-              id='exampleInputEmail1'
-              placeholder='Eg. Satara'
-              aria-describedby='emailHelp'
-            ></input>
-          </div>
-          <div className='password'>
-            <label for='First Name1' className='form-label'>
-              State
-            </label>
-            <input
-              type='email'
-              className='form-control'
-              id='exampleInputEmail1'
-              placeholder='Eg. Maharashtra'
-              aria-describedby='emailHelp'
-            ></input>
-          </div>
-          <div className='password'>
-            <label for='First Name1' className='form-label'>
-              Zip Code
-            </label>
-            <input
-              type='email'
-              className='form-control'
-              id='exampleInputEmail1'
-              placeholder='6 digit code '
-              aria-describedby='emailHelp'
-            ></input>
-          </div>
+// import CreateProduct from './CreateProduct'
+const api = process.env.REACT_APP_API_URL
 
-          <button className='btn btn-warning'>Submit</button>
-        </form>
-      </div>
-    </Wrapper>
-  )
+class AddAddress extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      first_name: '',
+      last_name: '',
+      company_details: '',
+      address_line1: '',
+      address_line2: '',
+      city: '',
+      state: '',
+      pin_code: '',
+      user: JSON.parse(localStorage.getItem('user') || '[]'),
+      edit: false,
+      editAddress: false,
+      saved: false,
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  postAddressDetails = async () => {
+    alert('Your details are being uploaded please wait! ')
+    const config = {
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${this.props.access}`,
+      },
+    }
+    const addressbody = {
+      address_line1: this.state.address_line1,
+      address_line2: this.state.address_line2,
+      city: this.state.city,
+      state: this.state.state,
+      pin_code: this.state.pin_code,
+      user: this.state.user.id,
+    }
+    await axios
+      .post(`${api}/api/address/`, addressbody, config)
+      .then((res) => {
+        alert('Your details have been uploaded Successfully! ')
+        console.log(res)
+        this.setState({ saved: true })
+        this.props.checkAuthenticated()
+        this.props.load_user()
+      })
+      .catch((err) => {
+        alert('Unable to save the details please try again ! ')
+        console.log(err)
+      })
+  }
+
+  handleSubmitAddress(event) {
+    console.log(this.state)
+    event.preventDefault()
+    this.postAddressDetails()
+  }
+
+  render() {
+    if (!this.state.saved) {
+      return (
+        <Wrapper className='container'>
+          <div className='formcontent'>
+            <form>
+              <div className='password'>
+                <label className='form-label'>Address Line 1 *</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Please Enter Your Street Address'
+                  name='address_line1'
+                  value={this.state.address_line1 || ''}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <div className='password'>
+                <label className='form-label'>Address Line 2 </label>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Enter Locality'
+                  name='address_line2'
+                  value={this.state.address_line2 || ''}
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <label className='form-label'>
+                City *&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                &nbsp; &nbsp; &nbsp; &nbsp; State *
+              </label>
+              <div className='name'>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg.Satara'
+                  name='city'
+                  value={this.state.city || ''}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg. Maharashtra'
+                  name='state'
+                  value={this.state.state || ''}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <label className='form-label'>Pin Code *</label>
+              <div className='name'>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='6 digit Code  '
+                  name='pin_code'
+                  value={this.state.pin_code || ''}
+                  required
+                  onChange={this.handleChange}
+                ></input>
+              </div>
+              <>
+                <button
+                  onClick={(e) => this.handleSubmitAddress(e)}
+                  type='submit'
+                  className='btn btn-warning'
+                >
+                  Save
+                </button>
+
+                <button
+                  onClick={() => this.setState({ editAddress: false })}
+                  type='submit'
+                  className='btn btn-secondary'
+                >
+                  Cancel
+                </button>
+              </>
+            </form>
+          </div>
+        </Wrapper>
+      )
+    } else {
+      return (
+        <center className='container' style={{ padding: '5rem' }}>
+          <h5>Your Address Details were Added Successfully</h5>
+        </center>
+      )
+    }
+  }
 }
 
 const Wrapper = styled.section`
@@ -88,7 +193,6 @@ const Wrapper = styled.section`
     color: black;
   }
   input {
-    background-color: #dedede;
     width: 10rem;
     margin-right: 1rem;
     margin-bottom: 1rem;
@@ -141,7 +245,6 @@ const Wrapper = styled.section`
       margin-bottom: 0.8rem;
     }
     form .btn {
-      background-color: #ffc232;
       margin-top: 1rem;
     }
     .check input {
@@ -193,4 +296,15 @@ const Wrapper = styled.section`
   }
 `
 
-export default AddAddress
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    access: state.auth.access,
+    user: state.auth.user,
+    currentItem: state.auth.currentItem,
+  }
+}
+
+export default connect(mapStateToProps, { checkAuthenticated, load_user })(
+  AddAddress
+)

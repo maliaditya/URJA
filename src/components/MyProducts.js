@@ -62,7 +62,7 @@ const MyProducts = ({
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${access}`,
+        'Authorization': `Bearer ${access}`,
       },
     }
     const body = {
@@ -93,7 +93,7 @@ const MyProducts = ({
     const config = {
       headers: {
         'content-type': 'appliation/json',
-        Authorization: `Bearer ${access}`,
+        'Authorization': `Bearer ${access}`,
       },
     }
     await axios
@@ -179,13 +179,18 @@ const MyProducts = ({
                 />
                 <div className='header'>
                   <div className='head-title'>
-                    <h5
-                      className='itemname'
-                      style={{ fontWeight: '700', width: '16rem' }}
+                    <p className='itemname' style={{ fontWeight: '700' }}>
+                      {item.name.length > 30
+                        ? item.name.slice(0, 30) + '...'
+                        : item.name }
+                    </p>
+                    <section
+                      style={{
+                        fontWeight: '700',
+                      
+                        position: 'relative',
+                      }}
                     >
-                      {item.name}
-                    </h5>
-                    <section>
                       <FaRegEdit
                         onClick={() => addCurrentItemForEdit(item)}
                         className='fav'
@@ -206,7 +211,25 @@ const MyProducts = ({
                     </section>
                   </div>
                   <div className='desc'>
-                    <p>{item.details.slice(0, 90)}...</p>
+                      {item.details.length > 90?
+
+                    <p>{item.details.slice(0, 90)}...</p>:
+                     <p>{item.details} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   </p>
+                    }
                     <div className='rating'>
                       <Box
                         component='fieldset'
@@ -226,7 +249,14 @@ const MyProducts = ({
                       </a>
                     </div>
                     <div className='pricedate'>
-                      <h6 style={{ fontSize: '0.9rem' }}>₹ {item.price}</h6>
+                      {console.log("Wireditem", item)}
+                      {parseInt(item.discount)!==0?
+                      <h6 style={{ fontSize: '1rem' }}>
+                      ₹{ parseInt(item.price)-(parseInt(item.price)*parseInt(item.discount)/100)} &nbsp;<s style={{ fontSize: '0.8rem' }}>₹ {item.price}</s> &nbsp;
+                      <b style={{color:'green', fontSize: '0.8rem'}}>{item.discount}% off</b> &nbsp;  </h6>:
+                      <h6 style={{ fontSize: '1rem' }}>₹ {item.price}&nbsp;
+                       </h6>
+                    }
                       {item.in_stock ? (
                         <a
                           href='#!'
@@ -254,6 +284,9 @@ const MyProducts = ({
                         Created on: {item.get_created_at}
                       </h6>
                     </div>
+                  <h6 style={{ fontSize: '0.7rem', color:"#2C497F" }}>
+                        Approval Status :{item.approved}
+                      </h6>
                   </div>
                 </div>
               </div>
@@ -281,10 +314,7 @@ const MyProducts = ({
           </Button>
         </div>
         <ModalAddProduct show={modalShow} onHide={() => setModalShow(false)} />
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-        >
+        <Carousel responsive={responsive}>
           {productList.map((item) => {
             return (
               <article key={item.id}>
@@ -297,12 +327,13 @@ const MyProducts = ({
                 <div className='containercard border '>
                   <img
                     className='containercard__image'
+            
                     alt='product_image'
                     src={item.front_image}
                   />
                   <div className='header'>
                     <div className='head-title'>
-                      <h5 style={{ fontWeight: '700' }}>{item.name}</h5>
+                      <p style={{ fontWeight: '700' }}>{item.name.slice(0, 30)}</p>
                     </div>
                     <div className='desc'>
                       <div className='rating'>
@@ -443,10 +474,13 @@ const Wrapper = styled.article`
     margin-bottom: 0.5rem;
     color: var(--clr-grey-3);
   }
-
+ 
+// .itemname{
+//   fontsize:12px;
+// }
   .containercard {
     width: 20rem;
-    height: 37rem;
+    height: 33rem;
     border-radius: 1rem;
     -webkit-box-shadow: 0 6px 12px -13px black;
     -moz-box-shadow: 0 6px 12px -13px black;
@@ -455,6 +489,7 @@ const Wrapper = styled.article`
     &__image {
       border-radius: 1rem 1rem 0rem 0rem;
       width: 20rem;
+      max-height:18rem;
       background-size: cover;
       display: block;
     }

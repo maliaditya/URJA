@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reset_password_confirm } from '../actions/auth';
-
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     const [requestSent, setRequestSent] = useState(false);
+  const [showPassword, setshowPassword] = useState('password')
+  React.useEffect(() => {
+      let title = 'URJA | Reset Password '
+      document.title = title;
+    });
     const [formData, setFormData] = useState({
         new_password: '',
         re_new_password: ''
@@ -29,12 +34,15 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
     }
 
     return (
-        <div className='container mt-5'>
+        <div className='container mt-5 border border-secondary' style={{borderRadius:'1rem',padding:'10vh'}}>
+            <h4>Reset Password</h4>
+<hr />
+<p>Note: Password should not contain your name or be similar to your email, Do not use sequence like '12345678' or 'qwertyuio' </p>
             <form onSubmit={e => onSubmit(e)}>
             <div className='form-group'>
                     <input
                         className='form-control'
-                        type='password'
+                        type={showPassword}
                         placeholder='New Password'
                         name='new_password'
                         value={new_password}
@@ -47,7 +55,7 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
                 <div className='form-group'>
                     <input
                         className='form-control'
-                        type='password'
+                        type={showPassword}
                         placeholder='Confirm New Password'
                         name='re_new_password'
                         value={re_new_password}
@@ -56,6 +64,30 @@ const ResetPasswordConfirm = ({ match, reset_password_confirm }) => {
                         required
                     />
                 </div>
+                 {showPassword === 'password' ? (
+              <a
+                className='showpass mt-10'
+                href='#!'
+                onClick={() => {
+                  setshowPassword('re')
+                }}
+              >
+                show password&nbsp;
+                <AiFillEye />
+              </a>
+            ) : (
+              <a
+                className='showpass'
+                href='#!'
+                onClick={() => {
+                  setshowPassword('password')
+                }}
+              >
+                hide password&nbsp;
+                <AiFillEyeInvisible />
+              </a>
+            )}
+                <br />
                 <br />
                 <button className='btn btn-primary' type='submit'>Reset Password</button>
             </form>

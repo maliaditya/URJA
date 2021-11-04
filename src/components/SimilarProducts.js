@@ -34,20 +34,17 @@ const SimilarProducts = () => {
       </div>
 
       <div className='trending'>
-        <Carousel
-          responsive={responsive}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
-        >
-            <article>
-              <Link to='' >
-                <img alt='best seller'
-                  src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
-                  />
-              </Link>
-              <p className='ptitle'>&nbsp;&nbsp;Some text</p>
-              <p>&nbsp;&nbsp;Category Name</p>
-            </article>
-         
+        <Carousel responsive={responsive}>
+          <article>
+            <Link to=''>
+              <img
+                alt='best seller'
+                src='https://images.unsplash.com/photo-1430132594682-16e1185b17c5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80'
+              />
+            </Link>
+            <p className='ptitle'>&nbsp;&nbsp;Some text</p>
+            <p>&nbsp;&nbsp;Category Name</p>
+          </article>
         </Carousel>
       </div>
     </Wrapper>
@@ -206,5 +203,3 @@ const Wrapper = styled.div`
 `
 
 export default SimilarProducts
-
-

@@ -38,6 +38,12 @@ import {
   SEARCH_KEYWORD,
   ORIGINAL_SEARCHED_ARRAY,
   CLEAR_ORIGINAL_SEARCHED_ARRAY,
+  CATEGORYWISE_SEARCH_SUCCESS,
+  CATEGORYWISE_SEARCH_FAIL,
+  CATEGORYWISE_SEARCH_CLEAR,
+  PRODUCT_NAME_LIST,
+  ADD_SEARCHED_ITEM_PAGINATION_INFO,
+  USER_EMAIL
 } from '../actions/types'
 
 const initialState = {
@@ -48,6 +54,7 @@ const initialState = {
   currentItem: localStorage.getItem('currentItem'),
   recentlyViewed: [],
   itemSearchedResult: [],
+  itemSearchedCategoryWiseResult: [],
   currentCompany: localStorage.getItem('currentCompany'),
   currentCompanyUser: localStorage.getItem('currentCompanyUser'),
   currentUserNewsLetter: false,
@@ -56,6 +63,9 @@ const initialState = {
   signupErrors: null,
   searchKeyword: null,
   originalSearchArray: [],
+  productNames: [],
+  paginationData: null,
+  userEmail:null,
 }
 
 function onlyUnique(value, index, self) {
@@ -66,6 +76,61 @@ export default function foo(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
+    case USER_EMAIL:
+      return {
+        ...state,
+        userEmail: payload,
+      }
+    case ADD_SEARCHED_ITEM_PAGINATION_INFO:
+      return {
+        ...state,
+        paginationData: payload,
+      }
+
+    case PRODUCT_NAME_LIST:
+      let uniqueObjectsArray3 = []
+      const uniqueItemsArray3 = []
+      if (state.productNames !== null) {
+        state.productNames.map((item) => {
+          if (!uniqueItemsArray3.includes(item.id)) {
+            uniqueItemsArray3.push(item.id)
+            uniqueObjectsArray3.push(item)
+          }
+          return 0
+        })
+      }
+      return {
+        ...state,
+        productNames: [...uniqueObjectsArray3, payload],
+      }
+
+    case CATEGORYWISE_SEARCH_CLEAR:
+      return {
+        ...state,
+        itemSearchedCategoryWiseResult: [],
+      }
+
+    case CATEGORYWISE_SEARCH_SUCCESS:
+      let uniqueObjectsArray2 = []
+      const uniqueItemsArray2 = []
+      if (state.itemSearchedCategoryWiseResult !== null) {
+        state.itemSearchedCategoryWiseResult.map((item) => {
+          if (!uniqueItemsArray2.includes(item.id)) {
+            uniqueItemsArray2.push(item.id)
+            uniqueObjectsArray2.push(item)
+          }
+          return 0
+        })
+      }
+      return {
+        ...state,
+        itemSearchedCategoryWiseResult: [...uniqueObjectsArray2, payload],
+      }
+    case CATEGORYWISE_SEARCH_FAIL:
+      return {
+        ...state,
+      }
+
     case SEARCH_KEYWORD:
       return {
         ...state,
@@ -125,6 +190,7 @@ export default function foo(state = initialState, action) {
         ...state,
         originalSearchArray: [],
       }
+
     case ITEM_SEARCH_CLEAR:
       return {
         ...state,

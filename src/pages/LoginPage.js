@@ -46,14 +46,14 @@ const LoginPage = ({ login, isAuthenticated, user }) => {
       <div>
         <ResetPassword />
         <br />
-        &nbsp; &nbsp;
         <a onClick={() => onClickForgotPassword()} href='#!'>
-          {' '}
+          
           back to login
         </a>
       </div>
     )
   }
+  
   if (isAuthenticated) {
     if (showInfo) {
       return (

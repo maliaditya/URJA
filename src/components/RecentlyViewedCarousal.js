@@ -45,10 +45,7 @@ const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
 
         <div className='trending'>
           {location.pathname === '/product' ? (
-            <Carousel
-              responsive={responsive}
-              removeArrowOnDeviceType={['tablet', 'mobile']}
-            >
+            <Carousel responsive={responsive}>
               {recentlyViewed
                 .splice(0, recentlyViewed.length - 1)
                 .map((item, index) => {
@@ -79,10 +76,7 @@ const RecentlyViewedCarousal = ({ recentlyViewed, current_item_added }) => {
                 })}
             </Carousel>
           ) : (
-            <Carousel
-              responsive={responsive}
-              removeArrowOnDeviceType={['tablet', 'mobile']}
-            >
+            <Carousel responsive={responsive}>
               {recentlyViewed.map((item, index) => {
                 return (
                   <article key={index}>

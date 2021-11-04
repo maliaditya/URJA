@@ -3,12 +3,14 @@ const SignupInfo = () => {
   return (
     <section className='container' style={{ padding: '10vh' }}>
       <div className='jumbotron'>
-        <h3>Thank you for signing up for a URJA account!</h3>
-        <p className='lead'>
-          Please verify your email address in order to access your URJA account.{' '}
+
+        <h4>Thank you for signing up for a URJA account!</h4>
+        <hr />
+        <p style={{fontSize:'1.5rem'}} >
+          Please <b> Verify Your Email </b> by clicking on the link you have received on your registerd email in order to access your URJA account.{' '}
         </p>
-        <hr className='my-4' />
       </div>
+      <button className="btn btn-info">Resend Activation Email</button>
     </section>
   )
 }

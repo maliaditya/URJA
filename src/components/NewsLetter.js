@@ -35,7 +35,7 @@ const NewsLetter = ({
     const config = {
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${access}`,
+        'Authorization': `Bearer ${access}`,
       },
     }
     const body = {

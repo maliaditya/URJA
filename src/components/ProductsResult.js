@@ -10,9 +10,13 @@ import {
   removeFromFavourites,
   checkAuthenticated,
   load_user,
+  itemSearchedOriginalArray,
+  itemSearched,
+  addPaginationInfo,
 } from '../actions/auth'
 import Rating from '@material-ui/lab/Rating'
 import Box from '@material-ui/core/Box'
+import axios from 'axios'
 
 const ProductResult = ({
   itemSearchedResult,
@@ -21,18 +25,42 @@ const ProductResult = ({
   removeFromFavourites,
   isAuthenticated,
   itemSearchedClear,
-
+  paginationData,
   user,
+  itemSearchedOriginalArray,
+  itemSearched,
+  addPaginationInfo,
 }) => {
   const setValues = (item) => {
     current_item_added(item, 'companyObject')
     itemSearchedClear()
   }
 
-  function onlyUnique(value, index, self) {
-    return self.indexOf(value) === index
+  const [newUniqueList, setNewUniqueList] = React.useState([])
+
+  React.useEffect(() => {
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index
+    }
+    setNewUniqueList(itemSearchedResult.filter(onlyUnique))
+  }, [itemSearchedResult])
+
+  const loadmore = async () => {
+    await axios
+      .get(paginationData.next, {
+        contentType: 'application/json',
+      })
+      .then((res) => {
+        console.log('nextdata', res.data)
+        addPaginationInfo(res.data.count, res.data.previous, res.data.next)
+        res.data.results.map((item) => {
+          itemSearchedOriginalArray(item)
+          itemSearched(item)
+          return 0
+        })
+        console.log('newUniqueList', newUniqueList)
+      })
   }
-  const newUniqueList = itemSearchedResult.filter(onlyUnique)
 
   if (isAuthenticated) {
     const userFavouriteProductsId = []
@@ -47,31 +75,59 @@ const ProductResult = ({
       return userFavouriteProductsIdAndProductID
     })
 
-    if (itemSearchedResult.length === 0) {
+    if (itemSearchedResult.length < 0) {
       return (
         <React.Fragment>
           <br />
-          <br />
-          <h4 style={{ textAlign: 'center', color: 'black' }} className='title'>
-            No results found.
+          <h4 id='searchresult' style={{ textAlign: 'center', color: 'black' }} className='title'>
+            No reuslts found...
           </h4>
+          <center
+            className='container'
+            style={{
+              borderRadius: '1rem',
+              background: '#eee',
+              margin: '0 auto',
+            }}
+          >
+            <h4 style={{ padding: '10rem' }}>
+              {' '}
+              Be the First Sell this product on Urja
+            </h4>
+          </center>
+          <br />
         </React.Fragment>
       )
     } else {
       return (
         <React.Fragment>
           <br />
-          <h4
-            style={{ textAlign: 'left', marginLeft: '9rem', color: 'black' }}
-            className='title'
-          >
-            About{' '}
-            {itemSearchedResult.filter((item) => item.approved === true).length}{' '}
-            results found...
-          </h4>
+          {itemSearchedResult.filter((item) => item.approved === 'Approved ')
+            .length === 0 ? (
+            <React.Fragment>
+              <center
+                className='container' id='searchresult' 
+                style={{ borderRadius: '1rem', background: '#eee' }}
+              >
+                <h4 style={{ padding: '10rem' }}>
+                  {' '}
+                  Be the First Sell this product on Urja
+                </h4>
+              </center>
+              <br />
+            </React.Fragment>
+          ) : (
+            <h4
+              style={{ textAlign: 'center', color: 'black' }}
+              className='title'
+            >
+               About {itemSearchedResult.length} results found...
+            </h4>
+          )}
+
           <br />
           {newUniqueList
-            .filter((item) => item.approved === true)
+            .filter((item) => item.approved === 'Approved ')
             .map((item, index) => {
               return (
                 <Wrapper key={index}>
@@ -83,12 +139,12 @@ const ProductResult = ({
                     />
                     <div className='header'>
                       <div className='head-title'>
+                        {console.log('itemSearchedResult', itemSearchedResult)}
                         <h5
                           onClick={() => setValues(item)}
                           className='itemname'
                           style={{
                             fontWeight: '700',
-                            width: '17rem',
                             color: 'black',
                           }}
                         >
@@ -101,7 +157,9 @@ const ProductResult = ({
                             }}
                           >
                             {' '}
-                            {item.name}{' '}
+                            {item.name.length > 40
+                              ? item.name.slice(0, 40) + '...'
+                              : item.name}
                           </Link>
                         </h5>
                         <section>
@@ -126,7 +184,25 @@ const ProductResult = ({
                       </div>
 
                       <div className='desc'>
-                        <p>{item.details.slice(0, 90)}...</p>
+                          {item.details.length > 90?
+
+                    <p>{item.details.slice(0, 90)}...</p>:
+                     <p>{item.details} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   </p>
+                    }
                         <div className='rating'>
                           <Box
                             component='fieldset'
@@ -143,7 +219,14 @@ const ProductResult = ({
                           .0 &nbsp; | &nbsp; {item.reviews.length} ratings
                         </div>
                         <div className='price'>
-                          <p> ₹ {item.price}</p>
+                           {parseInt(item.discount)!==0?
+                      <h6 style={{ fontSize: '1rem' }}>
+                      ₹{ parseInt(item.price)-(parseInt(item.price)*parseInt(item.discount)/100)} &nbsp;
+                      <s style={{ fontSize: '0.8rem' }}>₹ {item.price}</s> &nbsp;
+                      <b style={{color:'green', fontSize: '0.8rem'}}>{item.discount}% off</b> &nbsp;  </h6>:
+                      <h6 style={{ fontSize: '1rem' }}>₹ {item.price}&nbsp;
+                       </h6>
+                    }
                           {item.in_stock ? (
                             <p
                               className='instock'
@@ -357,12 +440,23 @@ const ProductResult = ({
                       </div>
                     </div>
                   </div>
+
                   <br />
+
                   <br />
                   <br />
                 </Wrapper>
               )
             })}
+          <center>
+            {paginationData.next !== null ? (
+              <button onClick={() => loadmore()} className='btn btn-secondary'>
+                Load More
+              </button>
+            ) : (
+              ''
+            )}
+          </center>
         </React.Fragment>
       )
     }
@@ -381,11 +475,11 @@ const ProductResult = ({
             style={{ textAlign: 'left', marginLeft: '9rem', color: 'black' }}
             className='title'
           >
-            About {itemSearchedResult.length} results found.
+            About {itemSearchedResult.length} results found...
           </h4>
           <br />
           {itemSearchedResult
-            .filter((item) => item.approved === true)
+            .filter((item) => item.approved === 'Approved ')
             .map((item, index) => {
               return (
                 <Wrapper key={index}>
@@ -397,11 +491,10 @@ const ProductResult = ({
                     />
                     <div className='header'>
                       <div className='head-title'>
-                        <h5
-                          className='itemname'
-                          style={{ fontWeight: '700', width: '16rem' }}
-                        >
-                          {item.name}
+                        <h5 className='itemname' style={{ fontWeight: '700' }}>
+                          {item.name.length > 40
+                            ? item.name.slice(0, 40) + '...'
+                            : item.name}
                         </h5>
                       </div>
                       <div className='desc'>
@@ -453,6 +546,15 @@ const ProductResult = ({
                 </Wrapper>
               )
             })}
+          <center>
+            {paginationData.next !== null ? (
+              <button onClick={() => loadmore()} className='btn btn-secondary'>
+                Load More
+              </button>
+            ) : (
+              ''
+            )}
+          </center>
         </React.Fragment>
       )
     }
@@ -504,6 +606,7 @@ const Wrapper = styled.div`
     &__image {
       border-radius: 1rem 1rem 0rem 0rem;
       width: 20rem;
+      max-height:18rem;
       background-size: cover;
       display: block;
     }
@@ -547,6 +650,7 @@ const mapStateToProps = (state) => {
     user: JSON.parse(localStorage.getItem('user') || '[]'),
     currentItem: state.auth.currentItem,
     itemSearchedResult: state.auth.itemSearchedResult,
+    paginationData: state.auth.paginationData,
   }
 }
 
@@ -557,4 +661,7 @@ export default connect(mapStateToProps, {
   itemSearchedClear,
   addToFavourites,
   removeFromFavourites,
+  itemSearchedOriginalArray,
+  itemSearched,
+  addPaginationInfo,
 })(ProductResult)

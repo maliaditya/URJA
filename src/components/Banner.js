@@ -9,6 +9,8 @@ import {
   itemSearchedClear,
   itemSearchedOriginalArray,
   clearOriginalArray,
+  addproductNames,
+  addPaginationInfo,
 } from '../actions/auth'
 import { Redirect } from 'react-router-dom'
 
@@ -27,6 +29,8 @@ class Banner extends React.Component {
       trader: [],
       bachatGat: [],
       services: [],
+      productNames: [],
+      suggestions: [],
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,7 +44,7 @@ class Banner extends React.Component {
     const config = {
       headers: {
         'content-type': 'appliation/json',
-        // 'Authorization': `Bearer ${this.props.access}`
+        // ''Authorization'': `Bearer ${this.props.access}`
       },
     }
     await axios
@@ -124,15 +128,21 @@ class Banner extends React.Component {
       const config = {
         headers: {
           'content-type': 'appliation/json',
-          // 'Authorization': `Bearer ${this.props.access}`
+          // ''Authorization'': `Bearer ${this.props.access}`
         },
       }
       await axios
         .get(`${api}/api/product/?search=${keyword}`, config)
         .then((res) => {
           this.setState({ ...this.state, setSearchResultItems: res.data })
+          this.props.addPaginationInfo(
+            res.data.count,
+            res.data.previous,
+            res.data.next
+          )
           clearOriginalArray()
-          res.data.map((item) => {
+          console.log('res.data', res.data)
+          res.data.results.map((item) => {
             this.props.itemSearched(item, keyword)
             this.props.itemSearchedOriginalArray(item)
             return 0
@@ -154,7 +164,7 @@ class Banner extends React.Component {
       const config = {
         headers: {
           'content-type': 'appliation/json',
-          // 'Authorization': `Bearer ${this.props.access}`
+          // ''Authorization'': `Bearer ${this.props.access}`
         },
       }
       await axios
@@ -164,10 +174,17 @@ class Banner extends React.Component {
           Category
         )
         .then((res) => {
+          this.props.addPaginationInfo(
+            res.data.count,
+            res.data.previous,
+            res.data.next
+          )
+          console.log('product categories', res.data)
           this.setState({ setSearchResultItems: res.data })
-          res.data.map((item) => {
+          res.data.results.map((item) => {
             return this.props.itemSearched(item)
           })
+          console.log('product categories', res.data)
           if (this.props.itemSearchedResult.length === 0) {
             return alert('No search results found')
           }
@@ -181,6 +198,15 @@ class Banner extends React.Component {
   }
 
   handleChange(event) {
+    let matches = []
+    if (event.target.value.length > 0) {
+      matches = this.state.productNames.filter((prod) => {
+        const regex = new RegExp(`${event.target.value}`, 'gi')
+        return prod.name.match(regex)
+      })
+    }
+    console.log('match', matches)
+    this.setState({ suggestions: matches })
     this.setState({ [event.target.name]: event.target.value })
   }
 
@@ -189,7 +215,27 @@ class Banner extends React.Component {
     this.fetchSearchResults(this.state.searchItem)
   }
 
+  fetchProductNames = async () => {
+    const config = {
+      headers: {
+        'content-type': 'appliation/json',
+        // ''Authorization'': `Bearer ${this.props.access}`
+      },
+    }
+    await axios
+      .get(`${api}/api/product_names/`, config)
+      .then((res) => {
+        this.setState({ productNames: res.data })
+        console.log('product_names', res.data)
+        res.data.map((item) => this.props.addproductNames(item))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   componentDidMount() {
+    this.fetchProductNames()
     this.fetchCategories()
   }
 
@@ -200,6 +246,13 @@ class Banner extends React.Component {
 
     return (
       <Wrapper className='content'>
+        <div className='marquee'>
+          <br />
+
+          <p>
+            Welcome to URJA, we will be happy to help you to grow your local business, you just have to register as a seller and we will take care of other things.
+          </p>
+        </div>
         <center>
           <div className='banner'>
             <p className='ttag'>Let us Know what you need..</p>
@@ -242,7 +295,7 @@ class Banner extends React.Component {
               <div className='container'>
                 <ul className='menu-main'>
                   <li>
-                    <div className='btn btn-warning'>
+                    <div className='btn btn-warning allbtn'>
                       All
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -423,6 +476,7 @@ class Banner extends React.Component {
                       className='search__container '
                     >
                       <input
+                        list='names'
                         onChange={(e) => this.handleChange(e)}
                         className='search__input '
                         name='searchItem'
@@ -430,6 +484,12 @@ class Banner extends React.Component {
                         type='text'
                         placeholder='Search'
                       />
+                      <datalist style={{ width: '50rem' }} id='names'>
+                        {this.state.suggestions &&
+                          this.state.suggestions.map((item, index) => (
+                            <option key={index} value={item.name}></option>
+                          ))}
+                      </datalist>
                     </form>
                   </li>
                 </ul>
@@ -443,6 +503,27 @@ class Banner extends React.Component {
 }
 
 const Wrapper = styled.article`
+
+.marquee {
+    width: 100%;
+
+	color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.marquee p {
+  	background-color:#fcc232;
+  color:black;
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 45s linear infinite;
+}
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
 
 
 $arrow-size:10px;
@@ -899,4 +980,6 @@ export default connect(mapStateToProps, {
   itemSearchedClear,
   itemSearchedOriginalArray,
   clearOriginalArray,
+  addproductNames,
+  addPaginationInfo,
 })(Banner)

@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+    
 }))
 
 function Nav({ logout, isAuthenticated, user, itemSearchedClear }) {
@@ -61,7 +62,7 @@ function Nav({ logout, isAuthenticated, user, itemSearchedClear }) {
             {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton> */}
-            <Typography variant='h6' className={classes.title}>
+            <Typography component={'div'} variant='h6' className={classes.title}>
               <Link to='/'>
                 <img
                   style={{ width: '100px', height: '40px' }}
@@ -109,6 +110,17 @@ function Nav({ logout, isAuthenticated, user, itemSearchedClear }) {
                   ) : (
                     <React.Fragment></React.Fragment>
                   )}
+                   <li>
+                     
+                    <h6
+                    
+                      className='sell btn  shadow-none'
+                      style={{borderRadius:'0.5rem', border:'1px solid grey'}}
+                      onClick={() => setModalLoginShow(true)}
+                    >
+                   Sell Your Product
+                    </h6>
+                  </li>
                   <li>
                     <button
                       className='buttonlogin'
@@ -131,6 +143,7 @@ function Nav({ logout, isAuthenticated, user, itemSearchedClear }) {
                       Sign up
                     </button>
                   </li>
+                  
                 </ul>
               </div>
             </NavContainer>
@@ -174,9 +187,8 @@ function Nav({ logout, isAuthenticated, user, itemSearchedClear }) {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Help</MenuItem>
-                <MenuItem onClick={handleClose}>FAQ</MenuItem>
-                <MenuItem onClick={handleClose}>Report</MenuItem>
+                <MenuItem onClick={handleClose}> <Link to='/help-center'> Help</Link></MenuItem>
+                <MenuItem onClick={handleClose}><Link to='/faqs'> FAQ</Link></MenuItem>
               </Menu>
             </div>
           </Toolbar>
@@ -189,7 +201,13 @@ function Nav({ logout, isAuthenticated, user, itemSearchedClear }) {
 }
 
 const NavContainer = styled.div`
-    
+.sell:hover{
+  color:white;
+  background-color:grey;
+}
+    .sell{
+      display:none;
+    }
  
   ul {
     list-style-type: none;
@@ -225,7 +243,7 @@ const NavContainer = styled.div`
   background-color: #ffc232; /* Green */
   border: none;
   border-radius: 8px;
-  margin-left: 20px;
+  margin-left: 1px;
   margin-top: 8px;
   color: black;
   text-align: center;
@@ -233,7 +251,7 @@ const NavContainer = styled.div`
   display: inline-block;
   font-size: 13px;
   font-weight: 700;
-  width: 69px;
+  width: 50px;
   height: 36px;
 }
 .buttonsignup {
@@ -241,7 +259,7 @@ const NavContainer = styled.div`
   border: none;
   border-radius: 8px;
   margin-top: 8px;
-  width: 69px;
+  width: 50px;
   height: 36px;
   font-weight: 700;
 
@@ -249,11 +267,14 @@ const NavContainer = styled.div`
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
+  font-size: 10px;
 }
 
 
 @media (min-width: 722px) {
+   .sell{
+      display:inline;
+    }
 
 .buttonlogin {
   background-color: #ffc232; /* Green */
@@ -323,6 +344,7 @@ const NavContainer = styled.div`
   }
 }
 `
+
 
 const mapStateToProps = (state) => {
   return {

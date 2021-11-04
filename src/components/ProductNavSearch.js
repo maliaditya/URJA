@@ -3,10 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-import InputBase from '@material-ui/core/InputBase'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import SearchIcon from '@material-ui/icons/Search'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import { AiOutlineHome } from 'react-icons/ai'
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md'
@@ -26,6 +24,7 @@ import {
   itemSearchedClear,
   itemSearchedOriginalArray,
   clearOriginalArray,
+  addPaginationInfo,
 } from '../actions/auth'
 const api = process.env.REACT_APP_API_URL
 
@@ -98,6 +97,8 @@ function PrimarySearchAppBar({
   isAuthenticated,
   itemSearchedOriginalArray,
   clearOriginalArray,
+  addPaginationInfo,
+  productNames,
   user,
 }) {
   const classes = useStyles()
@@ -107,7 +108,7 @@ function PrimarySearchAppBar({
   const [search, setSearchItem] = React.useState({
     searchItem: '',
   })
-
+  const [suggestions, setSuggestions] = React.useState([])
   const [searchResultItems, setSearchResultItems] = React.useState([])
   console.log(searchResultItems)
 
@@ -115,16 +116,17 @@ function PrimarySearchAppBar({
     const config = {
       headers: {
         'content-type': 'appliation/json',
-        // 'Authorization': `Bearer ${access}`
+        // ''Authorization'': `Bearer ${access}`
       },
     }
     await axios
       .get(`${api}/api/product/?search=${keyword}`, config)
       .then((res) => {
         console.log(res)
+        addPaginationInfo(res.data.count, res.data.previous, res.data.next)
         setSearchResultItems(res.data)
         clearOriginalArray()
-        res.data.map((item) => {
+        res.data.results.map((item) => {
           console.log('itemdata', item)
           itemSearchedOriginalArray(item)
           itemSearched(item)
@@ -142,12 +144,22 @@ function PrimarySearchAppBar({
       })
   }
 
-  const onChange = (e) => {
+  const onChange = (event) => {
+    let matches = []
+    if (event.target.value.length > 0) {
+      matches = productNames.filter((prod) => {
+        const regex = new RegExp(`${event.target.value}`, 'gi')
+        return prod.name.match(regex)
+      })
+    }
+    console.log('match', matches)
+    setSuggestions(matches)
     setSearchItem({
       ...search,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     })
   }
+
   const onSubmit = (e) => {
     e.preventDefault()
     fetchSearchResults(search.searchItem)
@@ -220,7 +232,7 @@ function PrimarySearchAppBar({
             </Link>
           </IconButton>
           <IconButton>
-            <Link to='/login'>
+            <Link to=''>
               <FiLogOut onClick={logout} style={{ color: 'black' }} size={30} />
             </Link>
           </IconButton>
@@ -253,7 +265,7 @@ function PrimarySearchAppBar({
         position='fixed'
       >
         <Toolbar>
-          <Typography variant='h6' className={classes.title}>
+          <Typography component={'div'} variant='h6' className={classes.title}>
             <Link to='/'>
               <img
                 style={{ width: '100px', height: '40px' }}
@@ -281,27 +293,27 @@ function PrimarySearchAppBar({
             </svg>
           </button> */}
           <form onSubmit={(e) => onSubmit(e)} className={classes.search}>
-            <div className={classes.searchIcon}>
+            {/* <div className={classes.searchIcon}>
               <SearchIcon />
-            </div>
+            </div> */}
 
-            <InputBase
-              style={{
-                color: 'black',
-                backgroundColor: 'rgba(196, 196, 196, 0.5)',
-                borderRadius: '5px',
-              }}
-              type='text'
-              placeholder='Search Products, Categories...'
-              name='searchItem'
-              value={search.searchItem}
-              onChange={(e) => onChange(e)}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <Wrapper>
+              <input
+                list='names'
+                onChange={(e) => onChange(e)}
+                className='search__input '
+                name='searchItem'
+                value={search.searchItem}
+                type='text'
+                placeholder='Search Products, Categories...'
+              />
+              <datalist style={{ width: '50rem' }} id='names'>
+                {suggestions &&
+                  suggestions.map((item, index) => (
+                    <option key={index} value={item.name}></option>
+                  ))}
+              </datalist>
+            </Wrapper>
           </form>
           <div className={classes.grow} />
           {isAuthenticated ? (
@@ -542,6 +554,7 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
     currentItem: state.auth.currentItem,
     itemSearchedResult: state.auth.itemSearchedResult,
+    productNames: state.auth.productNames,
   }
 }
 
@@ -552,10 +565,61 @@ export default connect(mapStateToProps, {
   logout,
   itemSearchedOriginalArray,
   clearOriginalArray,
+  addPaginationInfo,
 })(PrimarySearchAppBar)
 
 const Wrapper = styled.section`
-  @media (min-width: 1200px) {
-    margin-left: 13rem;
+.search__input {
+    padding: 10px 24px;
+
+    width: 30vh;
+    background-color: rgba(196, 196, 196, 0.5);
+    font-size: 14px;
+
+    color: #000000;
+
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: 95% center;
+    border-radius: 5px;
+    border: none;
+  }
+  @media (min-width: 400px) {
+    margin-left: 0vh;
+    .search__input {
+      width: 40vh;
+    }
+  }
+  @media (min-width: 720px) {
+    margin-left: 2vh;
+    .search__input {
+      width: 50vh;
+    }
+  }
+  @media (min-width: 1000px) {
+    margin-left: 5vh;
+    .search__input {
+      width: 40vh;
+    }
+  }
+  @media (min-width: 1160px) {
+    margin-left: 10vh;
+    .search__input {
+      width: 50vh;
+    }
+  }
+
+  @media (min-width: 1320px) {
+    margin-left: 10vh;
+    .search__input {
+      width: 80vh;
+    }
+
+  @media (min-width: 1700px) {
+    margin-left: 10vh;
+    .search__input {
+      width: 120vh;
+    }
   }
 `
