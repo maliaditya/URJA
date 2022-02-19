@@ -9,7 +9,7 @@ const Stock = () => {
      columns: [],
     rows:[]
   })
-  
+
   React.useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user') || '[]')
   const api = process.env.REACT_APP_API_URL
@@ -25,25 +25,70 @@ const Stock = () => {
      async function fetchData() {    
        await axios.get(url, config).then((result)=>{
       setData({
-         columns: [
-
-      {
-        label: 'Product',
-        field: 'product',
-        sort: 'asc',
-        width: 270
-      },
-     
-       {
-        label: 'Stock',
-        field: 'stock',
-        sort: 'asc',
-        width: 200
-      }
-     
-    
-    ],
-        rows:result.data})
+        columns: [
+          {
+            label: 'Product',
+            field: 'product',
+            sort: 'asc',
+            width: 270,
+          },
+          {
+            label: 'Product Type',
+            field: 'product_type',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Ordered',
+            field: 'quantity',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Delivered',
+            field: 'delivered',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Undelivered',
+            field: 'undelivered',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Generated',
+            field: 'generated',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Transfer In',
+            field: 'transfer_in',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Transfer Out',
+            field: 'transfer_out',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Sold',
+            field: 'sold',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Stock',
+            field: 'stock',
+            sort: 'asc',
+            width: 200,
+          },
+        ],
+        rows: result.data,
+      })
       
     }).catch((err)=>{
       console.log(err)
@@ -56,6 +101,10 @@ const Stock = () => {
 
 
   return (
+    <div>
+      <br/>
+      <h4>My Stock</h4>
+      <hr/>
     <MDBDataTable className='mt-3'
       responsive
       bordered
@@ -63,7 +112,8 @@ const Stock = () => {
       entriesLabel
       dark
       data={data}
-    />
+      />
+      </div>
   );
 }
 

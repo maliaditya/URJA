@@ -26,40 +26,41 @@ const OrderDetails = () => {
      async function fetchData() {        
        await axios.get(url, config).then((result)=>{
       setData({
-         columns: [
-      {
-        label: 'Order',
-        field: 'order',
-        sort: 'asc',
-        width: 150
-      },
-      {
-        label: 'Product',
-        field: 'product',
-        sort: 'asc',
-        width: 270
-      },
-      {
-        label: 'Quantity ',
-        field: 'quantity',
-        sort: 'asc',
-        width: 200
-      },  {
-        label: 'Amount/Product',
-        field: 'price',
-        sort: 'asc',
-        width: 200
-      },
-        {
-        label: 'Total Amount',
-        field: 'total',
-        sort: 'asc',
-        width: 200
-      }
-      
-    
-    ],
-        rows:result.data})
+        columns: [
+          {
+            label: 'Order',
+            field: 'order',
+            sort: 'asc',
+            width: 150,
+          },
+          {
+            label: 'Product',
+            field: 'product',
+            sort: 'asc',
+            width: 270,
+          },
+          {
+            label: 'Quantity ',
+            field: 'quantity',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Amount/Product',
+            field: 'price',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Total Amount',
+            field: 'total',
+            sort: 'asc',
+            width: 200,
+          },
+        ],
+        rows: result.data,
+      })
+      console.log("is_generated",result.data)
       
     }).catch((err)=>{
       console.log(err)
@@ -72,6 +73,10 @@ const OrderDetails = () => {
 
 
   return (
+    <div>
+      <br/>
+      <h4>Order Details</h4>
+      <hr/>
     <MDBDataTable className='mt-3'
       responsive
       bordered
@@ -79,7 +84,8 @@ const OrderDetails = () => {
       entriesLabel
       dark
       data={data}
-    />
+      />
+      </div>
   );
 }
 

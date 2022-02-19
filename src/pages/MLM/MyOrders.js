@@ -22,45 +22,46 @@ const MyOrders = () => {
       async function fetchData() {  
        await axios.get(url, config).then((result)=>{
       setData({
-         columns: [
-            {
-        label: 'Order No',
-        field: 'order_no',
-        sort: 'asc',
-        width: 150
-      },
-      {
-        label: 'Ordered From',
-        field: 'ordered_from',
-        sort: 'asc',
-        width: 150
-      },
-     {
-        label: 'Products Ordered',
-        field: 'order_detail',
-        sort: 'asc',
-        width: 200
-      },
-      {
-        label: 'Paid ',
-        field: 'is_paid',
-        sort: 'asc',
-        width: 200
-      },  {
-        label: 'Order Created',
-        field: 'get_created_at',
-        sort: 'asc',
-        width: 200
-      },
-       {
-        label: 'Total',
-        field: 'total_amount',
-        sort: 'asc',
-        width: 270
-      },
-    
-    ],
-        rows:result.data.results})
+        columns: [
+          {
+            label: 'Order No',
+            field: 'order_no',
+            sort: 'asc',
+            width: 150,
+          },
+          {
+            label: 'Ordered From',
+            field: 'ordered_from',
+            sort: 'asc',
+            width: 150,
+          },
+          {
+            label: 'Products Ordered',
+            field: 'order_detail',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Paid ',
+            field: 'is_paid',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Order Created',
+            field: 'get_created_at',
+            sort: 'asc',
+            width: 200,
+          },
+          {
+            label: 'Total',
+            field: 'total_amount',
+            sort: 'asc',
+            width: 270,
+          },
+        ],
+        rows: result.data.results,
+      })
       
     }).catch((err)=>{
       console.log(err)
@@ -73,7 +74,10 @@ const MyOrders = () => {
 
 
   return (
-
+<div>
+  <br/>
+<h4>My orders</h4>
+<hr/>
     <MDBDataTable className='mt-3'
       responsive
       bordered
@@ -81,7 +85,8 @@ const MyOrders = () => {
       entriesLabel
       dark
       data={data}
-    />
+      />
+      </div>
   );
 }
 

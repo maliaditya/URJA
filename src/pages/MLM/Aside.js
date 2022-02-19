@@ -11,16 +11,16 @@ import {
   SidebarFooter,
   SidebarContent,
 } from 'react-pro-sidebar'
-import { FaTachometerAlt, FaLaravel, FaCity, FaRegIdCard } from 'react-icons/fa'
+import { FaTachometerAlt, FaLaravel, FaRegIdCard, FaUserFriends } from 'react-icons/fa'
 import { VscActivateBreakpoints } from 'react-icons/vsc'
 import { GiPayMoney, GiEcology, GiRegeneration } from 'react-icons/gi'
-import { RiProductHuntLine, RiTeamFill } from 'react-icons/ri'
+import {  RiKeyFill, RiProductHuntLine, RiTeamFill } from 'react-icons/ri'
 import { BiTransferAlt, BiRupee } from 'react-icons/bi'
-import { ImTree } from 'react-icons/im'
+// import { ImTree } from 'react-icons/im'
 import { MdAccountBalance } from 'react-icons/md'
 import { checkAuthenticated, load_user } from '../../actions/auth'
 import { connect } from 'react-redux'
-import { IoLinkSharp, IoReorderThreeSharp } from 'react-icons/io5'
+import {  IoReorderThreeSharp } from 'react-icons/io5'
 const Aside = ({
   image,
   collapsed,
@@ -39,12 +39,15 @@ const Aside = ({
   handleTalukas,
   handleOrderDetails,
   handleCities,
+  handleSubProductStock,
+  handleBankDetails,
   handlePayouts,
   handleWeeklyPayouts,
   handleSale,
   handleStockTransfer,
   handleMyCustomers,
   handleViewProductsList,
+  handlePendingPayments,
   handleOrderForm,
   handleAdminPendingPayouts,
   handleAndroid,
@@ -54,6 +57,7 @@ const Aside = ({
   handleActiveDirect,
   handleTeam,
   handleManagers,
+  handleIntroducersRequest,
   handleLedger,
   handlePayments,
   handleRegisterUser,
@@ -63,6 +67,12 @@ const Aside = ({
   handleMember,
   checkAuthenticated,
   load_user,
+  handleIntroducers,
+  handleActivationKeys,
+  handleDistributers,
+  handleSubProductSale,
+  handleCreatePackage,
+handleCreatePackageProduct,
   user,
 }) => {
   user = JSON.parse(localStorage.getItem('user') || '[]')
@@ -70,7 +80,7 @@ const Aside = ({
   const intl = useIntl()
 
   try {
-    if (sellerDetails.active_seller[0].is_active && !sellerDetails.is_admin) {
+    if (sellerDetails.active_seller[0].is_active || sellerDetails.active_city[0].is_active || sellerDetails.active_member[0].is_active) {
       return (
         <ProSidebar
           // image={image ? sidebarBg : false}
@@ -116,9 +126,10 @@ const Aside = ({
                 icon={<RiTeamFill />}
               >
                 <MenuItem onClick={handleDirect}>Direct</MenuItem>
-                <MenuItem onClick={handleActiveDirect}> Active Direct</MenuItem>
+                <MenuItem onClick={handleDownline}> Downline </MenuItem>
+                {/* <MenuItem onClick={handleActiveDirect}> Active Direct</MenuItem>
                 <MenuItem onClick={handleTeam}>Team</MenuItem>
-                <MenuItem onClick={handleManagers}>Managers</MenuItem>
+                <MenuItem onClick={handleManagers}>Managers</MenuItem> */}
               </SubMenu>
               <SubMenu
                 // suffix={<span className="badge yellow">3</span>}
@@ -141,9 +152,11 @@ const Aside = ({
                   Profile
                   <Link to='/account' />
                 </MenuItem>
+
                 <MenuItem onClick={handleChangePassword}>
                   Change Password
                 </MenuItem>
+                <MenuItem onClick={handleBankDetails}>Bank Details</MenuItem>
               </SubMenu>
               <SubMenu title='Products & Orders' icon={<RiProductHuntLine />}>
                 <MenuItem onClick={handleMyOrders}>My Orders</MenuItem>
@@ -151,6 +164,20 @@ const Aside = ({
                 <MenuItem onClick={handleOrderForm}>Order Form</MenuItem>
                 <MenuItem onClick={handleStock}>Stock</MenuItem>
                 <MenuItem onClick={handleMySales}>My Sales</MenuItem>
+              </SubMenu>
+              <SubMenu title='Service Office' icon={<RiProductHuntLine />}>
+                <MenuItem onClick={handleIntroducers}>My Introducer</MenuItem>
+                <MenuItem onClick={handleDistributers}>
+                  My Service offices
+                </MenuItem>
+              </SubMenu>
+              <SubMenu title='Sub Products' icon={<RiProductHuntLine />}>
+                <MenuItem onClick={handleSubProductSale}>
+                  My SubProduct Sales
+                </MenuItem>
+                <MenuItem onClick={handleSubProductStock}>
+                  Allot Sub Product Key
+                </MenuItem>
               </SubMenu>
               <MenuItem onClick={handleSale} icon={<FaLaravel />}>
                 {' '}
@@ -163,20 +190,24 @@ const Aside = ({
                 {' '}
                 Generate Products
               </MenuItem>
-
               <MenuItem onClick={handleStockTransfer} icon={<BiTransferAlt />}>
                 {' '}
                 Stock Transfer{' '}
               </MenuItem>
+              <MenuItem onClick={handleActivationKeys} icon={<RiKeyFill />}>
+                {' '}
+                My Activation Keys{' '}
+              </MenuItem>
+              <MenuItem onClick={handlePurchase} icon={<IoReorderThreeSharp />}>
+                {' '}
+                Purchase{' '}
+              </MenuItem>
+
               <MenuItem onClick={handleRegisterUser} icon={<FaRegIdCard />}>
                 {' '}
                 Registration
               </MenuItem>
-              <MenuItem onClick={handleDownline} icon={<ImTree />}>
-                {' '}
-                Downline{' '}
-              </MenuItem>
-              <MenuItem icon={<IoLinkSharp />}> My links </MenuItem>
+              {/* <MenuItem icon={<IoLinkSharp />}> My links </MenuItem> */}
               <MenuItem icon={<GiEcology />}>
                 {' '}
                 Urja Ecommerce
@@ -257,14 +288,20 @@ const Aside = ({
               >
                 {intl.formatMessage({ id: 'dashboard' })}
               </MenuItem>
-
               <SubMenu
                 // suffix={<span className="badge yellow">3</span>}
                 title='Grant Activation Keys'
                 icon={<VscActivateBreakpoints />}
               >
-                <MenuItem onClick={handleAndroid}>Android Keys</MenuItem>
+                <MenuItem onClick={handleAndroid}>
+                  Generate Android Keys
+                </MenuItem>
+                <MenuItem onClick={handleSubProductStock}>
+                  {' '}
+                  Allot Android Key
+                </MenuItem>
               </SubMenu>
+
               {/* <SubMenu
             suffix={<span className="badge yellow">3</span>}
             title='My Team'
@@ -286,7 +323,16 @@ const Aside = ({
             <MenuItem onClick={handleMySales}>Points</MenuItem>
             <MenuItem onClick={handlePayments}>Payments</MenuItem>
           </SubMenu> */}
-
+              <SubMenu
+                // suffix={<span className="badge yellow">3</span>}
+                title='My Team'
+                icon={<RiTeamFill />}
+              >
+                <MenuItem onClick={handleDirect}>Direct</MenuItem>
+                <MenuItem onClick={handleDownline}> Downline </MenuItem>
+                {/* <MenuItem onClick={handleActiveDirect}> Active Direct</MenuItem>
+                <MenuItem onClick={handleTeam}>Team</MenuItem> */}
+              </SubMenu>
               <SubMenu
                 // suffix={<span className="badge yellow">3</span>}
                 title='Products & Orders'
@@ -295,8 +341,14 @@ const Aside = ({
                 <MenuItem onClick={handleAdminOrders}> Orders</MenuItem>
                 {/* <MenuItem  onClick={handleStock} >Customer Orders</MenuItem> */}
                 <SubMenu title='Products'>
+                  <MenuItem onClick={handleCreatePackage}>
+                    Add New Package
+                  </MenuItem>
                   <MenuItem onClick={handleAddProduct}>
                     Add New Product
+                  </MenuItem>
+                  <MenuItem onClick={handleCreatePackageProduct}>
+                    Add Sub Product
                   </MenuItem>
                   <MenuItem onClick={handleViewProductsList}>
                     All Products
@@ -304,7 +356,16 @@ const Aside = ({
                   {/* <MenuItem onClick={handleMySales}>Add Product Category</MenuItem> */}
                 </SubMenu>
               </SubMenu>
-              <SubMenu
+
+              <SubMenu title='Stock & Sales' icon={<RiProductHuntLine />}>
+                {/* <MenuItem onClick={handleMyOrders}>My Orders</MenuItem>
+                <MenuItem onClick={handleOrderDetails}>Detail Order</MenuItem>
+                <MenuItem onClick={handleOrderForm}>Order Form</MenuItem> */}
+                <MenuItem onClick={handleStock}>Stock</MenuItem>
+                <MenuItem onClick={handleMySales}>My Sales</MenuItem>
+              </SubMenu>
+
+              {/* <SubMenu
                 // suffix={<span className="badge yellow">3</span>}
                 title='Districts & Talukas'
                 icon={<FaCity />}
@@ -312,7 +373,7 @@ const Aside = ({
                 <MenuItem onClick={handleDistricts}>Districts</MenuItem>
                 <MenuItem onClick={handleTalukas}>Taluka</MenuItem>
                 <MenuItem onClick={handleCities}>Cites</MenuItem>
-              </SubMenu>
+              </SubMenu> */}
               <SubMenu
                 // suffix={<span className="badge yellow">3</span>}
                 title='Payouts & Payments'
@@ -323,6 +384,10 @@ const Aside = ({
                 <MenuItem onClick={handleAdminPendingPayouts}>
                   Pending Payouts
                 </MenuItem>
+                <MenuItem onClick={handlePendingPayments}>
+                  Pending Payments
+                </MenuItem>
+
                 {/* <MenuItem onClick={handleWeeklyPayouts}>Weekly Payouts</MenuItem> */}
                 {/* <MenuItem>My Sales</MenuItem> */}
               </SubMenu>
@@ -350,7 +415,6 @@ const Aside = ({
           </SubMenu> */}
               {/* <MenuItem onClick={handleSale} icon={<FaLaravel />}> Sale</MenuItem>
             <MenuItem onClick={handleStockTransfer} icon={<BiTransferAlt />}> Stock Transfer </MenuItem> */}
-
               {/* <MenuItem onClick={handleMyCustomers} icon={<IoIosPeople />}> My Customers </MenuItem> */}
               <SubMenu
                 // suffix={<span className="badge yellow">3</span>}
@@ -365,17 +429,35 @@ const Aside = ({
                 <MenuItem onClick={handleChangePassword}>
                   Change Password
                 </MenuItem>
+                <MenuItem onClick={handleBankDetails}>Bank Details</MenuItem>
               </SubMenu>
-
-              <MenuItem icon={<IoLinkSharp />}>
+              <MenuItem onClick={handleSale} icon={<FaLaravel />}>
+                {' '}
+                Sale
+              </MenuItem>
+              <MenuItem
+                onClick={handleGenerateProducts}
+                icon={<GiRegeneration />}
+              >
+                {' '}
+                Generate Products
+              </MenuItem>
+              <MenuItem onClick={handleStockTransfer} icon={<BiTransferAlt />}>
+                {' '}
+                Stock Transfer{' '}
+              </MenuItem>
+              <MenuItem
+                onClick={handleIntroducersRequest}
+                icon={<FaUserFriends />}
+              >
+                Introducers Request
+              </MenuItem>
+              {/* <MenuItem icon={<IoLinkSharp />}>
                 {' '}
                 My links
                 <Link to='/' />
-              </MenuItem>
-              <MenuItem onClick={handleDownline} icon={<ImTree />}>
-                {' '}
-                Downline
-              </MenuItem>
+              </MenuItem> */}
+
               <MenuItem onClick={handleRegisterUser} icon={<FaRegIdCard />}>
                 {' '}
                 Registration
@@ -473,8 +555,9 @@ const Aside = ({
             icon={<RiTeamFill />}
           >
             <MenuItem onClick={handleDirect}>Direct</MenuItem>
-            <MenuItem onClick={handleActiveDirect}> Active Direct</MenuItem>
-            <MenuItem onClick={handleTeam}>Team</MenuItem>
+            <MenuItem onClick={handleDownline}> Downline </MenuItem>
+            {/* <MenuItem onClick={handleActiveDirect}> Active Direct</MenuItem>
+            <MenuItem onClick={handleTeam}>Team</MenuItem> */}
           </SubMenu>
           <SubMenu
             // suffix={<span className="badge yellow">3</span>}
@@ -498,24 +581,32 @@ const Aside = ({
               <Link to='/account' />
             </MenuItem>
             <MenuItem onClick={handleChangePassword}>Change Password</MenuItem>
+            <MenuItem onClick={handleBankDetails}>Bank Details</MenuItem>
           </SubMenu>
-
+          {/* 
           <MenuItem icon={<IoLinkSharp />}>
             {' '}
             My links
             <Link to='/' />
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onClick={handleRegisterUser} icon={<FaRegIdCard />}>
             {' '}
             Registration
           </MenuItem>
+          <MenuItem
+            onClick={handleSubProductStock}
+            icon={<IoReorderThreeSharp />}
+          >
+            {' '}
+            Sub Product Stock{' '}
+          </MenuItem>
+          <MenuItem onClick={handleActivationKeys} icon={<RiKeyFill />}>
+            {' '}
+            My Activation Keys{' '}
+          </MenuItem>
           <MenuItem onClick={handlePurchase} icon={<IoReorderThreeSharp />}>
             {' '}
             Purchase{' '}
-          </MenuItem>
-          <MenuItem onClick={handleDownline} icon={<ImTree />}>
-            {' '}
-            Downline
           </MenuItem>
         </Menu>
       </SidebarContent>

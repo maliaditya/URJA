@@ -1,9 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import { RiShieldStarFill } from 'react-icons/ri'
 
-const Direct = () => {
-  const [myAllDirect, setMyAllDirect] = React.useState([])
+const Distributers = () => {
+  const [Distributers, setDistributers] = React.useState([])
   React.useEffect(() => {
     const api = process.env.REACT_APP_API_URL
     const user = JSON.parse(localStorage.getItem('user') || '[]')
@@ -15,12 +14,11 @@ const Direct = () => {
       },
     }
 
-    let url = `${api}/api/direct_members/?user=${sellerDetails.member_id}`
+    let url = `${api}/api/get_distributers/?member=${sellerDetails.member_id}`
     axios
       .get(url, config)
       .then((response) => {
-        console.log('mydirect', response.data.my_direct)
-        setMyAllDirect(response.data.my_direct)
+        setDistributers(response.data.distributers)
       })
       .catch((error) => {
         console.log(error)
@@ -30,32 +28,23 @@ const Direct = () => {
   return (
     <div>
       <br />
-      <h4>Direct : {myAllDirect.length}</h4>
+      <h4>Service office</h4>
       <hr />
       <table className='table'>
         <thead>
           <tr>
             <th scope='col'>#</th>
-            <th scope='col'>Badge</th>
-            <th scope='col'>Member Id</th>
             <th scope='col'>Name</th>
+            <th scope='col'>Is Active</th>
           </tr>
         </thead>
         <tbody>
-          {myAllDirect.map((direct, index) => {
+          {Distributers.map((item, index) => {
             return (
               <tr>
-                <th scope='row'>{index + 1}</th>
-                <td>
-                  {' '}
-                  {direct.is_active_member ? (
-                    <RiShieldStarFill size='20' color='#018E42' />
-                  ) : (
-                    <RiShieldStarFill size='20' color='#BF1A2F' />
-                  )}
-                </td>
-                <td>{direct.member_id}</td>
-                <td>{direct.name}</td>
+                <td>{index + 1}</td>
+                <td>{item.name}</td>
+                <td>{item.is_Active ? 'yes' : 'no'}</td>
               </tr>
             )
           })}
@@ -65,4 +54,4 @@ const Direct = () => {
   )
 }
 
-export default Direct
+export default Distributers

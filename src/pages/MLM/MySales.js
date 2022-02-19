@@ -57,6 +57,9 @@ const MySales = () => {
 
 
   return (
+    <div className='mt-4'>
+<h4>My Sales</h4>
+<hr/>
     <MDBDataTable className='mt-3'
       responsive
       bordered
@@ -64,7 +67,8 @@ const MySales = () => {
       entriesLabel
       dark
       data={data}
-    />
+      />
+      </div>
   );
 }
 

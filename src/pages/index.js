@@ -22,7 +22,9 @@ import Layout from './MLM/Layout'
 import Dashboard from './MLM/Dashboard'
 import BecomeMember from './BecomeMember'
 import MyLinks from './MyLinks'
+import Maintenance from './Maintenance'
 export {
+  Maintenance,
   MyLinks,
   BecomeMember,
   Dashboard,

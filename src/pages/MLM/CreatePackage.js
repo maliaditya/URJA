@@ -10,7 +10,7 @@ import _ from 'lodash'
 
 const api = process.env.REACT_APP_API_URL
 
-class AddProduct extends Component {
+class CreatePackage extends Component {
   constructor(props) {
     super(props)
 
@@ -18,7 +18,7 @@ class AddProduct extends Component {
       name: '',
       created_by: props.user.id,
       description: '',
-      is_published: false,
+      is_published: true,
       has_key: false,
       price: '',
       mrp: '',
@@ -32,9 +32,9 @@ class AddProduct extends Component {
       points_to_taluka_distributer: 0,
       points_to_buyer: '',
       is_package_product: false,
-      is_package: false,
-      add_package_product: 0,
-      quantity: 0,
+      is_package: true,
+      add_package_product: '',
+      quantity: '',
       packageProducts: [],
       products: [],
     }
@@ -71,9 +71,9 @@ class AddProduct extends Component {
       [e.target.id]: e.target.value,
     })
   }
-  toggleChange=()=>{
+  toggleChange = () => {
     this.setState({
-      is_published: !this.state.is_published
+      is_published: !this.state.is_published,
     })
   }
   handleRadioChange = (e) => {
@@ -201,74 +201,9 @@ class AddProduct extends Component {
 
     return (
       <div className='App' style={{ padding: '2rem' }}>
-        <h4>Add Product</h4>
+        <h4>Create Package</h4>
         <hr />
         <form onSubmit={this.handleSubmit}>
-          <label className='mb-2 '>Product Type</label>
-          <tbody>
-            <tr>
-              <td className='ml-10'>
-                <div className='radio'>
-                  <label>
-                    <input
-                      type='radio'
-                      value='member'
-                      id='member'
-                      onChange={this.handleRadioChange}
-                      checked={this.state.product_type === 'member'}
-                    />
-                    &nbsp; User
-                  </label>
-                </div>
-              </td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td className='ml-10' style={{ marginLeft: '20rem' }}>
-                <div className='radio'>
-                  <label>
-                    <input
-                      type='radio'
-                      value='seller'
-                      id='seller'
-                      onChange={this.handleRadioChange}
-                      checked={this.state.product_type === 'seller'}
-                    />
-                    &nbsp; Leader
-                  </label>
-                </div>
-              </td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
-              <td className='ml-10' style={{ marginLeft: '5rem' }}>
-                <div className='radio'>
-                  <label>
-                    <input
-                      type='radio'
-                      value='distributer'
-                      id='distributer'
-                      onChange={this.handleRadioChange}
-                      checked={this.state.product_type === 'distributer'}
-                    />
-                    &nbsp; Service Office
-                  </label>
-                </div>
-              </td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td className='ml-10' style={{ marginLeft: '20rem' }}>
-                <div className='radio'>
-                  <label>
-                    <input
-                      type='radio'
-                      value='other'
-                      id='other'
-                      onChange={this.handleRadioChange}
-                      checked={this.state.product_type === 'other'}
-                    />
-                    &nbsp; other
-                  </label>
-                </div>
-              </td>
-            </tr>
-          </tbody>
           <div>
             <label className='form-label'>Name * </label>
             <input
@@ -310,7 +245,49 @@ class AddProduct extends Component {
               required
             />
           </div>
+          <div className='mt-2'>
+            <label className='form-label'>Add Package Product *</label>
+            <select
+              style={{ width: '40vh' }}
+              className='form-select'
+              onChange={(e) =>
+                this.setState({ add_package_product: e.target.value })
+              }
+            >
+              <option>---Select ---</option>
+              {this.state.products
+                .filter((product) => product.is_package_product)
+                .map((product) => {
+                  return (
+                    <option
+                      // key={index}
+                      required
+                      id='category'
+                      value={product.id}
+                      // onChange={(e) => this.setState({ category: item.id })}
+                    >
+                      {' '}
+                      {product.name}
+                    </option>
+                  )
+                })}
+            </select>
+          </div>
 
+          <div className='mt-2'>
+            <label className='form-label'> Quantity *</label>
+            <input
+              type='number'
+              className='form-control'
+              style={{ width: '40rem' }}
+              placeholder='Quantity P '
+              id='quantity'
+              min='0'
+              value={this.state.quantity}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
           <div className='mt-2'>
             <label className='form-label'> MRP (₹) *</label>
             <input
@@ -379,14 +356,12 @@ class AddProduct extends Component {
               required
             />
           </div>
-
           <div className='mt-3 '>
             <input
               type='checkbox'
-              id='is_published'
+              id='level'
               min='0'
               defaultChecked={this.state.is_published}
-              value={this.state.is_published}
               onChange={this.toggleChange}
             />
             <label className='form-label'>&nbsp;Published </label>
@@ -423,7 +398,72 @@ class AddProduct extends Component {
               />
             </div>
           ))}
+          <label className='mb-2 '>Product Type</label>
+          <tbody>
+            <tr>
+              <td className='ml-10'>
+                <div className='radio'>
+                  <label>
+                    <input
+                      type='radio'
+                      value='member'
+                      id='member'
+                      onChange={this.handleRadioChange}
+                      checked={this.state.product_type === 'member'}
+                    />
+                    &nbsp; User
+                  </label>
+                </div>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td className='ml-10' style={{ marginLeft: '20rem' }}>
+                <div className='radio'>
+                  <label>
+                    <input
+                      type='radio'
+                      value='seller'
+                      id='seller'
+                      onChange={this.handleRadioChange}
+                      checked={this.state.product_type === 'seller'}
+                    />
+                    &nbsp; Leader
+                  </label>
+                </div>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
+              <td className='ml-10' style={{ marginLeft: '5rem' }}>
+                <div className='radio'>
+                  <label>
+                    <input
+                      type='radio'
+                      value='distributer'
+                      id='distributer'
+                      onChange={this.handleRadioChange}
+                      checked={this.state.product_type === 'distributer'}
+                    />
+                    &nbsp; Service Office
+                  </label>
+                </div>
+              </td>
+              <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+              <td className='ml-10' style={{ marginLeft: '5rem' }}>
+                <div className='radio'>
+                  <label>
+                    <input
+                      type='radio'
+                      value='other'
+                      id='other'
+                      onChange={this.handleRadioChange}
+                      checked={this.state.product_type === 'other'}
+                    />
+                    &nbsp; Service Office
+                  </label>
+                </div>
+              </td>
+            </tr>
+          </tbody>
           <button className='btn btn-warning mt-3' type='submit'>
             Save
           </button>
@@ -443,5 +483,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   load_user,
   checkAuthenticated,
-})(AddProduct)
-
+})(CreatePackage)

@@ -206,7 +206,7 @@ const AdminPayouts = () => {
           <br />
           <h4>orginal orders</h4>
           <hr />
-          <table class='table table-striped'>
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <th scope='col'>Product</th>
@@ -295,7 +295,7 @@ const AdminPayouts = () => {
       <br />
       <h2>admin payouts</h2>
       <hr />
-      <table class='table table-striped'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th scope='col'>Member</th>

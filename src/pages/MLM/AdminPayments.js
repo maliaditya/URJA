@@ -205,7 +205,7 @@ const AdminPayments = () => {
           <br />
           <h4>orginal orders</h4>
           <hr />
-          <table class='table table-striped'>
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <th scope='col'>Product</th>
@@ -293,9 +293,9 @@ const AdminPayments = () => {
     <div>
       <br />
       <h2>admin payments</h2>
-    
+
       <hr />
-      <table class='table table-striped'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th scope='col'>Member</th>
@@ -306,14 +306,14 @@ const AdminPayments = () => {
         </thead>
         <tbody>
           {data.map((item, index) => {
-            return  (
+            return (
               <tr key={index}>
                 <td>{item.member}</td>
                 <td>{item.payment}</td>
                 <td>{item.get_updated_at}</td>
                 <td>{item.description}</td>
               </tr>
-            ) 
+            )
           })}
         </tbody>
       </table>

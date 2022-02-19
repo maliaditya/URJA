@@ -35,6 +35,7 @@ import {
   REMOVE_FORM_FAVOURITES_FAIL,
   REMOVE_FORM_FAVOURITES_SUCCESS,
   USER_COMPANY_EXISTS_SUCCESS,
+  USER_MEMBER_ACCOUNT_EXISTS,
   USER_NEWSLETTER_EXISTS_SUCCESS,
   SEARCH_KEYWORD,
   ORIGINAL_SEARCHED_ARRAY,
@@ -128,6 +129,20 @@ export const userCompanyExits = (user) => async (dispatch) => {
   } else {
     dispatch({
       type: USER_COMPANY_EXISTS_SUCCESS,
+      payload: false,
+    })
+  }
+}
+
+export const userMemberAccountExists = (user) => async (dispatch) => {
+  if (user.seller_account.length !== 0) {
+    dispatch({
+      type: USER_MEMBER_ACCOUNT_EXISTS,
+      payload: true,
+    })
+  } else {
+    dispatch({
+      type: USER_MEMBER_ACCOUNT_EXISTS,
       payload: false,
     })
   }
@@ -262,7 +277,6 @@ export const currentItemCompanyUser = (userId) => async (dispatch) => {
     }
     try {
       const res = await axios.get(`${api}/api/account/${userId}/`, config)
-
       dispatch({
         type: ADD_CURRENT_ITEM_USER_SUCCESS,
         payload: res.data,
@@ -359,6 +373,7 @@ export const load_user = () => async (dispatch) => {
         payload: res.data,
       })
       dispatch(userCompanyExits(res.data))
+      dispatch(userMemberAccountExists(res.data))
       dispatch(userNewsLetterSuscribed(res.data))
     } catch (err) {
       dispatch({

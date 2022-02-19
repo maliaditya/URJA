@@ -132,11 +132,13 @@ class PersonalInfo extends React.Component {
     event.preventDefault()
     this.postAddressDetails()
   }
+  
   handleSubmitUpdateAddress(event) {
     console.log(this.state)
     event.preventDefault()
     this.patchAddressDetails()
   }
+
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem('user') || '[]')
     this.state.user.address.length === 0
@@ -222,7 +224,7 @@ class PersonalInfo extends React.Component {
             <br />
             <h5>
               Name: {this.state.first_name} {this.state.last_name}&nbsp;&nbsp;{' '}
-              <FaRegEdit onClick={() => this.setState({ edit: true })} />
+              {/* <FaRegEdit onClick={() => this.setState({ edit: true })} /> */}
             </h5>
           </React.Fragment>
         )}

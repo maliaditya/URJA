@@ -41,18 +41,21 @@ const Productdetailinfo = ({
       thumbnail: currentItem.front_image,
 
       thumbnailWidth: 10,
+      thumbnailHeight: 100,
     },
     {
       original: currentItem.back_image,
       thumbnail: currentItem.back_image,
 
       thumbnailWidth: 10,
+      thumbnailHeight: 100,
     },
-     {
+    {
       original: currentItem.extra_image,
       thumbnail: currentItem.extra_image,
 
       thumbnailWidth: 10,
+      thumbnailHeight: 100,
     },
   ]
 
@@ -221,6 +224,7 @@ const Productdetailinfo = ({
                     />
                   </svg>
                   &nbsp; {currentCompany.get_full_address}
+                  {console.log("copany details", currentCompany)}
                 </p>
                 <div className='crating'>
                   <Box component='fieldset' mb={0.5} borderColor='transparent'>

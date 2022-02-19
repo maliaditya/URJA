@@ -9,25 +9,113 @@ import axios from 'axios'
 const api = process.env.REACT_APP_API_URL
 const MyLinks = ({ user, signup, props }) => {
   const { id } = useParams()
-
   const [loading, setLoading] = useState(false)
+  // const [newMemberId, setNewMemberID] = useState('')
+  const [userName, setUserName] = useState('')
+  const [userID, setUserID] = useState('')
+  // const [location, setLocation] = useState([])
+  // const [talukaarr, setTalukaarr] = useState([])
+  // const [cityarr, setCityarr] = useState([])
+  const [userBool, setUserBool] = useState(true)
   const [accountCreated, setaccountCreated] = useState(false)
   const [accountCreatedCheck, setaccountCreatedCheck] = useState(true)
-  const [selleAccount, setSelleAccount] = useState({
-    sponser: id,
-    district: '',
-    taluka: '',
-    city: '',
-  })
+  // const [district, setDistrict] = useState('')
+  // const [taluka, setTaluka] = useState('')
+  // const [city, setCity] = useState('')
+  const [pinCode, setPinCode] = React.useState()
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
     email: '',
     phone: '',
-    password: `Mbw@${user.seller_account[0].member_id}`,
-    re_password: `Mbw@${user.seller_account[0].member_id}`,
+    password: `Mbw@12345678`,
+    re_password: `Mbw@12345678`,
     hide: '',
   })
+
+  // React.useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       'content-type': 'multipart/form-data',
+  //       Authorization: `Bearer ${localStorage.getItem('access')}`,
+  //     },
+  //   }
+
+  //   let url = `${api}/api/district/`
+  //   axios
+  //     .get(url, config)
+  //     .then((res) => {
+  //       setLocation(res.data)
+  //       console.log('MyLocation', res.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
+
+  // const handleLocation = (e) => {
+  //   setDistrict(location[e.target.value].district)
+
+  //   let talukaarra = location[e.target.value].district_taluka
+
+  //   setTalukaarr(talukaarra)
+  // }
+  // const handleTaluka = (e) => {
+  //   setTaluka(talukaarr[e.target.value].taluka)
+  //   let cityarra = talukaarr[e.target.value].taluka_city
+  //   setCityarr(cityarra)
+  // }
+  // const handleCity = (e) => {
+  //   setCity(cityarr[e.target.value].city)
+  //   console.log('city', city)
+  // }
+
+  const handleChange = (e) => {
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    }
+
+    setUserName(e.target.value)
+    if (userBool) {
+      let url = `${api}/api/name/?member=${e.target.value}`
+      axios
+        .get(url, config)
+        .then((res) => {
+          setUserName(res.data.member_name)
+          setUserID(res.data.member_id)
+          setUserBool(false)
+        })
+        .catch((err) => {
+        alert('invalid link')
+
+        })
+    }
+  }
+  React.useEffect(() => {
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    }
+    const fetch = async () => {
+      let url = `${api}/api/name/?member=${id}`
+      await axios
+       .get(url, config)
+  .then((res) => {
+    setUserName(res.data.member_name)
+    setUserID(res.data.member_id)
+    setUserBool(false)
+  })
+  .catch((err) => {
+    alert('invalid link')
+    
+  })
+    }
+fetch()
+    
+  }, [id])
 
   const { first_name, last_name, email, phone, password, re_password } =
     formData
@@ -38,34 +126,29 @@ const MyLinks = ({ user, signup, props }) => {
       [e.target.name]: e.target.value,
     })
 
-  const onLocChange = (e) =>
-    setSelleAccount({
-      ...selleAccount,
-      [e.target.name]: e.target.value,
-    })
-
   const createNewMember = (id) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
         Accept: 'application/json',
       },
     }
 
     const body = {
-      sponser_id: selleAccount.sponser,
-      taluka: selleAccount.taluka,
+      sponser_id: userID,
+      taluka: '',
       user: id,
-      district: selleAccount.district,
-      city: selleAccount.city,
+      district: '',
+      city: '',
+      pin_code: pinCode,
       is_admin: false,
       active_taluka: {
         is_active: false,
       },
       active_city: {
         is_active: false,
-        city: selleAccount.city,
+        city: '',
+        pin_code: pinCode,
       },
       active_district: {
         is_active: false,
@@ -81,7 +164,8 @@ const MyLinks = ({ user, signup, props }) => {
     axios
       .post(`${api}/api/member/`, body, config)
       .then((res) => {
-        console.log(res)
+        console.log('user_response', res.data.member_id)
+        // setNewMemberID(res.data.member_id)
         alert('Your member account has been successfully created')
         setLoading(false)
 
@@ -93,7 +177,6 @@ const MyLinks = ({ user, signup, props }) => {
         console.log(err)
       })
   }
-
   const handleSignUp = async (
     first_name,
     last_name,
@@ -237,19 +320,49 @@ const MyLinks = ({ user, signup, props }) => {
 
   return (
     <Wrapper>
-        <br />
+      <br />
       <section
         className='container'
-        style={{ padding: '2vh' ,border:'solid black 1px', borderRadius:'1rem'}}
-        >
-          <p>Registeration form</p>
+        style={{ paddingLeft: '5vh', paddingTop: '0vh' }}
+      >
+        <br />
+        <h4>Register New User</h4>
+        <hr />
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
-            <div className='password mt-1'>
-                
+            <div className=' ml-1'>
+              <label className='form-label'> Sponser Id </label>
+              {userBool ? (
+                <input
+                  style={{ width: '40vh' }}
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg: URJA8BE073'
+                  id='name'
+                  disabled
+                  value={userName}
+                  onChange={handleChange}
+                  required
+                />
+              ) : (
+                <input
+                  style={{ width: '40vh' }}
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg: URJA8BE073'
+                  id='name'
+                  disabled
+                  value={userName}
+                  onChange={handleChange}
+                  required
+                />
+              )}
+            </div>
+
+            {/* <div className='password mt-1'>
               <label className='form-label'>Spnonser</label>
               <input
-                className='form-control shadow-none '
+                className='form-control  '
                 placeholder='sponser id'
                 // disabled
                 name='sponser'
@@ -257,7 +370,8 @@ const MyLinks = ({ user, signup, props }) => {
                 onChange={(e) => onLocChange(e)}
                 required
               ></input>
-            </div>
+            </div> */}
+            <br />
             <label className='form-label'>First Name</label>
             <div className='name'>
               <input
@@ -307,14 +421,105 @@ const MyLinks = ({ user, signup, props }) => {
                 required
               ></input>
             </div>
-            <div className='password mt-1'>
+            {/* 
+            <div className=''>
+              <label className='form-label'>District *</label>
+              <select
+                style={{ width: '40vh' }}
+                className='form-select'
+                onChange={(e) => handleLocation(e)}
+              >
+                <option>---Select ---</option>
+                {location.map((item, index) => {
+                  console.log('itemmy', item)
+                  return (
+                    <option
+                      key={index}
+                      required
+                      id='category'
+                      value={index}
+                      onChange={(e) => handleLocation(e)}
+                    >
+                      {' '}
+                      {item.district}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+            <div className=''>
+              <label className='form-label'>Taluka *</label>
+              <select
+                style={{ width: '40vh' }}
+                className='form-select'
+                onChange={(e) => handleTaluka(e)}
+              >
+                <option>---Select ---</option>
+                {talukaarr.map((item, index) => {
+                  console.log('itemmy', item)
+                  return (
+                    <option
+                      key={index}
+                      required
+                      id='category'
+                      value={index}
+                      onChange={(e) => handleTaluka(e)}
+                    >
+                      {' '}
+                      {item.taluka}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+            {console.log(cityarr)}
+            <div className=''>
+              <label className='form-label'>City *</label>
+              <select
+                style={{ width: '40vh' }}
+                className='form-select'
+                onChange={(e) => handleCity(e)}
+              >
+                <option>---Select ---</option>
+                {cityarr.map((item, index) => {
+                  console.log('itemmy', item)
+                  return (
+                    <option
+                      key={index}
+                      required
+                      id='category'
+                      value={index}
+                      onChange={(e) => handleCity(e)}
+                    >
+                      {' '}
+                      {item.city}
+                    </option>
+                  )
+                })}
+              </select>
+            </div> */}
+            <div className='mt-2'>
+              <label className='form-label'> Pin Code</label>
+              <input
+                type='number'
+                className='form-control'
+                style={{ width: '40vh' }}
+                placeholder='Pin Code'
+                id='Pin Code'
+                min='0'
+                value={pinCode}
+                onChange={(e) => setPinCode(e.target.value)}
+                required
+              />
+            </div>
+            {/* <div className='password mt-1'>
               <label className='form-label'>District</label>
               <input
                 type='text'
                 className='form-control shadow-none'
                 placeholder='District'
                 name='district'
-                value={selleAccount.district}
+                value={district}
                 onChange={(e) => onLocChange(e)}
                 required
               ></input>
@@ -340,10 +545,16 @@ const MyLinks = ({ user, signup, props }) => {
                 onChange={(e) => onLocChange(e)}
                 required
               ></input>
-            </div>
-            <button type='submit' className='btn btn-warning'>
-              Register
-            </button>
+            </div> */}
+            {userBool ? (
+              <button type='submit' disabled className='btn btn-warning'>
+                Register
+              </button>
+            ) : (
+              <button type='submit' className='btn btn-warning'>
+                Register
+              </button>
+            )}
           </form>
         </div>
       </section>
@@ -351,7 +562,6 @@ const MyLinks = ({ user, signup, props }) => {
   )
 }
 const Wrapper = styled.section`
-
   .social {
     display: flex;
   }
@@ -515,5 +725,4 @@ const mapStateToProps = (state) => ({
   user: JSON.parse(localStorage.getItem('user') || '[]'),
   signupErrors: state.auth.signupErrors,
 })
-
 export default connect(mapStateToProps, { signup, addUserEmail })(MyLinks)

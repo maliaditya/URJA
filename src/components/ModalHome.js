@@ -20,7 +20,7 @@ function ModalHome(props) {
         </Modal.Header>
 
         <Modal.Body>
-          <p>
+          <h6>
             <b>
 
           Why Urja?
@@ -79,7 +79,7 @@ Thank You!
   </h4>
 </b>
 </center>
-</p>
+</h6>
           {/* <LoginPage /> */}
         </Modal.Body>
       </Modal>

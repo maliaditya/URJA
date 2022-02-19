@@ -1,70 +1,206 @@
 import React from 'react';
-import {  FaBars } from 'react-icons/fa';
+import {  FaBars, FaCrown } from 'react-icons/fa';
 import { connect } from 'react-redux'
+import axios from 'axios'
 import { FiLogOut } from 'react-icons/fi'
 import { checkAuthenticated, load_user,logout } from '../../actions/auth'
-import { RiShieldCheckFill ,RiShieldFill,RiShieldUserFill,RiShieldStarFill} from 'react-icons/ri';
+import {RiShieldStarFill} from 'react-icons/ri';
 const Main = ({handleToggleSidebar,componentValue,logout}) => {
+
+
    React.useEffect(() => {
       let title = 'URJA | MBW'
       document.title = title;
     });
+    
+    const [myAllDirect, setMyAllDirect] = React.useState('')
+    React.useEffect(() => {
+      const api = process.env.REACT_APP_API_URL
+      const user = JSON.parse(localStorage.getItem('user') || '[]')
+      const sellerDetails = user.seller_account[0]
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+        },
+      }
+
+      let url = `${api}/api/direct_members/?user=${sellerDetails.member_id}`
+      axios
+        .get(url, config)
+        .then((response) => {
+          console.log('mydirect', response.data.my_direct)
+          let a = 0;
+          
+          for(let i=0; i<response.data.my_direct.length; i++) {
+                    if( response.data.my_direct[i].is_active_member)
+                           a += 1
+          }
+          setMyAllDirect(a)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }, [])
+
 
     const user = JSON.parse(localStorage.getItem('user') || '[]')
-    const sellerDetails = user.seller_account[0]
-  try{
+    let sellerDetails = user.seller_account[0]
 
-    return (
-      <main style={{padding:"0px"}}>
-     <div>
-            <nav className="navbar navbar-light bg-light justify-content-between" style={{paddingRight:'50px',paddingBottom:"0px",marginRight:'auto'}}>
-               
-       <div style={{display:'flex'}}className="navbar-brand"> &nbsp;
-       <img src="https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg" alt="Avatar" style={{width:'50px',height:'50px',borderRadius:'50%'}}/> 
+  
+        return (
+          <main style={{ padding: '0px' }}>
+            <div>
+              <nav
+                className='navbar navbar-light bg-light justify-content-between'
+                style={{
+                  paddingRight: '50px',
+                  paddingBottom: '0px',
+                  marginRight: 'auto',
+                }}
+              >
+                <div style={{ display: 'flex' }} className='navbar-brand'>
+                  {' '}
+                  &nbsp;
+                  <img
+                    src='https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg'
+                    alt='Avatar'
+                    style={{
+                      width: '50px',
+                      height: '50px',
+                      borderRadius: '50%',
+                    }}
+                  />
+                  <div>
+                    {' '}
+                    &nbsp; Welcome, {user.first_name} {user.last_name} &nbsp;
+                    {myAllDirect >= 25 &&
+                    sellerDetails.active_seller[0].is_active ? (
+                      <FaCrown
+                        color='#DAA520'
+                        size='27'
+                        className='mb-2'
+                      ></FaCrown>
+                    ) : (
+                      ''
+                    )}
+                    <p
+                      style={{
+                        fontSize: '15px',
+                        paddingBottom: '0px',
+                        marginBottom: '0px',
+                      }}
+                    >
+                      &nbsp;&nbsp;
+                      {sellerDetails.is_admin &&
+                      sellerDetails.active_city[0].is_active &&
+                      sellerDetails.active_seller[0].is_active &&
+                      sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#454E9E' />
+                          <RiShieldStarFill size='27' color='#522B29' />
+                          <RiShieldStarFill size='27' color='#00487C' />
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        sellerDetails.active_city[0].is_active &&
+                        sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#522B29' />
+                          <RiShieldStarFill size='27' color='#00487C' />
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        !sellerDetails.active_city[0].is_active &&
+                        sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#00487C' />
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        !sellerDetails.active_city[0].is_active &&
+                        !sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : sellerDetails.is_admin &&
+                        !sellerDetails.active_city[0].is_active &&
+                        !sellerDetails.active_seller[0].is_active &&
+                        !sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#454E9E' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        !sellerDetails.active_city[0].is_active &&
+                        sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#00487C' />
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        sellerDetails.active_city[0].is_active &&
+                        !sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#454E9E' />
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        sellerDetails.active_city[0].is_active &&
+                        sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#522B29' />
+                          <RiShieldStarFill size='27' color='#00487C' />
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : !sellerDetails.is_admin &&
+                        !sellerDetails.active_city[0].is_active &&
+                        !sellerDetails.active_seller[0].is_active &&
+                        sellerDetails.active_member[0].is_active ? (
+                        <>
+                          <RiShieldStarFill size='27' color='#31572C' />
+                        </>
+                      ) : (
+                        <RiShieldStarFill size='27' color='#BF1A2F' />
+                      )}{' '}
+                      {sellerDetails.member_id}
+                    </p>
+                  </div>
+                </div>
+                <button className='btn'>
+                  <FiLogOut
+                    // onClick={() => itemSearchedClear()}
+                    onClick={logout}
+                    style={{ color: 'black' }}
+                    size={27}
+                  />
+                </button>
+                <div
+                  className='navbar-brand btn-toggle'
+                  onClick={() => handleToggleSidebar(true)}
+                >
+                  <FaBars />
+                </div>
+              </nav>
+            </div>
+            <div className='container' style={{ fontFamily: 'serif' }}>
+              {componentValue}
+            </div>
 
-    <div>  &nbsp;  Welcome, {user.first_name} {user.last_name}
-      <p style={{fontSize:'15px',paddingBottom:"0px",marginBottom:'0px'}}>&nbsp;&nbsp;
-      {
-        sellerDetails.is_admin?<RiShieldUserFill size='20' color='#eb6709'/>:
-      sellerDetails.active_seller[0].is_active?<RiShieldStarFill size='20' color='#17a2b8'/>:
-      sellerDetails.active_member[0].is_active? <RiShieldCheckFill size='20' color='#5fdba7'/>:
-      <RiShieldFill size='20' color='#d11a2a'/>}    {sellerDetails.member_id}
-      </p> 
-       </div>
-       
-       </div>
-      <button className='btn'>
+            <footer>
+              <small>
+                Copyright © {new Date().getFullYear()} URJA | All Rights
+                Reserved
+              </small>
+            </footer>
+          </main>
+        )
 
-      <FiLogOut
-                      // onClick={() => itemSearchedClear()}
-                      onClick={logout}
-                      style={{ color: 'black' }}
-                      size={30}
-                      />
-                      </button>
-                <div className="navbar-brand btn-toggle" onClick={() => handleToggleSidebar(true)}>
-        <FaBars />
-      </div>
-             </nav>
-        </div>
-     <div className='container' style={{fontFamily:'serif'}} >
-       {componentValue}
-     </div>
-    
-      <footer>
-        <small>
-        Copyright © {new Date().getFullYear()} URJA | All Rights Reserved 
-    
-        </small>
-       
-      </footer>
-    </main>
-  );
-}catch(err){
-  return(
-    <h1>{err}</h1>
-  )
-}
 };
 
 const mapStateToProps = (state) => {

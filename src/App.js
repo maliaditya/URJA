@@ -18,6 +18,7 @@ import {
   FAQ,
   HelpCenter,
   Reports,
+  Maintenance,
   TermsConditions,
   WhoAreWE,
   Dashboard,

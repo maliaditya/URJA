@@ -1,91 +1,81 @@
 import React from 'react'
+// import { MDBDataTable } from 'mdbreact';
+import { connect } from 'react-redux'
 import axios from 'axios'
 const AdminPendingPayouts = () => {
   const [data, setData] = React.useState([])
-  const [makePayment, setMakePayment] = React.useState(false)
-  const [amount, setamount] = React.useState()
-  const [details, setdetails] = React.useState()
-  let productsDelivery = []
-  const [orderDetaildata, setOrderdetailsData] = React.useState({
-    id: '',
-    name: '',
-    payout: '',
-    payment: '',
-    balance: '',
-  })
-
-  const Orderdetails = (id, name, payout, payment, balance) => {
-    setOrderdetailsData({
-      id: id,
-      name: name,
-      payout: payout,
-      payment: payment,
-      balance: balance,
-    })
-  }
-
-  const api = process.env.REACT_APP_API_URL
-  let url = `${api}/api/payout/`
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
-    },
-  }
-  async function fetchData() {
-    await axios
-      .get(url, config)
-      .then((result) => {
-        setData(result.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  const handleMakePayment = async (item) => {
-    setMakePayment(true)
-    Orderdetails(
-      item.id,
-      item.member,
-      item.payout,
-      item.payment,
-      item.payout - item.payment
-    )
-  }
-
-  const onSubmit = async () => {
-    console.log('productsDelivery', productsDelivery)
-
-    const api = process.env.REACT_APP_API_URL
-    let url = `${api}/api/payout/${orderDetaildata.id}/`
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access')}`,
-        Accept: 'application/json',
-      },
+  const [arrayData, setArrayData] = React.useState([])
+  const [breakOut, setBreakOut] = React.useState(false)
+  const [payoutDeclaringDate, setPayoutDeclaringDate] = React.useState('')
+  const clubed_payouts = (array) => {
+    //variable declarations
+    setData([{}])
+    let payout_data = []
+    let obj = {}
+    for (let i = 0; i < array.length; i++) {
+      if (
+        payout_data.find((o) => o.get_created_at === array[i].get_created_at)
+      ) {
+        continue
+      } else {
+        obj = {
+          member: array[i].member,
+          points: 0,
+          tds: 0,
+          std_deduction: 0,
+          payout: 0,
+          payment: 0,
+          declared: array[i].declared,
+          get_created_at: array[i].get_created_at,
+          created_at: array[i].created_at,
+        }
+        payout_data.push(obj)
+      }
     }
-    const body = {
-      payment: amount,
-      description: details,
-      declared: true,
+
+    //code
+    for (let i = 0; i < array.length; i++) {
+      if (
+        payout_data.find((o) => o.get_created_at === array[i].get_created_at)
+      ) {
+        obj = payout_data.find(
+          (o) => o.get_created_at === array[i].get_created_at
+        )
+        obj.points += parseFloat(array[i].points)
+        obj.payment = parseFloat(obj.payment) + parseFloat(array[i].payment)
+        obj.payout += parseFloat(array[i].payout)
+        obj.std_deduction = array[i].std_deduction
+        obj.tds = array[i].tds
+      }
+      //               else {
+      //                   obj = {
+      //                     member: array[i].member,
+      //                     points: parseInt(array[i].points),
+      //                     tds: array[i].tds,
+      //                     std_deduction: array[i].std_deduction,
+      //                     payout: parseInt(array[i].payout),
+      //                     payment: array[i].payment,
+      //                     declared: array[i].declared,
+      //                   }
+      //                   payout_data.push(obj)
+      //                   console.log('arary i = ', i, array[i].points)
+      //                   console.log('payout_data', payout_data)
+      // }
     }
-    await axios
-      .patch(url, body, config)
-      .then((result) => {
-        console.log(result.data)
-        alert('payment successful')
-        setOrderdetailsData(...{ payment: amount })
-        fetchData()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    console.log('payout_data', payout_data)
+    setData(payout_data)
   }
 
-  React.useEffect(() => {
+  const payout_break = (date, dateWithTimeZone) => {
+    setData([])
+    setPayoutDeclaringDate(dateWithTimeZone.split('T')[0])
+    setBreakOut(true)
+    setData(arrayData.filter((item) => item.get_created_at === date))
+  }
+  function refreshPage() {
+    setBreakOut(false)
+
+    // const user = JSON.parse(localStorage.getItem('user') || '[]')
     const api = process.env.REACT_APP_API_URL
     let url = `${api}/api/payout/`
     const config = {
@@ -99,129 +89,200 @@ const AdminPendingPayouts = () => {
       await axios
         .get(url, config)
         .then((result) => {
-          setData(result.data)
+          clubed_payouts(result.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      await axios
+        .get(url, config)
+        .then((result) => {
+          const res = result.data
+          setArrayData(res)
         })
         .catch((err) => {
           console.log(err)
         })
     }
     fetchData()
-  }, [])
-
-  if (makePayment) {
-    return (
-      <div>
-        <br />
-        <p style={{ margin: '0px' }}>Customer : {orderDetaildata.name}</p>
-        <p style={{ margin: '0px' }}>Payout : {orderDetaildata.payout} </p>
-        <p style={{ margin: '0px' }}> Payment : {orderDetaildata.payment} </p>
-        <p style={{ margin: '0px' }}> Balance : {orderDetaildata.balance}</p>
-        <br />
-        <hr />
-        <br />
-        {orderDetaildata.balance !== 0 ? (
-          <div>
-            <h4>Make Payment</h4>
-            <table>
-              <tbody>
-                <tr>
-                  <th>
-                    <h6 style={{ marginRight: '30vh', fontWeight: '700' }}>
-                      &nbsp;{' '}
-                    </h6>
-                  </th>
-
-                  <th>
-                    <h6 style={{ fontWeight: '700' }}>&nbsp; </h6>
-                  </th>
-                </tr>
-
-                <tr className='mt-2'>
-                  <td>Amount</td>
-                  <td>
-                    <input
-                      type='number'
-                      name='quantity'
-                      min='0'
-                      value={amount}
-                      onChange={(e) => setamount(e.target.value)}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Payment details</td>
-                  <td>
-                    <input
-                      type='textbox'
-                      name='quantity'
-                      min='0'
-                      value={details}
-                      onChange={(e) => setdetails(e.target.value)}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          ''
-        )}
-        <br />
-        <button
-          type='submit'
-          className='btn btn-primary'
-          onClick={() => onSubmit()}
-        >
-          {' '}
-          Submit
-        </button>
-        &nbsp; &nbsp; &nbsp;
-        <button
-          className='btn btn-secondary'
-          onClick={() => setMakePayment(false)}
-        >
-          {' '}
-          back
-        </button>
-      </div>
-    )
   }
+
+  const declare_payout = () => {
+    const api = process.env.REACT_APP_API_URL
+    let url = `${api}/api/payout/dclr_pending_pyt/?date=${payoutDeclaringDate}`
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('access')}`,
+        Accept: 'application/json',
+      },
+    }
+    axios
+      .patch(url, config)
+      .then((result) => {
+        alert('Payout declared successfully')
+        refreshPage()
+      })
+      .catch((err) => alert('Payout declare Failed'))
+  }
+  React.useEffect(
+    () => {
+      // const user = JSON.parse(localStorage.getItem('user') || '[]')
+      const api = process.env.REACT_APP_API_URL
+      let url = `${api}/api/payout/`
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access')}`,
+          Accept: 'application/json',
+        },
+      }
+      async function fetchData() {
+        await axios
+          .get(url, config)
+          .then((result) => {
+            clubed_payouts(result.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        await axios
+          .get(url, config)
+          .then((result) => {
+            const res = result.data
+            setArrayData(res)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+      fetchData()
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    []
+  )
+
   return (
+    // <MDBDataTable className='mt-3'
+    //   responsive
+    //   bordered
+    //   small
+    //   entriesLabel
+    //   dark
+    //   data={data}
+    // />
     <div>
       <br />
-      <h2>admin pending payouts</h2>
-      <hr />
-      <table class='table table-striped'>
-        <thead>
-          <tr>
-            <th scope='col'>member</th>
-            <th scope='col'>payout</th>
-            <th scope='col'>payment</th>
-            <th scope='col'>balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => {
-            return !item.declared ? (
-              <tr key={index}>
-                <td>{item.member}</td>
-                <td>{item.payout}</td>
-                <td>{item.payment}</td>
-                <td>{item.payout - item.payment}</td>
-                <td>
-                  <a href='#!' onClick={() => handleMakePayment(item)}>
-                    Make a payment
-                  </a>
-                </td>
+
+      {!breakOut ? (
+        <div>
+          <h4 onClick={() => refreshPage()}>Admin Pending Payout </h4>
+          <hr />
+          <table className='table table-striped'>
+            <thead>
+              <tr>
+                <th scope='col'>Points</th>
+                <th scope='col'>TDS</th>
+                <th scope='col'>STD Deduction</th>
+                <th scope='col'>Payout</th>
+                <th scope='col'>Date</th>
               </tr>
-            ) : (
-              ''
-            )
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {data.map((item, index) => {
+                return !item.declared ? (
+                  <tr key={index}>
+                    <td>{item.points}</td>
+                    <td>{item.tds}</td>
+                    <td>{item.std_deduction}</td>
+                    <td>{Math.round(item.payout)}</td>
+                    <td>
+                      <a
+                        href='#!'
+                        onClick={() =>
+                          payout_break(item.get_created_at, item.created_at)
+                        }
+                      >
+                        {item.get_created_at}
+                      </a>
+                    </td>
+                  </tr>
+                ) : (
+                  ''
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>
+          <button
+            type='button'
+            className='btn btn-secondary'
+            onClick={() => refreshPage()}
+          >
+            Back
+          </button>{' '}
+          &nbsp;&nbsp;
+          <button
+            type='button'
+            className='btn btn-info'
+            onClick={() => declare_payout()}
+          >
+            Declare ALL
+          </button>
+          <hr />
+          <table className='table table-striped'>
+            <thead>
+              <tr>
+                <th scope='col'> Member</th>
+                <th scope='col'>Points</th>
+                <th scope='col'>TDS</th>
+                <th scope='col'>STD Deduction</th>
+                <th scope='col'>Payout</th>
+                <th scope='col'>Type</th>
+                <th scope='col'>From Member</th>
+                <th scope='col'>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => {
+                return !item.declared ? (
+                  <tr key={index}>
+                    <td>{item.member}</td>
+                    <td>{item.points}</td>
+                    <td>{item.tds}</td>
+                    <td>{item.std_deduction}</td>
+                    <td>{item.payout}</td>
+                    <td>{item.type}</td>
+                    <td>{item.from_member}</td>
+                    <td>
+                      <a
+                        href='#!'
+                        onClick={() =>
+                          payout_break(item.get_created_at, item.created_at)
+                        }
+                      >
+                        {item.get_created_at}
+                      </a>
+                    </td>
+                  </tr>
+                ) : (
+                  ''
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }
 
-export default AdminPendingPayouts
+const mapStateToProps = (state) => ({
+  user: JSON.parse(localStorage.getItem('user') || '[]'),
+})
+
+export default connect(mapStateToProps, {})(AdminPendingPayouts)

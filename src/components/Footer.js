@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { HashLink } from 'react-router-hash-link'
-const Footer = ({ user, isAuthenticated ,seller_account}) => {
+const Footer = ({ user, isAuthenticated, currentUserMemberAccountExists }) => {
   user = JSON.parse(localStorage.getItem('user') || '[]')
   return (
     <Wrapper>
@@ -15,9 +15,22 @@ const Footer = ({ user, isAuthenticated ,seller_account}) => {
                 <h5 className='card-title'>Customer Service</h5>
                 <div className='card-text'>
                   <Link to='/help-center'> Help Center</Link>
-                   {isAuthenticated ? <React.Fragment>  <br /> <Link to='/faqs'> FAQ</Link></React.Fragment> : ''}
+                  {isAuthenticated ? (
+                    <React.Fragment>
+                      {' '}
+                      <br /> <Link to='/faqs'> FAQ</Link>
+                    </React.Fragment>
+                  ) : (
+                    ''
+                  )}
                   <br />
-                  <a target='blank' href='https://drive.google.com/file/d/12xltxO07cgp1EqITF8d6f9RAE31Ov7x8/view?usp=sharing'> Terms and Conditions</a>
+                  <a
+                    target='blank'
+                    href='https://drive.google.com/file/d/12xltxO07cgp1EqITF8d6f9RAE31Ov7x8/view?usp=sharing'
+                  >
+                    {' '}
+                    Terms and Conditions
+                  </a>
                   <br />
                   {isAuthenticated ? <Link to='/reports'> Reports</Link> : ''}
                 </div>
@@ -47,21 +60,19 @@ const Footer = ({ user, isAuthenticated ,seller_account}) => {
               <div className='card-body'>
                 <h5 className='card-title'>About Us</h5>
                 <div className='card-text'>
-                  <HashLink to='/who-r-we#underConst'>
-                    {' '}
-                    Who are we{' '}
-                  </HashLink>
+                  <HashLink to='/who-r-we#underConst'> Who are we </HashLink>
                   <br />
                   <HashLink to='/comming_soon#underConst'> Programs</HashLink>
                   <br />
-                  {isAuthenticated? user.seller_account.length !== 0?
-                  <HashLink to='/mbw'>
-                    Become a member
-                  </HashLink>:
-                   <HashLink to='/become-member'>
-                    Become a member
-                  </HashLink>:""
-                  }
+                  {isAuthenticated ? (
+                    !currentUserMemberAccountExists ? (
+                      <HashLink to='/become-member'>Become a member</HashLink>
+                    ) : (
+                      <HashLink to='/mbw'>Become a member</HashLink>
+                    )
+                  ) : (
+                    ''
+                  )}
                 </div>
               </div>
             </div>
@@ -70,16 +81,11 @@ const Footer = ({ user, isAuthenticated ,seller_account}) => {
             <div className='card'>
               <div className='card-body'>
                 <h5 className='card-title'>Contact Us</h5>
-                 <div className='card-text'>
-                  <a href='#!'>
-                   urja.customercare@gmail.com
-                  </a>
+                <div className='card-text'>
+                  <a href='#!'>urja.customercare@gmail.com</a>
                   <br />
-                 <a href='#!'>
-                   +91 8380000665
-                  </a>
+                  <a href='#!'>+91 8380000665</a>
                   <br />
-           
                 </div>
                 <iframe
                   title='map'
@@ -139,9 +145,8 @@ const Footer = ({ user, isAuthenticated ,seller_account}) => {
           <hr />
           <p style={{ color: 'var(--clr-grey-3)' }}>
             Copyright &#169; 2021 URJA | All Rights Reserved <br />
-             Developed by : The Source
+            Developed by : The Source
           </p>
-
         </center>
       </div>
     </Wrapper>
@@ -235,6 +240,7 @@ const mapStateToProps = (state) => {
     access: state.auth.access,
     user: state.auth.user,
     currentItem: state.auth.currentItem,
+    currentUserMemberAccountExists: state.auth.currentUserMemberAccountExists,
   }
 }
 

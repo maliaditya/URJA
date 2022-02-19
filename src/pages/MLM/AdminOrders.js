@@ -10,14 +10,17 @@ const AdminOrders = () => {
     orderno: '',
     createddate: '',
     amount: '',
+    is_paid: '',
   })
 
-  const Orderdetails = (name, orderno, createddate, amount) => {
+  const Orderdetails = (name, orderno, createddate, amount, is_paid) => {
+    console.log(name, orderno, createddate, amount, is_paid)
     setOrderdetailsData({
       name: name,
       orderno: orderno,
       createddate: createddate,
       amount: amount,
+      is_paid: is_paid,
     })
   }
 
@@ -68,9 +71,15 @@ const AdminOrders = () => {
       })
   }
 
-  const handleClickDelivery = async (order_no, name, createddate, amount) => {
+  const handleClickDelivery = async (
+    order_no,
+    name,
+    createddate,
+    amount,
+    is_paid
+  ) => {
     setDelivery(true)
-    Orderdetails(name, order_no, createddate, amount)
+    Orderdetails(name, order_no, createddate, amount, is_paid)
     const api = process.env.REACT_APP_API_URL
     let url = `${api}/api/order/${order_no}/`
     const config = {
@@ -119,20 +128,20 @@ const AdminOrders = () => {
       await axios
         .patch(url, body, config)
         .then((result) => {
-          console.log(result.data)
+          alert('Product Delivered Successfully')
         })
         .catch((err) => {
           console.log(err)
+          alert('Product Delivery Failed...!')
         })
     })
-    alert('Product Delivered Successfully')
-    console.log(productsDelivery)
 
     handleClickDelivery(
       orderDetaildata.orderno,
       orderDetaildata.name,
       orderDetaildata.createddate,
-      orderDetaildata.amount
+      orderDetaildata.amount,
+      orderDetaildata.is_paid
     )
 
     if (deliveryStatus) {
@@ -239,17 +248,32 @@ const AdminOrders = () => {
     return (
       <div>
         <br />
-        <p style={{ margin: '0px' }}>Sales person : {orderDetaildata.name}</p>
         <p style={{ margin: '0px' }}>
-          Order number : {orderDetaildata.orderno}{' '}
+          User: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;{' '}
+          {orderDetaildata.name}
         </p>
-        <p style={{ margin: '0px' }}> Date : {orderDetaildata.createddate} </p>
-        <p style={{ margin: '0px' }}> Amount : {orderDetaildata.amount}</p>
+        <p style={{ margin: '0px' }}>
+          Order No&nbsp;: &nbsp; {orderDetaildata.orderno}{' '}
+        </p>
+        <p style={{ margin: '0px' }}>
+          {' '}
+          Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;:&nbsp;{' '}
+          {orderDetaildata.createddate}{' '}
+        </p>
+        <p style={{ margin: '0px' }}>
+          {' '}
+          Amount&nbsp;&nbsp; :&nbsp; {orderDetaildata.amount}
+        </p>
+        <p style={{ margin: '0px' }}>
+          {' '}
+          Paid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;{' '}
+          {orderDetaildata.is_paid}
+        </p>
         <div>
           <br />
           <h4>orginal orders</h4>
           <hr />
-          <table class='table table-striped'>
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <th scope='col'>Product</th>
@@ -274,62 +298,74 @@ const AdminOrders = () => {
             </tbody>
           </table>
         </div>
-        <h4>Pending orders</h4>
-        <br />
-        <table>
-          <tbody>
-            <tr>
-              <th>
-                <h6 style={{ marginRight: '30vh', fontWeight: '700' }}>
-                  Product
-                </h6>
-              </th>
+        {orderDetaildata.is_paid === 'Yes' ? (
+          <div>
+            <h4>Pending orders</h4>
+            <br />
+            <table>
+              <tbody>
+                <tr>
+                  <th>
+                    <h6 style={{ marginRight: '30vh', fontWeight: '700' }}>
+                      Product
+                    </h6>
+                  </th>
 
-              <th>
-                <h6 style={{ fontWeight: '700' }}>Quantity</h6>
-              </th>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            {order.map((item, index) => {
-              return item.quantity - item.quantity_delivered !== 0 ? (
-                <tr className='mt-2'>
-                  <td>{item.product}</td>
-                  <td>
-                    <input
-                      type='number'
-                      name='quantity'
-                      // onClick={this.handleClick}
-                      min='0'
-                      onChange={(e) => handleQuantity(item, e)}
-                    />
-                  </td>
+                  <th>
+                    <h6 style={{ fontWeight: '700' }}>Quantity</h6>
+                  </th>
                 </tr>
-              ) : (
-                ''
-              )
-            })}
-          </tbody>
-        </table>
-        <br />
-        <button
-          type='submit'
-          className='btn btn-primary'
-          onClick={() => onSubmit()}
-        >
-          {' '}
-          Submit
-        </button>
-        &nbsp; &nbsp; &nbsp;
-        <button
-          className='btn btn-secondary'
-          onClick={() => setDelivery(false)}
-        >
-          {' '}
-          back
-        </button>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                </tr>
+                {order.map((item, index) => {
+                  return item.quantity - item.quantity_delivered !== 0 ? (
+                    <tr className='mt-2'>
+                      <td>{item.product}</td>
+                      <td>
+                        <input
+                          type='number'
+                          name='quantity'
+                          // onClick={this.handleClick}
+                          min='0'
+                          onChange={(e) => handleQuantity(item, e)}
+                        />
+                      </td>
+                    </tr>
+                  ) : (
+                    ''
+                  )
+                })}
+              </tbody>
+            </table>
+            <br />
+            <button
+              type='submit'
+              className='btn btn-primary'
+              onClick={() => onSubmit()}
+            >
+              {' '}
+              Submit
+            </button>
+            &nbsp; &nbsp; &nbsp;
+            <button
+              className='btn btn-secondary'
+              onClick={() => setDelivery(false)}
+            >
+              {' '}
+              back
+            </button>
+          </div>
+        ) : (
+          <button
+            className='btn btn-secondary'
+            onClick={() => setDelivery(false)}
+          >
+            {' '}
+            back
+          </button>
+        )}
       </div>
     )
   }
@@ -338,7 +374,7 @@ const AdminOrders = () => {
       <br />
       <h2>admin orders</h2>
       <hr />
-      <table class='table table-striped'>
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th scope='col'>Order No</th>
@@ -352,29 +388,33 @@ const AdminOrders = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{item.order_no}</td>
-                <td>{item.orded_by}</td>
-                <td>{item.total_amount}</td>
-                <td>
-                  {item.is_paid === 'No' ? (
-                    <div>
-                      {item.is_paid} &nbsp;
-                      <a href='#!' onClick={() => handleClick(item.order_no)}>
-                        Mark as paid
-                      </a>
-                    </div>
-                  ) : (
-                    'Yes'
-                  )}
-                </td>
-                <td>{item.get_created_at}</td>
-                <td>{item.order_detail}</td>
-                <td>{item.status}</td>
-                <td>
-                  {item.is_paid === 'Yes' ? (
+          {data
+            .filter(
+              (item) =>
+                item.delivery !== 'Transfered' && item.delivery !== 'Generated'
+            )
+            .map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{item.order_no}</td>
+                  <td>{item.orded_by}</td>
+                  <td>{item.total_amount}</td>
+                  <td>
+                    {item.is_paid === 'No' ? (
+                      <div>
+                        {item.is_paid} &nbsp;
+                        <a href='#!' onClick={() => handleClick(item.order_no)}>
+                          Mark as paid
+                        </a>
+                      </div>
+                    ) : (
+                      'Yes'
+                    )}
+                  </td>
+                  <td>{item.get_created_at}</td>
+                  <td>{item.order_detail}</td>
+                  <td>{item.status}</td>
+                  <td>
                     <div>
                       {' '}
                       {item.delivery}
@@ -385,21 +425,19 @@ const AdminOrders = () => {
                             item.order_no,
                             item.orded_by,
                             item.get_created_at,
-                            item.total_amount
+                            item.total_amount,
+                            item.is_paid
                           )
                         }
                       >
                         <br />
-                        Delivery
+                        Show
                       </a>
                     </div>
-                  ) : (
-                    item.delivery
-                  )}
-                </td>
-              </tr>
-            )
-          })}
+                  </td>
+                </tr>
+              )
+            })}
         </tbody>
       </table>
     </div>

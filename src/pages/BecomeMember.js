@@ -20,11 +20,86 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
     window.scrollTo(0, 0)
   }, [])
 
-  const [sponser, setSponser] = React.useState()
-  const [taluka, setTaluka] = React.useState()
-  const [district, setDistrict] = React.useState()
-  const [city, setCity] = React.useState()
+  // const [taluka, setTaluka] = React.useState()
+  // const [district, setDistrict] = React.useState()
+  const [pinCode, setPinCode] = React.useState()
+  // const [city, setCity] = React.useState()
   const [redirecter, setRedirecter] = React.useState(false)
+  const [userName, setUserName] = React.useState('')
+  const [userID, setUserID] = React.useState('')
+  // const [location, setLocation] = React.useState([])
+  // const [talukaarr, setTalukaarr] = React.useState([])
+  // const [cityarr, setCityarr] = React.useState([])
+  const [userBool, setUserBool] = React.useState(true)
+
+  // React.useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       'content-type': 'multipart/form-data',
+  //       Authorization: `Bearer ${localStorage.getItem('access')}`,
+  //     },
+  //   }
+
+  //   let url = `${api}/api/district/`
+  //   axios
+  //     .get(url, config)
+  //     .then((res) => {
+  //       setLocation(res.data)
+  //       console.log('MyLocation', res.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
+
+  // const handleLocation = (e) => {
+  //   setDistrict(location[e.target.value].district)
+
+  //   let talukaarra = location[e.target.value].district_taluka
+
+  //   setTalukaarr(talukaarra)
+  // }
+  // const handleTaluka = (e) => {
+  //   setTaluka(talukaarr[e.target.value].taluka)
+  //   let cityarra = talukaarr[e.target.value].taluka_city
+  //   setCityarr(cityarra)
+  // }
+  // const handleCity = (e) => {
+  //   setCity(cityarr[e.target.value].city)
+  //   console.log('city', city)
+  // }
+
+  const handleChange = (e) => {
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('access')}`,
+      },
+    }
+
+    setUserName(e.target.value)
+    if (userBool) {
+      let url = `${api}/api/name/?member=${e.target.value}`
+      axios
+        .get(url, config)
+        .then((res) => {
+          setUserName(res.data.member_name)
+          setUserID(res.data.member_id)
+          setUserBool(false)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  const clearForm = () => {
+    if (!userBool) {
+      setUserName('')
+      setUserID('')
+      setUserBool(false)
+    }
+  }
 
   const createNewMember = () => {
     const config = {
@@ -36,18 +111,20 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
     }
 
     const body = {
-      sponser_id: sponser,
-      taluka: taluka,
+      sponser_id: userID,
+      taluka: '',
       user: user.id,
-      district: district,
-      city: city,
+      district: '',
+      city: '',
+      pin_code: pinCode,
       is_admin: false,
       active_taluka: {
         is_active: false,
       },
       active_city: {
         is_active: false,
-        city: city,
+        city: '',
+        pin_code: pinCode,
       },
       active_district: {
         is_active: false,
@@ -74,27 +151,10 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
       })
   }
 
-  const onChange = (e) => {
-    setSponser(e.target.value)
-  }
-
-  const onTalukaChange = (e) => {
-    setTaluka(e.target.value)
-  }
-
-  const onDistrictChange = (e) => {
-    setDistrict(e.target.value)
-  }
-
-  const onCityChange = (e) => {
-    setCity(e.target.value)
-  }
-
   const onSubmit = (e) => {
     e.preventDefault()
     createNewMember()
-    setTaluka('')
-    setSponser('')
+    // setTaluka('')
   }
   if (redirecter) {
     return (
@@ -128,53 +188,137 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
           borderRadius: '1rem',
         }}
       >
-        <label htmlFor='sponser'>&nbsp;Sponser ID</label>
-        <input
-          name='sponser'
-          value={sponser}
-          onChange={(e) => onChange(e)}
-          required
-          type='text'
-          className='form-control shadow-none mt-1'
-          placeholder='Please Enter Sponser ID'
-        />
-        <label className='mt-2' htmlFor='sponser'>
-          &nbsp;District
-        </label>
-        <input
-          name='district'
-          value={district}
-          onChange={(e) => onDistrictChange(e)}
-          required
-          type='text'
-          className='form-control shadow-none mt-1'
-          placeholder='Please Enter Your District'
-        />
-        <label className='mt-2' htmlFor='sponser'>
-          &nbsp;Taluka
-        </label>
+        <div className=' ml-1'>
+          <label className='form-label'> Sponser Id </label>
+          {userBool ? (
+            <input
+              style={{ width: '40vh' }}
+              type='text'
+              className='form-control'
+              placeholder='Eg: URJA8BE073'
+              id='name'
+              value={userName}
+              onChange={handleChange}
+              required
+            />
+          ) : (
+            <input
+              style={{ width: '40vh' }}
+              type='text'
+              className='form-control'
+              placeholder='Eg: URJA8BE073'
+              id='name'
+              disabled
+              value={userName}
+              onChange={handleChange}
+              required
+            />
+          )}
+        </div>
 
-        <input
-          name='taluka'
-          value={taluka}
-          onChange={(e) => onTalukaChange(e)}
-          required
-          type='text'
-          className='form-control shadow-none mt-1'
-          placeholder='Please Enter Your Taluka'
-        />
-        <label className='mt-2' htmlFor='sponser'>
-          &nbsp;City
-        </label>
-        <input
-          name='city'
-          value={city}
-          onChange={(e) => onCityChange(e)}
-          required
-          type='text'
-          className='form-control shadow-none mt-1'
-          placeholder='Please Enter Your City'
-        />
+        <button
+          onClick={clearForm}
+          className=' btn-secondary mt-1 ml-1'
+          style={{
+            borderRadius: '0.3rem',
+            paddingLeft: '0.8rem',
+            paddingRight: '0.8rem',
+          }}
+        >
+          clear
+        </button>
+{/* 
+        <div className=''>
+          <label className='form-label'>District *</label>
+          <select
+            style={{ width: '40vh' }}
+            className='form-select'
+            onChange={(e) => handleLocation(e)}
+          >
+            <option>---Select ---</option>
+            {location.map((item, index) => {
+              console.log('itemmy', item)
+              return (
+                <option
+                  key={index}
+                  required
+                  id='category'
+                  value={index}
+                  onChange={(e) => handleLocation(e)}
+                >
+                  {' '}
+                  {item.district}
+                </option>
+              )
+            })}
+          </select>
+        </div>
+
+        <div className=''>
+          <label className='form-label'>Taluka *</label>
+          <select
+            style={{ width: '40vh' }}
+            className='form-select'
+            onChange={(e) => handleTaluka(e)}
+          >
+            <option>---Select ---</option>
+            {talukaarr.map((item, index) => {
+              console.log('itemmy', item)
+              return (
+                <option
+                  key={index}
+                  required
+                  id='category'
+                  value={index}
+                  onChange={(e) => handleTaluka(e)}
+                >
+                  {' '}
+                  {item.taluka}
+                </option>
+              )
+            })}
+          </select>
+        </div>
+        {console.log(cityarr)}
+        <div className=''>
+          <label className='form-label'>City *</label>
+          <select
+            style={{ width: '40vh' }}
+            className='form-select'
+            onChange={(e) => handleCity(e)}
+          >
+            <option>---Select ---</option>
+            {cityarr.map((item, index) => {
+              console.log('itemmy', item)
+              return (
+                <option
+                  key={index}
+                  required
+                  id='category'
+                  value={index}
+                  onChange={(e) => handleCity(e)}
+                >
+                  {' '}
+                  {item.city}
+                </option>
+              )
+            })}
+          </select>
+        </div> */}
+        <div className='mt-2'>
+          <label className='form-label'> Pin Code</label>
+          <input
+            type='number'
+            className='form-control'
+            style={{ width: '40vh' }}
+            placeholder='Pin Code'
+            id='Pin Code'
+            min='0'
+            value={pinCode}
+            onChange={(e)=>setPinCode(e.target.value)}
+            required
+          />
+        </div>
         <br />
         <button
           type='submit'

@@ -35,6 +35,16 @@ import AdminPayouts from './AdminPayouts'
 import AdminPendingPayouts from './AdminPendingPayouts'
 import AdminPayments from './AdminPayments'
 import GenerateProduct from './GenerateProduct'
+import ActivationKeys from './ActivationKeys'
+import IntroducersRequest from './IntroducersRequest'
+import CreatePackage from './CreatePackage'
+import CreatePackageProduct from './CreatePackageProduct'
+import SubProductStock from './SubProductStock'
+import BankDetails from './BankDetails'
+import PendingPayments from '../PendingPayments'
+import Introducers from './Introducers'
+import Distributers from './Distributers'
+import SubProductSale from './SubProductSale'
 function Layout({ setLocale }) {
   const [rtl, setRtl] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
@@ -191,6 +201,43 @@ function Layout({ setLocale }) {
    const handleGenerateProducts = () => {
      setComponentValue(<GenerateProduct />)
    }
+    const handleActivationKeys = () => {
+     setComponentValue(<ActivationKeys />)
+   }
+       const handleIntroducersRequest = () => {
+         setComponentValue(<IntroducersRequest />)
+       }
+
+       
+       
+  const handleSubProductStock = () => {
+    setComponentValue(<SubProductStock />)
+  }
+
+    const handleBankDetails = () => {
+      setComponentValue(<BankDetails />)
+    }      
+            
+            const handleCreatePackage = () => {
+              setComponentValue(<CreatePackage />)
+            }   
+            
+            const handleCreatePackageProduct = () => {
+              setComponentValue(<CreatePackageProduct />)
+            }
+  const handlePendingPayments=() => {
+    setComponentValue(<PendingPayments/>)
+  }
+  
+   const handleIntroducers = () => {
+     setComponentValue(<Introducers/>)
+   }
+      const handleSubProductSale = () => {
+        setComponentValue(<SubProductSale />)
+      }
+    const handleDistributers = () => {
+      setComponentValue(<Distributers/>) 
+    }
   return (
     <div className={`app ${rtl ? 'rtl' : ''} ${toggled ? 'toggled' : ''}`}>
       <Aside
@@ -233,6 +280,16 @@ function Layout({ setLocale }) {
         handleAdminPendingPayouts={handleAdminPendingPayouts}
         handleAdminPayments={handleAdminPayments}
         handleGenerateProducts={handleGenerateProducts}
+        handleActivationKeys={handleActivationKeys}
+        handleIntroducersRequest={handleIntroducersRequest}
+        handleCreatePackage={handleCreatePackage}
+        handleCreatePackageProduct={handleCreatePackageProduct}
+        handleSubProductStock={handleSubProductStock}
+        handleBankDetails={handleBankDetails}
+        handlePendingPayments={handlePendingPayments}
+        handleIntroducers={handleIntroducers}
+        handleDistributers={handleDistributers}
+        handleSubProductSale={handleSubProductSale}
       />
       <Main
         image={image}

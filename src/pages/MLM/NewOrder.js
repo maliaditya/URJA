@@ -12,6 +12,7 @@ class NewOrder extends Component {
     this.state = {
       products: [],
       total: 0,
+      product_type: 'member',
       admin: '',
     }
   }
@@ -102,6 +103,11 @@ class NewOrder extends Component {
       this.setState({ total: this.getTotal(this.MyCart) })
     }
   }
+  handleRadioChange = (e) => {
+    this.setState({
+      product_type: e.target.value,
+    })
+  }
 
   handleSubmit = async (e) => {
     e.preventDefault()
@@ -145,8 +151,103 @@ class NewOrder extends Component {
       )
     }
     return (
-      <div className='mt-5 ml-1'>
+      <div className='mt-4 ml-1'>
+        <h4>Order Form</h4>
+        <hr />
+        <br />
         <div className='row-fluid'>
+          <label
+            className='mb-2 '
+            style={{ marginRight: '30vh', fontWeight: '700' }}
+          >
+            Product Type
+          </label>
+          {this.props.user.seller_account[0].active_city[0].is_active ? (
+            <tbody>
+              <tr>
+                <td className='ml-10'>
+                  <div className='radio'>
+                    <label>
+                      <input
+                        type='radio'
+                        value='member'
+                        id='member'
+                        onChange={this.handleRadioChange}
+                        checked={this.state.product_type === 'member'}
+                      />
+                      &nbsp; User
+                    </label>
+                  </div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td className='ml-10' style={{ marginLeft: '20rem' }}>
+                  <div className='radio'>
+                    <label>
+                      <input
+                        type='radio'
+                        value='seller'
+                        id='seller'
+                        onChange={this.handleRadioChange}
+                        checked={this.state.product_type === 'seller'}
+                      />
+                      &nbsp; Leader
+                    </label>
+                  </div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td className='ml-10' style={{ marginLeft: '20rem' }}>
+                  <div className='radio'>
+                    <label>
+                      <input
+                        type='radio'
+                        value='other'
+                        id='other'
+                        onChange={this.handleRadioChange}
+                        checked={this.state.product_type === 'other'}
+                      />
+                      &nbsp; other
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody>
+              <tr>
+                <td className='ml-10'>
+                  <div className='radio'>
+                    <label>
+                      <input
+                        type='radio'
+                        value='member'
+                        id='member'
+                        onChange={this.handleRadioChange}
+                        checked={this.state.product_type === 'member'}
+                      />
+                      &nbsp; User
+                    </label>
+                  </div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                <td className='ml-10' style={{ marginLeft: '20rem' }}>
+                  <div className='radio'>
+                    <label>
+                      <input
+                        type='radio'
+                        value='other'
+                        id='other'
+                        onChange={this.handleRadioChange}
+                        checked={this.state.product_type === 'other'}
+                      />
+                      &nbsp; other
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          )}
+          <br />
           <table>
             <tbody>
               <tr>
@@ -169,27 +270,39 @@ class NewOrder extends Component {
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
-              {this.state.products.map((item, index) => {
-                return (
-                  <tr className='mt-2'>
-                    <td>{item.name}</td>
-                    <td>
-                      <h5>₹{item.Price}</h5>
-                    </td>
-                    <td>
-                      <input
-                        type='number'
-                        name='quantity'
-                        onClick={this.handleClick}
-                        min='0'
-                        onChange={(e) =>
-                          this.handleQuantity(item.name, item.Price, item.id, e)
-                        }
-                      />
-                    </td>
-                  </tr>
+              {this.state.products
+                .filter(
+                  (product) =>
+                    !product.published &&
+                    !product.is_package_product &&
+                    product.product_type === this.state.product_type
                 )
-              })}
+                .map((item, index) => {
+                  return (
+                    <tr className='mt-2'>
+                      <td>{item.name}</td>
+                      <td>
+                        <h5>₹{item.Price}</h5>
+                      </td>
+                      <td>
+                        <input
+                          type='number'
+                          name='quantity'
+                          onClick={this.handleClick}
+                          min='0'
+                          onChange={(e) =>
+                            this.handleQuantity(
+                              item.name,
+                              item.Price,
+                              item.id,
+                              e
+                            )
+                          }
+                        />
+                      </td>
+                    </tr>
+                  )
+                })}
               <tr>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>

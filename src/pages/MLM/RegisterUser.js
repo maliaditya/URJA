@@ -9,14 +9,20 @@ import axios from 'axios'
 const api = process.env.REACT_APP_API_URL
 const RegisterUser = ({ user, signup, props }) => {
   const [loading, setLoading] = useState(false)
+  const [newMemberId, setNewMemberID] = useState('')
+  const [userName, setUserName] = useState('')
+  const [userID, setUserID] = useState('')
+  // const [location, setLocation] = useState([])
+  // const [talukaarr, setTalukaarr] = useState([])
+  // const [cityarr, setCityarr] = useState([])
+  const [userBool, setUserBool] = useState(true)
   const [accountCreated, setaccountCreated] = useState(false)
   const [accountCreatedCheck, setaccountCreatedCheck] = useState(true)
-  const [selleAccount, setSelleAccount] = useState({
-    sponser: user.seller_account[0].member_id,
-    district: '',
-    taluka: '',
-    city: '',
-  })
+  // const [district, setDistrict] = useState('')
+  // const [taluka, setTaluka] = useState('')
+  // const [city, setCity] = useState('')
+
+  const [pinCode, setPinCode] = React.useState('')
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -27,18 +33,81 @@ const RegisterUser = ({ user, signup, props }) => {
     hide: '',
   })
 
+  // React.useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       'content-type': 'multipart/form-data',
+  //       Authorization: `Bearer ${localStorage.getItem('access')}`,
+  //     },
+  //   }
+
+  //   let url = `${api}/api/district/`
+  //   axios
+  //     .get(url, config)
+  //     .then((res) => {
+  //       setLocation(res.data)
+  //       console.log('MyLocation', res.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
+
+  // const handleLocation = (e) => {
+  //   setDistrict(location[e.target.value].district)
+
+  //   let talukaarra = location[e.target.value].district_taluka
+
+  //   setTalukaarr(talukaarra)
+  // }
+  // const handleTaluka = (e) => {
+  //   setTaluka(talukaarr[e.target.value].taluka)
+  //   let cityarra = talukaarr[e.target.value].taluka_city
+  //   setCityarr(cityarra)
+  // }
+  // const handleCity = (e) => {
+  //   setCity(cityarr[e.target.value].city)
+  //   console.log('city', city)
+  // }
+
+  const handleChange = (e) => {
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+        Authorization: `Bearer ${localStorage.getItem('access')}`,
+      },
+    }
+
+    setUserName(e.target.value)
+    if (userBool) {
+      let url = `${api}/api/name/?member=${e.target.value}`
+      axios
+        .get(url, config)
+        .then((res) => {
+          setUserName(res.data.member_name)
+          setUserID(res.data.member_id)
+          setUserBool(false)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
+  }
+
+  const clearForm = () => {
+    if (!userBool) {
+      setUserName('')
+      setUserID('')
+      setUserBool(true)
+    }
+  }
+
   const { first_name, last_name, email, phone, password, re_password } =
     formData
 
   const onChange = (e) =>
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
-    })
-
-  const onLocChange = (e) =>
-    setSelleAccount({
-      ...selleAccount,
       [e.target.name]: e.target.value,
     })
 
@@ -52,18 +121,20 @@ const RegisterUser = ({ user, signup, props }) => {
     }
 
     const body = {
-      sponser_id: selleAccount.sponser,
-      taluka: selleAccount.taluka,
+      sponser_id: userID,
+      taluka: '',
       user: id,
-      district: selleAccount.district,
-      city: selleAccount.city,
+      district: '',
+      city: '',
+      pin_code: pinCode,
       is_admin: false,
       active_taluka: {
         is_active: false,
       },
       active_city: {
         is_active: false,
-        city: selleAccount.city,
+        city: '',
+        pin_code: pinCode,
       },
       active_district: {
         is_active: false,
@@ -79,7 +150,8 @@ const RegisterUser = ({ user, signup, props }) => {
     axios
       .post(`${api}/api/member/`, body, config)
       .then((res) => {
-        console.log(res)
+        console.log('user_response', res.data.member_id)
+        setNewMemberID(res.data.member_id)
         alert('Your member account has been successfully created')
         setLoading(false)
 
@@ -88,7 +160,6 @@ const RegisterUser = ({ user, signup, props }) => {
       .catch((err) => {
         setLoading(false)
         alert('user Registeration failed')
-        console.log(err)
       })
   }
 
@@ -190,7 +261,6 @@ const RegisterUser = ({ user, signup, props }) => {
       </section>
     )
   }
-
   if (accountCreated) {
     return (
       <section className='container' style={{ padding: '10vh' }}>
@@ -202,6 +272,7 @@ const RegisterUser = ({ user, signup, props }) => {
             received on <b>{formData.email} </b>in order to access your URJA
             account.{' '}
           </p>
+          <h4>Member Id: {newMemberId}</h4>
           <h4>username:{formData.email}</h4>
           <h4>Password: {formData.password}</h4>
         </div>
@@ -238,9 +309,56 @@ const RegisterUser = ({ user, signup, props }) => {
         className='container'
         style={{ paddingLeft: '5vh', paddingTop: '0vh' }}
       >
+        <br />
+        <h4>Register New User</h4>
+        <hr />
+       <p style={{ backgroundColor:'yellow'}}>Note: Register button will get activated only when provided Sponser Id will be valid..!!!</p>
         <div className='formcontent'>
           <form onSubmit={(e) => onSubmit(e)}>
-            <div className='password mt-1'>
+            <div className=' ml-1'>
+              <label className='form-label'> Sponser Id </label>
+              {userBool ? (
+                <div>
+                  <input
+                    style={{ width: '40vh' }}
+                    type='text'
+                    autoComplete='nope'
+                    className='form-control'
+                    placeholder='Eg: URJA8BE073'
+                    id='name'
+                    value={userName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              ) : (
+                <input
+                  style={{ width: '40vh' }}
+                  type='text'
+                  className='form-control'
+                  placeholder='Eg: URJA8BE073'
+                  id='name'
+                  autoComplete='nope'
+                  disabled
+                  value={userName}
+                  onChange={handleChange}
+                  required
+                />
+              )}
+            </div>
+
+            <button
+              onClick={clearForm}
+              className=' btn-secondary mt-1 ml-1'
+              style={{
+                borderRadius: '0.3rem',
+                paddingLeft: '0.8rem',
+                paddingRight: '0.8rem',
+              }}
+            >
+              clear
+            </button>
+            {/* <div className='password mt-1'>
               <label className='form-label'>Spnonser</label>
               <input
                 className='form-control shadow-none '
@@ -251,7 +369,8 @@ const RegisterUser = ({ user, signup, props }) => {
                 onChange={(e) => onLocChange(e)}
                 required
               ></input>
-            </div>
+            </div> */}
+            <br />
             <label className='form-label'>First Name</label>
             <div className='name'>
               <input
@@ -301,14 +420,105 @@ const RegisterUser = ({ user, signup, props }) => {
                 required
               ></input>
             </div>
-            <div className='password mt-1'>
+            {/* 
+            <div className=''>
+              <label className='form-label'>District *</label>
+              <select
+                style={{ width: '40vh' }}
+                className='form-select'
+                onChange={(e) => handleLocation(e)}
+              >
+                <option>---Select ---</option>
+                {location.map((item, index) => {
+                  console.log('itemmy', item)
+                  return (
+                    <option
+                      key={index}
+                      required
+                      id='category'
+                      value={index}
+                      onChange={(e) => handleLocation(e)}
+                    >
+                      {' '}
+                      {item.district}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+            <div className=''>
+              <label className='form-label'>Taluka *</label>
+              <select
+                style={{ width: '40vh' }}
+                className='form-select'
+                onChange={(e) => handleTaluka(e)}
+              >
+                <option>---Select ---</option>
+                {talukaarr.map((item, index) => {
+                  console.log('itemmy', item)
+                  return (
+                    <option
+                      key={index}
+                      required
+                      id='category'
+                      value={index}
+                      onChange={(e) => handleTaluka(e)}
+                    >
+                      {' '}
+                      {item.taluka}
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+            {console.log(cityarr)}
+            <div className=''>
+              <label className='form-label'>City *</label>
+              <select
+                style={{ width: '40vh' }}
+                className='form-select'
+                onChange={(e) => handleCity(e)}
+              >
+                <option>---Select ---</option>
+                {cityarr.map((item, index) => {
+                  console.log('itemmy', item)
+                  return (
+                    <option
+                      key={index}
+                      required
+                      id='category'
+                      value={index}
+                      onChange={(e) => handleCity(e)}
+                    >
+                      {' '}
+                      {item.city}
+                    </option>
+                  )
+                })}
+              </select>
+            </div> */}
+            <div className='mt-2'>
+              <label className='form-label'> Pin Code</label>
+              <input
+                type='number'
+                className='form-control'
+                style={{ width: '40vh' }}
+                placeholder='Pin Code'
+                id='Pin Code'
+                min='0'
+                value={pinCode}
+                onChange={(e) => setPinCode(e.target.value)}
+                required
+              />
+            </div>
+            {/* <div className='password mt-1'>
               <label className='form-label'>District</label>
               <input
                 type='text'
                 className='form-control shadow-none'
                 placeholder='District'
                 name='district'
-                value={selleAccount.district}
+                value={district}
                 onChange={(e) => onLocChange(e)}
                 required
               ></input>
@@ -334,10 +544,16 @@ const RegisterUser = ({ user, signup, props }) => {
                 onChange={(e) => onLocChange(e)}
                 required
               ></input>
-            </div>
-            <button type='submit' className='btn btn-warning'>
-              Register
-            </button>
+            </div> */}
+            {userBool ? (
+              <button disabled type='submit' className='btn btn-warning'>
+                Register
+              </button>
+            ) : (
+              <button type='submit' className='btn btn-warning'>
+                Register
+              </button>
+            )}
           </form>
         </div>
       </section>

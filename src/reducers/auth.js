@@ -34,6 +34,7 @@ import {
   REMOVE_FORM_FAVOURITES_FAIL,
   REMOVE_FORM_FAVOURITES_SUCCESS,
   USER_COMPANY_EXISTS_SUCCESS,
+  USER_MEMBER_ACCOUNT_EXISTS,
   USER_NEWSLETTER_EXISTS_SUCCESS,
   SEARCH_KEYWORD,
   ORIGINAL_SEARCHED_ARRAY,
@@ -59,6 +60,7 @@ const initialState = {
   currentCompanyUser: localStorage.getItem('currentCompanyUser'),
   currentUserNewsLetter: false,
   currentUserCompanyExists: false,
+  currentUserMemberAccountExists:false,
   accountCreated: false,
   signupErrors: null,
   searchKeyword: null,
@@ -145,6 +147,11 @@ export default function foo(state = initialState, action) {
       return {
         ...state,
         currentUserCompanyExists: payload,
+      }
+    case USER_MEMBER_ACCOUNT_EXISTS:
+      return {
+        ...state,
+        currentUserMemberAccountExists: payload,
       }
     case REMOVE_FORM_FAVOURITES_SUCCESS:
       return {

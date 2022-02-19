@@ -47,11 +47,15 @@ const Signup = ({ signup, props, accountCreated }) => {
          addUserEmail(formData.email)
       } else {
         alert("Password don't match")
+        setLoading(false)
+
       }
     } else {
       alert(
         'Password must have aleast 8 characters, one uppercase & special Character '
       )
+        setLoading(false)
+
     }
   }
   const setLogin = () => {
