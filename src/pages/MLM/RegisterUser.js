@@ -33,42 +33,6 @@ const RegisterUser = ({ user, signup, props }) => {
     hide: '',
   })
 
-  // React.useEffect(() => {
-  //   const config = {
-  //     headers: {
-  //       'content-type': 'multipart/form-data',
-  //       Authorization: `Bearer ${localStorage.getItem('access')}`,
-  //     },
-  //   }
-
-  //   let url = `${api}/api/district/`
-  //   axios
-  //     .get(url, config)
-  //     .then((res) => {
-  //       setLocation(res.data)
-  //       console.log('MyLocation', res.data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }, [])
-
-  // const handleLocation = (e) => {
-  //   setDistrict(location[e.target.value].district)
-
-  //   let talukaarra = location[e.target.value].district_taluka
-
-  //   setTalukaarr(talukaarra)
-  // }
-  // const handleTaluka = (e) => {
-  //   setTaluka(talukaarr[e.target.value].taluka)
-  //   let cityarra = talukaarr[e.target.value].taluka_city
-  //   setCityarr(cityarra)
-  // }
-  // const handleCity = (e) => {
-  //   setCity(cityarr[e.target.value].city)
-  //   console.log('city', city)
-  // }
 
   const handleChange = (e) => {
     const config = {
@@ -79,7 +43,8 @@ const RegisterUser = ({ user, signup, props }) => {
     }
 
     setUserName(e.target.value)
-    if (userBool) {
+    setUserID(e.target.value)
+    if (userBool && e.target.value.length == 10) {
       let url = `${api}/api/name/?member=${e.target.value}`
       axios
         .get(url, config)
@@ -312,25 +277,24 @@ const RegisterUser = ({ user, signup, props }) => {
         <br />
         <h4>Register New User</h4>
         <hr />
-       <p style={{ backgroundColor:'yellow'}}>Note: Register button will get activated only when provided Sponser Id will be valid..!!!</p>
         <div className='formcontent'>
-          <form onSubmit={(e) => onSubmit(e)}>
+          <form autocomplete='off' onSubmit={(e) => onSubmit(e)}>
             <div className=' ml-1'>
               <label className='form-label'> Sponser Id </label>
+              <input
+                style={{ width: '40vh' }}
+                type='text'
+                className='form-control'
+                placeholder='Eg: URJA8BE073'
+                autoComplete='ofaf'
+                id='name'
+                value={userID}
+                onChange={handleChange}
+                required
+              />
+              <br />
               {userBool ? (
-                <div>
-                  <input
-                    style={{ width: '40vh' }}
-                    type='text'
-                    autoComplete='nope'
-                    className='form-control'
-                    placeholder='Eg: URJA8BE073'
-                    id='name'
-                    value={userName}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+                ''
               ) : (
                 <input
                   style={{ width: '40vh' }}
@@ -338,10 +302,10 @@ const RegisterUser = ({ user, signup, props }) => {
                   className='form-control'
                   placeholder='Eg: URJA8BE073'
                   id='name'
-                  autoComplete='nope'
+                  autoComplete='off'
                   disabled
                   value={userName}
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   required
                 />
               )}
@@ -358,18 +322,7 @@ const RegisterUser = ({ user, signup, props }) => {
             >
               clear
             </button>
-            {/* <div className='password mt-1'>
-              <label className='form-label'>Spnonser</label>
-              <input
-                className='form-control shadow-none '
-                placeholder='sponser id'
-                // disabled
-                name='sponser'
-                value={selleAccount.sponser}
-                onChange={(e) => onLocChange(e)}
-                required
-              ></input>
-            </div> */}
+
             <br />
             <label className='form-label'>First Name</label>
             <div className='name'>
@@ -378,6 +331,7 @@ const RegisterUser = ({ user, signup, props }) => {
                 className='form-control shadow-none'
                 placeholder='First Name'
                 name='first_name'
+                autoComplete='nope'
                 value={first_name}
                 onChange={(e) => onChange(e)}
                 required
@@ -399,6 +353,7 @@ const RegisterUser = ({ user, signup, props }) => {
                 type='email'
                 className='form-control shadow-none'
                 placeholder='Email'
+                autoComplete='nope'
                 name='email'
                 value={email}
                 onChange={(e) => onChange(e)}
@@ -411,6 +366,7 @@ const RegisterUser = ({ user, signup, props }) => {
               <input
                 maxLength={10}
                 pattern='\d{10}'
+                autoComplete='nope'
                 type='number'
                 className='form-control shadow-none'
                 placeholder='Phone No.'
@@ -420,83 +376,7 @@ const RegisterUser = ({ user, signup, props }) => {
                 required
               ></input>
             </div>
-            {/* 
-            <div className=''>
-              <label className='form-label'>District *</label>
-              <select
-                style={{ width: '40vh' }}
-                className='form-select'
-                onChange={(e) => handleLocation(e)}
-              >
-                <option>---Select ---</option>
-                {location.map((item, index) => {
-                  console.log('itemmy', item)
-                  return (
-                    <option
-                      key={index}
-                      required
-                      id='category'
-                      value={index}
-                      onChange={(e) => handleLocation(e)}
-                    >
-                      {' '}
-                      {item.district}
-                    </option>
-                  )
-                })}
-              </select>
-            </div>
-            <div className=''>
-              <label className='form-label'>Taluka *</label>
-              <select
-                style={{ width: '40vh' }}
-                className='form-select'
-                onChange={(e) => handleTaluka(e)}
-              >
-                <option>---Select ---</option>
-                {talukaarr.map((item, index) => {
-                  console.log('itemmy', item)
-                  return (
-                    <option
-                      key={index}
-                      required
-                      id='category'
-                      value={index}
-                      onChange={(e) => handleTaluka(e)}
-                    >
-                      {' '}
-                      {item.taluka}
-                    </option>
-                  )
-                })}
-              </select>
-            </div>
-            {console.log(cityarr)}
-            <div className=''>
-              <label className='form-label'>City *</label>
-              <select
-                style={{ width: '40vh' }}
-                className='form-select'
-                onChange={(e) => handleCity(e)}
-              >
-                <option>---Select ---</option>
-                {cityarr.map((item, index) => {
-                  console.log('itemmy', item)
-                  return (
-                    <option
-                      key={index}
-                      required
-                      id='category'
-                      value={index}
-                      onChange={(e) => handleCity(e)}
-                    >
-                      {' '}
-                      {item.city}
-                    </option>
-                  )
-                })}
-              </select>
-            </div> */}
+
             <div className='mt-2'>
               <label className='form-label'> Pin Code</label>
               <input
@@ -504,6 +384,7 @@ const RegisterUser = ({ user, signup, props }) => {
                 className='form-control'
                 style={{ width: '40vh' }}
                 placeholder='Pin Code'
+                autoComplete='nope'
                 id='Pin Code'
                 min='0'
                 value={pinCode}
@@ -511,40 +392,7 @@ const RegisterUser = ({ user, signup, props }) => {
                 required
               />
             </div>
-            {/* <div className='password mt-1'>
-              <label className='form-label'>District</label>
-              <input
-                type='text'
-                className='form-control shadow-none'
-                placeholder='District'
-                name='district'
-                value={district}
-                onChange={(e) => onLocChange(e)}
-                required
-              ></input>
-            </div>
-            <div className='password mt-1'>
-              <label className='form-label'>Taluka</label>
-              <input
-                className='form-control shadow-none'
-                placeholder='Taluka'
-                name='taluka'
-                value={selleAccount.taluka}
-                onChange={(e) => onLocChange(e)}
-                required
-              ></input>
-            </div>
-            <div className='password mt-1'>
-              <label className='form-label'>City</label>
-              <input
-                className='form-control shadow-none'
-                placeholder='City'
-                name='city'
-                value={selleAccount.city}
-                onChange={(e) => onLocChange(e)}
-                required
-              ></input>
-            </div> */}
+
             {userBool ? (
               <button disabled type='submit' className='btn btn-warning'>
                 Register

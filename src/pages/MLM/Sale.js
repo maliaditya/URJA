@@ -259,7 +259,7 @@ class Sales extends Component {
                     className='form-control'
                     placeholder='Eg: URJA8BE073'
                     id='name'
-                    autoComplete='off'
+                    autoComplete='ofaf'
                     value={this.state.userName}
                     onChange={this.handleChange}
                     required

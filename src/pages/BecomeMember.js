@@ -23,51 +23,11 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
   // const [taluka, setTaluka] = React.useState()
   // const [district, setDistrict] = React.useState()
   const [pinCode, setPinCode] = React.useState()
-  // const [city, setCity] = React.useState()
   const [redirecter, setRedirecter] = React.useState(false)
   const [userName, setUserName] = React.useState('')
   const [userID, setUserID] = React.useState('')
-  // const [location, setLocation] = React.useState([])
-  // const [talukaarr, setTalukaarr] = React.useState([])
-  // const [cityarr, setCityarr] = React.useState([])
   const [userBool, setUserBool] = React.useState(true)
 
-  // React.useEffect(() => {
-  //   const config = {
-  //     headers: {
-  //       'content-type': 'multipart/form-data',
-  //       Authorization: `Bearer ${localStorage.getItem('access')}`,
-  //     },
-  //   }
-
-  //   let url = `${api}/api/district/`
-  //   axios
-  //     .get(url, config)
-  //     .then((res) => {
-  //       setLocation(res.data)
-  //       console.log('MyLocation', res.data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }, [])
-
-  // const handleLocation = (e) => {
-  //   setDistrict(location[e.target.value].district)
-
-  //   let talukaarra = location[e.target.value].district_taluka
-
-  //   setTalukaarr(talukaarra)
-  // }
-  // const handleTaluka = (e) => {
-  //   setTaluka(talukaarr[e.target.value].taluka)
-  //   let cityarra = talukaarr[e.target.value].taluka_city
-  //   setCityarr(cityarra)
-  // }
-  // const handleCity = (e) => {
-  //   setCity(cityarr[e.target.value].city)
-  //   console.log('city', city)
-  // }
 
   const handleChange = (e) => {
     const config = {
@@ -78,7 +38,8 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
     }
 
     setUserName(e.target.value)
-    if (userBool) {
+    setUserID(e.target.value)
+    if (userBool && (e.target.value).length==10) {
       let url = `${api}/api/name/?member=${e.target.value}`
       axios
         .get(url, config)
@@ -91,13 +52,16 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
           console.log(err)
         })
     }
+    else{
+    setUserBool(true)
+    }
   }
 
   const clearForm = () => {
     if (!userBool) {
       setUserName('')
       setUserID('')
-      setUserBool(false)
+      setUserBool(true)
     }
   }
 
@@ -188,19 +152,22 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
           borderRadius: '1rem',
         }}
       >
-        <div className=' ml-1'>
+        <form autocomplete='off' className=' ml-1'>
           <label className='form-label'> Sponser Id </label>
+          <input
+            style={{ width: '40vh' }}
+            type='text'
+            className='form-control'
+            placeholder='Eg: URJA8BE073'
+            autoComplete='off'
+            id='name'
+            value={userID}
+            onChange={handleChange}
+            required
+          />
+          <br />
           {userBool ? (
-            <input
-              style={{ width: '40vh' }}
-              type='text'
-              className='form-control'
-              placeholder='Eg: URJA8BE073'
-              id='name'
-              value={userName}
-              onChange={handleChange}
-              required
-            />
+            ''
           ) : (
             <input
               style={{ width: '40vh' }}
@@ -210,11 +177,11 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
               id='name'
               disabled
               value={userName}
-              onChange={handleChange}
+              // onChange={handleChange}
               required
             />
           )}
-        </div>
+        </form>
 
         <button
           onClick={clearForm}
@@ -227,84 +194,7 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
         >
           clear
         </button>
-{/* 
-        <div className=''>
-          <label className='form-label'>District *</label>
-          <select
-            style={{ width: '40vh' }}
-            className='form-select'
-            onChange={(e) => handleLocation(e)}
-          >
-            <option>---Select ---</option>
-            {location.map((item, index) => {
-              console.log('itemmy', item)
-              return (
-                <option
-                  key={index}
-                  required
-                  id='category'
-                  value={index}
-                  onChange={(e) => handleLocation(e)}
-                >
-                  {' '}
-                  {item.district}
-                </option>
-              )
-            })}
-          </select>
-        </div>
 
-        <div className=''>
-          <label className='form-label'>Taluka *</label>
-          <select
-            style={{ width: '40vh' }}
-            className='form-select'
-            onChange={(e) => handleTaluka(e)}
-          >
-            <option>---Select ---</option>
-            {talukaarr.map((item, index) => {
-              console.log('itemmy', item)
-              return (
-                <option
-                  key={index}
-                  required
-                  id='category'
-                  value={index}
-                  onChange={(e) => handleTaluka(e)}
-                >
-                  {' '}
-                  {item.taluka}
-                </option>
-              )
-            })}
-          </select>
-        </div>
-        {console.log(cityarr)}
-        <div className=''>
-          <label className='form-label'>City *</label>
-          <select
-            style={{ width: '40vh' }}
-            className='form-select'
-            onChange={(e) => handleCity(e)}
-          >
-            <option>---Select ---</option>
-            {cityarr.map((item, index) => {
-              console.log('itemmy', item)
-              return (
-                <option
-                  key={index}
-                  required
-                  id='category'
-                  value={index}
-                  onChange={(e) => handleCity(e)}
-                >
-                  {' '}
-                  {item.city}
-                </option>
-              )
-            })}
-          </select>
-        </div> */}
         <div className='mt-2'>
           <label className='form-label'> Pin Code</label>
           <input
@@ -315,19 +205,29 @@ const BecomeMember = ({ user, checkAuthenticated, load_user }) => {
             id='Pin Code'
             min='0'
             value={pinCode}
-            onChange={(e)=>setPinCode(e.target.value)}
+            onChange={(e) => setPinCode(e.target.value)}
             required
           />
         </div>
         <br />
-        <button
-          type='submit'
-          onClick={(e) => onSubmit(e)}
-          className='btn btn-warning'
-        >
-          {' '}
-          Submit{' '}
-        </button>
+        {userBool ? (
+          <button
+            disabled
+            type='submit'
+            onClick={(e) => onSubmit(e)}
+            className='btn btn-warning'
+          >
+            Register
+          </button>
+        ) : (
+          <button
+            type='submit'
+            onClick={(e) => onSubmit(e)}
+            className='btn btn-warning'
+          >
+            Register
+          </button>
+        )}
       </div>
       <br />
       <br />
